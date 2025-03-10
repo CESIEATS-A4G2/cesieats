@@ -1,4 +1,4 @@
-# CESI
+# CESI Eats
 ## Introduction
 Le présent projet représente bien plus qu'une simple initiative technologique : c'est une opportunité unique de mettre en pratique l'ensemble des compétences que vous avez acquises au cours de vos années d'études en informatique en école d'ingénieurs. Cette entreprise ambitieuse vise à concevoir, réaliser, déployer, tester et utiliser une plateforme logicielle distribuée, destinée à révolutionner l'univers de la restauration en ligne.
 
