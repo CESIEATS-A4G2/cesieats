@@ -1,0 +1,48 @@
+
+/*Import "Inter" font*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+
+.footerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: space-between;
+    background-color: #fff;
+}
+    .bannerLogo {
+        object-fit: contain;
+    }
+    .footLinks {
+        display: flex;
+        flex-direction:row;
+        justify-content: space-between;
+    }
+        .footIcons {
+            display: flex;
+            flex-direction: row;
+        }
+            .footIcon{
+                font-size: 1.5rem;
+                padding: 0.2rem 0.5rem;
+                cursor: pointer;
+            }
+            .footLanguageIcon{
+                display: flex;
+                flex-direction: row;
+                padding: 0.2rem 4em;
+            }
+        .footTexts {
+            display: flex;
+            flex-direction:row;
+        }
+            .footTexts a {
+                text-decoration: none;
+                color: #414141;
+                padding: 0.2rem 2.5rem;
+                cursor: pointer;
+            }
+            .footTexts a:hover {
+                color: #000;
+            }
