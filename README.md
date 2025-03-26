@@ -20,7 +20,7 @@ Le cahier des charges de ce projet comporte des sections bien définies, mais é
 
 
 ## Convention de commit
-Convention Angular : "<type>(<scope>): <message>"
+Convention Angular : "\<type\>(\<scope\>): \<message\>"
 En anglais
 ### Exemple :
 - feat(home): add search bar to homepage
