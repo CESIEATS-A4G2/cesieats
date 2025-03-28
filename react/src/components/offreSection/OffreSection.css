@@ -1,0 +1,30 @@
+.offre-section {
+    margin-top: 24px;
+  }
+  
+  .offre-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .offre-header h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .arrows button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    margin-left: 8px;
+    cursor: pointer;
+  }
+  
+  .offre-list {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+  }

@@ -1,0 +1,67 @@
+.topNavBarContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    font-family: 'Inter', sans-serif;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .topNavBarLeft {
+    display: flex;
+    align-items: center;
+  }
+  
+  .hambIcon {
+    font-size: 2rem;
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .bannerLogo {
+    height: 3.5rem;
+    margin-left: 0.5rem;
+  }
+  
+  .topNavBarSearch {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background-color: #eee;
+    border-radius: 2rem;
+    padding: 0.5rem 1rem;
+    margin: 0 1rem;
+    max-width: 600px;
+  }
+  
+  .searchIcon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+  }
+  
+  .searchInput {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    flex: 1;
+    font-size: 1rem;
+  }
+  
+  .topNavBarCart {
+    background-color: #000;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .cartIcon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+  }

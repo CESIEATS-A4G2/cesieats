@@ -13,7 +13,7 @@ import React from "react";
 import './SiteFooter.css';
 import { FaSquareFacebook, FaSquareTwitter, FaInstagram } from "react-icons/fa6"; // https://react-icons.github.io/react-icons/
 import { IoLanguageOutline } from "react-icons/io5";
-import bannerLogo from '../Resources/CESIEat_BannerLogo.png';
+import bannerLogo from '../../resources/images/CESIEat_BannerLogo.png';
 
 
 function SiteFooter() {
