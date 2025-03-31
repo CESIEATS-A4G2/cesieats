@@ -17,36 +17,39 @@ function Parrainage() {
     <>
       <TopNavBar />
       <div className="parrainage-container">
-        <FaUsers className="icon-large" />
-        <h1>
-          À plusieurs, <span className="highlight">c’est toujours meilleur</span>
-        </h1>
-        <p className="subtitle">
-          Obtenez des promotions pour vous et vos amis lors de leurs premières commandes !
-        </p>
+        <div className="parrainage-content">
+          <div className="left-section">
+            <h1>
+              <FaUsers /> À plusieurs, <span className="highlight">c’est toujours meilleur</span>
+            </h1>
+            <p className="subtitle">
+              Obtenez des promotions pour vous et vos amis lors de leurs premières commandes !
+            </p>
+            <div className="parrainage-section">
+              <h2>
+                <FaPaperPlane /> Partager ce code pour gagner <span className="highlight">10€ de réduction</span>
+              </h2>
+              <p className="description">
+                Code valable pour un minimum de commande de 15€. Applicable lors des 2 premières
+                commandes après la création d’un nouveau compte CesiEats. Après utilisation du code par
+                un ami, la réduction s’appliquera automatiquement sur votre prochaine commande.
+              </p>
 
-        <div className="parrainage-section">
-          <FaPaperPlane className="icon-medium" />
-          <h2>
-            Partager ce code pour gagner <span className="highlight">10€ de réduction</span>
-          </h2>
-          <p className="description">
-            Code valable pour un minimum de commande de 15€. Applicable lors des 2 premières
-            commandes après la création d’un nouveau compte CesiEats. Après utilisation du code par
-            un ami, la réduction s’appliquera automatiquement sur votre prochaine commande.
-          </p>
+              <div className="code-box">
+                <span>{code}</span>
+                <button onClick={copyToClipboard}>Copier</button>
+              </div>
 
-          <div className="code-box">
-            <span>{code}</span>
-            <button onClick={copyToClipboard}>Copier</button>
+              <button className="email-button">
+                Envoyer par email <FaEnvelope />
+              </button>
+            </div>
           </div>
 
-          <button className="email-button">
-            Envoyer par email <FaEnvelope className="mail-icon" />
-          </button>
+          <div className="right-section">
+            <img src={icecream} alt="dessert" className="illustration" />
+          </div>
         </div>
-
-        <img src={icecream} alt="dessert" className="illustration" />
       </div>
       <SiteFooter />
     </>
