@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./GestionCompte.css";
 import Header from "../../components/header/TopNavBar";
 import Footer from "../../components/footer/SiteFooter";
@@ -7,23 +7,26 @@ import userImg from "../../resources/images/account-illustration.png";
 function GestionCompte() {
   const [isEditing, setIsEditing] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
-  const [name, setName] = useState("Aurélien Mattera");
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [name, setName] = useState("Aurélie Mami");
   const [phone, setPhone] = useState("+33 6 12 34 56 78");
-  const [email, setEmail] = useState("aurelien.mattera@wanadoo.com");
+  const [email, setEmail] = useState("aurelie.mamie@wanadoo.com");
   const [password, setPassword] = useState("**********");
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleSave = () => {
     setIsEditing(false);
     alert("Modifications sauvegardées !");
   };
 
-  const handleChangePassword = () => {
-    setIsPasswordModalOpen(true);
-  };
+  const handleChangePassword = () => setIsPasswordModalOpen(true);
 
-  const handleCloseModal = () => {
-    setIsPasswordModalOpen(false);
-  };
+  const handleCloseModal = () => setIsPasswordModalOpen(false);
 
   return (
     <div className="gestion-page">
@@ -31,7 +34,6 @@ function GestionCompte() {
       <div className="gestion-container">
         <div className="infos">
           <h2>Informations personnelles</h2>
-
           <div className="info-block">
             <p className="label">Nom</p>
             {isEditing ? (
@@ -45,7 +47,6 @@ function GestionCompte() {
               <p className="value">{name}</p>
             )}
           </div>
-
           <div className="info-block">
             <p className="label">Numéro de téléphone</p>
             {isEditing ? (
@@ -59,7 +60,6 @@ function GestionCompte() {
               <p className="value">{phone}</p>
             )}
           </div>
-
           <div className="info-block">
             <p className="label">E-mail</p>
             {isEditing ? (
@@ -73,18 +73,15 @@ function GestionCompte() {
               <p className="value">{email}</p>
             )}
           </div>
-
           <div className="info-block">
             <p className="label">Mot de passe</p>
             <p className="value">{password}</p>
           </div>
-
           {isEditing && (
             <button className="change-password-button" onClick={handleChangePassword}>
               Changer le mot de passe
             </button>
           )}
-
           <div className="edit-save-buttons">
             {isEditing ? (
               <button onClick={handleSave} className="save-button">Sauvegarder</button>
@@ -93,12 +90,12 @@ function GestionCompte() {
             )}
           </div>
         </div>
-
-        <div className="illustration">
-          <img src={userImg} alt="illustration" />
-        </div>
+        {!isMobile && (
+          <div className="illustration">
+            <img src={userImg} alt="illustration" />
+          </div>
+        )}
       </div>
-      
       {isPasswordModalOpen && (
         <div className="modal-overlay">
           <div className="modal">
@@ -111,7 +108,6 @@ function GestionCompte() {
           </div>
         </div>
       )}
-
       <Footer />
     </div>
   );
