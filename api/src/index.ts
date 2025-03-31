@@ -1,19 +1,18 @@
 import dotenv from 'dotenv';
 import express from 'express';
-import mongoose from 'mongoose';
 import orderRoutes from './routes/orderRoutes';
 import accountRoutes from './routes/accountRoutes';
+import {connectMongoose} from './config/mongoose';
+import {connectSequelize} from './config/sequelize';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const MONGO_URI = process.env.MONGO_URI as string;
 
-// Connexion à MongoDB
-mongoose.connect(MONGO_URI)
-    .then(() => console.log('Connexion à MongoDB réussie'))
-    .catch(err => console.error('Erreur de connexion à MongoDB:', err));
+// Connexion à MongoDB/MySQL
+connectMongoose();
+connectSequelize();
 
 // Middleware
 app.use(express.json());
