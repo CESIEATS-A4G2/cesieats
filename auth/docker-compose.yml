@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: gateway
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    depends_on:
+      - auth-service
+  auth-service:
+    build: .
+    container_name: auth-service
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    command: npm start  # Démarre TypeScript avec Node.js
+
+networks:
+  app-network:  # Définition du réseau ici
+    driver: bridge

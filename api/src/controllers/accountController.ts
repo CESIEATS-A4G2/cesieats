@@ -17,8 +17,9 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
             preferredRestaurant,
             rating
         });
-
+        
         res.status(201).json(newAccount);
+        return;
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la création du compte', error });
     }
@@ -41,6 +42,7 @@ export const createRestaurantOwner = async (req: Request, res: Response): Promis
         });
 
         res.status(201).json(newAccount);
+        return;
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la création du compte', error });
     }
@@ -65,6 +67,7 @@ export const createDeliveryDriver = async (req: Request, res: Response): Promise
         });
 
         res.status(201).json(newAccount);
+        return;
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la création du compte', error });
     }
@@ -81,6 +84,7 @@ export const getAllAccounts = async (req: Request, res: Response): Promise<void>
         
         const accounts = [...users, ...restaurantOwners, ...deliveryDrivers];
         res.status(200).json(accounts);
+        return;
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la récupération des comptes', error });
     }
@@ -95,6 +99,7 @@ export const getAccountById = async (req: Request, res: Response): Promise<void>
             return;
         }
         res.status(200).json(user);
+        return;
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la récupération du compte', error });
     }
@@ -121,6 +126,7 @@ export const deleteAccount = async (req: Request, res: Response): Promise<void> 
         }
 
         res.status(200).json({ message: 'Compte supprimé avec succès' });
+        return;
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la suppression du compte', error });
     }

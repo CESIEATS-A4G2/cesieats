@@ -3,9 +3,9 @@ import { createUser, createRestaurantOwner, createDeliveryDriver, getAllAccounts
 
 const router = express.Router();
 
-router.post('/user', createUser);
-router.post('/restaurant-owner', createRestaurantOwner);
-router.post('/delivery-driver', createDeliveryDriver);
+router.post('/', createUser);
+// router.post('/restaurant-owner', createRestaurantOwner);
+// router.post('/delivery-driver', createDeliveryDriver);
 router.get('/', getAllAccounts);
 router.get('/:id', getAccountById);
 router.delete('/:id', deleteAccount);
