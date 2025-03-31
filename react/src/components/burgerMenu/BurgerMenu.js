@@ -48,7 +48,7 @@ function BurgerMenu({ isOpen, onClose }) {
           className="burger-item"
           onClick={() => {
             onClose(); // ferme le menu
-            navigate("/restaurantPage");
+            navigate("/historique-commande");
           }}
         >
           <FaGift className="burger-icon" />
