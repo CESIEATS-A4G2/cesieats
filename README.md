@@ -48,11 +48,10 @@ Convention Angular :
 ```
 <numero de l'issues>: <message>
 ```
-En anglais
 
 ### Exemple :
-- 321: add search bar to homepage
-- 058: handle invalid token error
+- 321 : ajouter une barre de recherche à la page d'accueil
+- 058 : gérer l'erreur de token invalide
 
 ---
 
