@@ -20,7 +20,7 @@ function Parrainage() {
         <div className="parrainage-content">
           <div className="left-section">
             <h1>
-              <FaUsers /> À plusieurs, <span className="highlight">c’est toujours meilleur</span>
+              <FaUsers  /> À plusieurs, <span className="highlight">c’est toujours meilleur</span>
             </h1>
             <p className="subtitle">
               Obtenez des promotions pour vous et vos amis lors de leurs premières commandes !
