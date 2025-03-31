@@ -18,15 +18,52 @@ L'ampleur de ce projet constitue un challenge technique : il est le point d'abou
 
 Le cahier des charges de ce projet comporte des sections bien définies, mais également des parties moins explicitement décrites, reflétant ainsi les conditions réalistes d'un projet d'entreprise. Votre tâche consistera à scruter ce cahier des charges avec minutie, à identifier les zones d'incertitude et à élaborer des solutions pour les résoudre. En somme, ce projet vous invite à plonger dans le monde complexe et passionnant de l'ingénierie logicielle, en unifiant l'ensemble de vos connaissances pour donner vie à une plateforme innovante et apte à transformer la manière dont le monde aborde la restauration en ligne.
 
+# Convention de nommage
+## Issues GitHub
 
-## Convention de commit
-Convention Angular : "\<type\>(\<scope\>): \<message\>"
-En anglais
+Pour garder une cohérence avec la convention de commit, les issues seront nommées selon le format suivant :
+
+```
+<type>/<scope> - <titre>
+```
+
+### Exemples :
+- feat/home - Ajouter un composant de recherche sur la page d'accueil  
+- fix/auth - Corriger le bug de token invalide  
+- docs/readme - Mettre à jour les instructions d'installation  
+
+### Types acceptés :
+- feat : Ajout de nouvelles fonctionnalités
+- fix : Correction de bugs
+- docs : Documentation uniquement
+- style : Modification de style (CSS, formatage, etc.)
+- refactor : Modification du code qui n'apporte pas de nouvelles fonctionnalités ni de corrections de bugs
+- test : Ajout ou modification de tests
+- chore : Maintenance du projet, configurations, etc.
+
+---
+
+## Commit
+Convention Angular :
+```
+<numero de l'issues>: <message>
+```
+
 ### Exemple :
-- feat(home): add search bar to homepage
-- fix(auth): handle invalid token error
-- docs(readme): update installation instructions
-- style(app): fix lint errors in header component
-- refactor(user): simplify user role check logic
-- test(product): add unit test for price calculation
-- chore(ci): update GitHub Actions config
+- 321 : ajouter une barre de recherche à la page d'accueil
+- 058 : gérer l'erreur de token invalide
+
+---
+
+
+## Branches GitHub
+
+Les branches seront nommées en fonction de l'issue correspondante et respecteront le format suivant :
+
+```
+<initiales du dev>-<numéro-d'issue>
+```
+
+### Exemples :
+- ET-320
+- AM-069
