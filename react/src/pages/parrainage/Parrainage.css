@@ -1,0 +1,79 @@
+.parrainage-container {
+    text-align: center;
+    padding: 2rem;
+    background-color: white;
+    min-height: 100vh;
+    position: relative;
+    padding-bottom: 100px; /* Pour que le footer ne cache rien */
+  }
+  
+  .icon-large {
+    font-size: 2.5rem;
+    color: #fee131;
+    margin-bottom: 1rem;
+  }
+  
+  .icon-medium {
+    font-size: 2rem;
+    color: #fee131;
+    margin-bottom: 0.5rem;
+  }
+  
+  .highlight {
+    font-weight: bold;
+    color: #000;
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .parrainage-section h2 {
+    font-size: 1.5rem;
+    margin: 1rem 0 0.5rem 0;
+  }
+  
+  .description {
+    max-width: 600px;
+    margin: 0 auto 1.5rem auto;
+    line-height: 1.5;
+  }
+  
+  .code-box {
+    background-color: #f3f3f3;
+    padding: 1rem 2rem;
+    margin: 1rem auto;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+  }
+  
+  .code-box button {
+    margin-left: 1rem;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+  }
+  
+  .email-button {
+    background-color: black;
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 1.5rem;
+    border: none;
+    margin-top: 1rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .illustration {
+    margin-top: 2rem;
+    max-width: 200px;
+  }
+  

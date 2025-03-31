@@ -1,0 +1,18 @@
+.product-section {
+  margin-left: 16px;
+  margin-top: 32px;
+}
+h2 {
+  margin-left: 16px;
+}
+.product-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+}
+
+.product-list {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 16px;
+}
