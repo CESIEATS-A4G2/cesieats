@@ -1,57 +1,98 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import { DataTypes, Model, Optional } from 'sequelize';
+import {sequelize} from '../config/sequelize';
+import { User } from './account';
+import { RestaurantOwner } from './account';
 
-// Interface pour le modèle Order
-export interface IOrder extends Document {
-    customerId: string;                 // Identifiant du client
-    restaurantId: string;               // Identifiant du restaurant
-    deliveryAddress: string;            // Adresse de livraison
+// Interface pour OrderItem (article d'une commande)
+interface OrderItemAttributes {
+    id?: number;
+    orderId: number;
+    productId: string;
+    name: string;
+    description: string;
+    quantity: number;
+    price: number;
+    total: number;
+}
+
+// Interface pour Order
+interface OrderAttributes {
+    id?: number;
+    customerId: number;
+    restaurantId: number;
+    deliveryAddress: string;
     deliveryInstructions?: string;
-    status: 'pending' | 'in_progress' | 'delivered' | 'cancelled'; // Statut de la commande
-    items: IOrderItem[];                // Articles dans la commande
-    totalAmount: number;                // Montant total de la commande
-    deliveryFee: number;                // Frais de livraison
-    paymentMethod: 'card' | 'cash';  // Methode de paiement
-    createdAt: Date;                    // Date et heure de la commande
-    updatedAt: Date;                    // Dernière mise à jour de la commande
-    completed: boolean;                 // Indique si la commande est terminee ou non
-    rating?: number;                    // Note donnee par le client à la commande
-    transactionId?: string;             // Identifiant de la transaction de paiement (si applicable)
+    status: 'pending' | 'in_progress' | 'delivered' | 'cancelled';
+    totalAmount: number;
+    deliveryFee: number;
+    paymentMethod: 'card' | 'cash';
+    completed: boolean;
+    rating?: number;
+    transactionId?: string;
 }
 
-export interface IOrderItem {
-    productId: string;                  // Identifiant du produit
-    name: string;                       // Nom du produit
-    description: string;                // Description du produit
-    quantity: number;                   // Quantite commandee
-    price: number;                      // Prix unitaire du produit
-    total: number;                      // Total pour ce produit (quantity * price)
+// Modèle OrderItem
+class OrderItem extends Model<OrderItemAttributes, Optional<OrderItemAttributes, 'id'>> implements OrderItemAttributes {
+    public id!: number;
+    public orderId!: number;
+    public productId!: string;
+    public name!: string;
+    public description!: string;
+    public quantity!: number;
+    public price!: number;
+    public total!: number;
 }
 
-// Schéma Mongoose pour une commande
-const OrderItemSchema: Schema = new Schema({
-    productId: { type: String, required: true },
-    name: { type: String, required: true },
-    description: { type: String, required: true },
-    quantity: { type: Number, required: true },
-    price: { type: Number, required: true },
-    total: { type: Number, required: true }
-});
+OrderItem.init({
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    orderId: { type: DataTypes.INTEGER, allowNull: false },
+    productId: { type: DataTypes.STRING, allowNull: false },
+    name: { type: DataTypes.STRING, allowNull: false },
+    description: { type: DataTypes.STRING, allowNull: false },
+    quantity: { type: DataTypes.INTEGER, allowNull: false },
+    price: { type: DataTypes.FLOAT, allowNull: false },
+    total: { type: DataTypes.FLOAT, allowNull: false }
+}, { sequelize, modelName: 'OrderItem' });
 
-const OrderSchema: Schema = new Schema({
-    customerId: { type: String, required: true },
-    restaurantId: { type: String, required: true },
-    deliveryAddress: { type: String, required: true },
-    deliveryInstructions: { type: String },
-    status: { type: String, enum: ['pending', 'in_progress', 'delivered', 'cancelled'], required: true },
-    items: { type: [OrderItemSchema], required: true },
-    totalAmount: { type: Number, required: true },
-    deliveryFee: { type: Number, required: true },
-    paymentMethod: { type: String, enum: ['card', 'paypal', 'cash'], required: true },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
-    completed: { type: Boolean, default: false },
-    rating: { type: Number },
-    transactionId: { type: String }
-}, { timestamps: true });  // Utilisation de `timestamps` pour gérer `createdAt` et `updatedAt`
+// Modèle Order
+class Order extends Model<OrderAttributes, Optional<OrderAttributes, 'id'>> implements OrderAttributes {
+    public id!: number;
+    public customerId!: number;
+    public restaurantId!: number;
+    public deliveryAddress!: string;
+    public deliveryInstructions?: string;
+    public status!: 'pending' | 'in_progress' | 'delivered' | 'cancelled';
+    public totalAmount!: number;
+    public deliveryFee!: number;
+    public paymentMethod!: 'card' | 'cash';
+    public completed!: boolean;
+    public rating?: number;
+    public transactionId?: string;
+}
 
-export default mongoose.model<IOrder>('Order', OrderSchema);
+Order.init({
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    customerId: { type: DataTypes.INTEGER, allowNull: false },
+    restaurantId: { type: DataTypes.INTEGER, allowNull: false },
+    deliveryAddress: { type: DataTypes.STRING, allowNull: false },
+    deliveryInstructions: { type: DataTypes.STRING },
+    status: { type: DataTypes.ENUM('pending', 'in_progress', 'delivered', 'cancelled'), allowNull: false },
+    totalAmount: { type: DataTypes.FLOAT, allowNull: false },
+    deliveryFee: { type: DataTypes.FLOAT, allowNull: false },
+    paymentMethod: { type: DataTypes.ENUM('card', 'cash'), allowNull: false },
+    completed: { type: DataTypes.BOOLEAN, defaultValue: false },
+    rating: { type: DataTypes.FLOAT },
+    transactionId: { type: DataTypes.STRING }
+}, { sequelize, modelName: 'Order', timestamps: true });
+
+// Relations
+Order.hasMany(OrderItem, { foreignKey: 'orderId', as: 'items' });
+OrderItem.belongsTo(Order, { foreignKey: 'orderId' });
+
+User.hasMany(Order, { foreignKey: 'customerId' });
+Order.belongsTo(User, { foreignKey: 'customerId' });
+
+RestaurantOwner.hasMany(Order, { foreignKey: 'restaurantId' });
+Order.belongsTo(RestaurantOwner, { foreignKey: 'restaurantId' });
+
+export { Order, OrderItem };
