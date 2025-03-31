@@ -1,0 +1,55 @@
+.login-container {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+  margin-top: 40px; /* Marge ajoutée pour espacer le header et la div */
+}
+
+.inscription-menu {
+  display: flex;
+  justify-content: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  justify-content: center;
+}
+
+input {
+  margin: 2% auto;
+  padding: 2%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  margin: 1% auto;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-container {
+    margin-top: 30px; /* Réduit la marge sur tablette */
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    margin-top: 20px; /* Réduit la marge sur mobile */
+  }
+}

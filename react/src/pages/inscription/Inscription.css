@@ -1,0 +1,29 @@
+.inscription-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Assure que la page prend au moins toute la hauteur de l'écran */
+    background-color: #f9f9f9;
+}
+
+.inscription-page > * {
+    flex-shrink: 0;
+}
+
+.inscriptionMenu {
+    flex-grow: 1; /* Permet au contenu principal de prendre toute la place disponible */
+    padding: 16px;
+}
+
+/* Footer collé en bas même s'il y a peu de contenu */
+footer {
+    flex-shrink: 0;
+    margin-top: auto;
+}
+
+.ConnectionBouton {
+    color: grey;
+    text-align: center; /* Centre le texte horizontalement */
+    font-size: 12px; /* Réduit la taille de la police */
+    text-decoration: underline; /* Souligne le texte */
+    margin-top: 10px; /* Ajoute un peu d'espace au-dessus si nécessaire */
+}

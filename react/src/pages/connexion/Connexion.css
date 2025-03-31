@@ -1,0 +1,24 @@
+.connexion-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f9f9f9;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Ajouté pour éviter que le contenu dépasse de l'écran */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Empêche le débordement horizontal */
+}
+
+.inscriptionBouton {
+    color: grey;
+    text-align: center; /* Centre le texte horizontalement */
+    font-size: 12px; /* Réduit la taille de la police */
+    text-decoration: underline; /* Souligne le texte */
+    margin-top: 10px; /* Ajoute un peu d'espace au-dessus si nécessaire */
+}

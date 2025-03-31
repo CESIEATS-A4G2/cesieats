@@ -1,67 +1,116 @@
+/* Général */
 .topNavBarContainer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #fff;
-    font-family: 'Inter', sans-serif;
-    padding: 0.5rem 1rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  
-  .topNavBarLeft {
-    display: flex;
-    align-items: center;
-  }
-  
-  .hambIcon {
-    font-size: 2rem;
-    padding: 0.5rem;
-    cursor: pointer;
-  }
-  
-  .bannerLogo {
-    height: 3.5rem;
-    margin-left: 0.5rem;
-  }
-  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  font-family: 'Inter', sans-serif;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%; /* Assure que le header prend toute la largeur */
+  box-sizing: border-box;
+}
+
+/* Partie gauche du header (logo et icône) */
+.topNavBarLeft {
+  display: flex;
+  align-items: center;
+}
+
+/* Icône hamburger */
+.hambIcon {
+  font-size: 2rem;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+/* Logo */
+.bannerLogo {
+  height: 3.5rem;
+  margin-left: 0.5rem;
+}
+
+/* Barre de recherche */
+.topNavBarSearch {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background-color: #eee;
+  border-radius: 2rem;
+  padding: 0.5rem 1rem;
+  margin: 0 1rem;
+  max-width: 600px;
+  transition: all 0.3s;
+}
+
+/* Icône de recherche */
+.searchIcon {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+/* Input de recherche */
+.searchInput {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  flex: 1;
+  font-size: 1rem;
+}
+
+/* Panier */
+.topNavBarCart {
+  background-color: #000;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+/* Icône de panier */
+.cartIcon {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+/* Hover effects */
+.topNavBarSearch:hover {
+  background-color: #ddd;
+}
+
+.topNavBarCart:hover {
+  background-color: #333;
+}
+
+/* Responsive - Tablette */
+@media (max-width: 768px) {
   .topNavBarSearch {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    background-color: #eee;
-    border-radius: 2rem;
-    padding: 0.5rem 1rem;
-    margin: 0 1rem;
-    max-width: 600px;
+      max-width: 400px;
   }
-  
-  .searchIcon {
-    font-size: 1.5rem;
-    margin-right: 0.5rem;
+}
+
+/* Responsive - Mobile */
+@media (max-width: 480px) {
+  .topNavBarSearch {
+      max-width: 100%;
+      margin: 0;
   }
-  
-  .searchInput {
-    border: none;
-    outline: none;
-    background-color: transparent;
-    flex: 1;
-    font-size: 1rem;
+
+  .bannerLogo {
+      height: 2.5rem;
   }
-  
-  .topNavBarCart {
-    background-color: #000;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border-radius: 2rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
+
+  .hambIcon {
+      font-size: 1.5rem;
   }
-  
+
   .cartIcon {
-    font-size: 1.5rem;
-    margin-right: 0.5rem;
+      font-size: 1.2rem;
   }
+}

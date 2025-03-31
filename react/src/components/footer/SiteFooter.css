@@ -1,48 +1,91 @@
-
-/*Import "Inter" font*/
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-
-
 
 .footerContainer {
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items: center;
     justify-content: space-between;
     background-color: #fff;
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    margin-top: auto;
 }
-    .bannerLogo {
-        object-fit: contain;
-    }
+
+/* Logo dans le footer */
+.bannerLogo {
+    object-fit: contain;
+    margin-bottom: 1rem;
+}
+
+/* Liens principaux */
+.footLinks {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 1rem;
+}
+
+/* Icônes */
+.footIcons {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.footIcon {
+    font-size: 1.5rem;
+    padding: 0.2rem;
+    cursor: pointer;
+}
+
+.footLanguageIcon {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+}
+
+/* Texte des liens */
+.footTexts {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.footTexts a {
+    text-decoration: none;
+    color: #414141;
+    padding: 0.2rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.footTexts a:hover {
+    color: #000;
+}
+
+/* RESPONSIVE - Tablette */
+@media (max-width: 768px) {
     .footLinks {
-        display: flex;
-        flex-direction:row;
-        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
     }
-        .footIcons {
-            display: flex;
-            flex-direction: row;
-        }
-            .footIcon{
-                font-size: 1.5rem;
-                padding: 0.2rem 0.5rem;
-                cursor: pointer;
-            }
-            .footLanguageIcon{
-                display: flex;
-                flex-direction: row;
-                padding: 0.2rem 4em;
-            }
-        .footTexts {
-            display: flex;
-            flex-direction:row;
-        }
-            .footTexts a {
-                text-decoration: none;
-                color: #414141;
-                padding: 0.2rem 2.5rem;
-                cursor: pointer;
-            }
-            .footTexts a:hover {
-                color: #000;
-            }
+
+    .footTexts {
+        justify-content: center;
+        margin-top: 0.5rem;
+    }
+}
+
+/* RESPONSIVE - Mobile */
+@media (max-width: 480px) {
+    .footerContainer {
+        display: none; /* Cache complètement le footer sur mobile */
+    }
+}
