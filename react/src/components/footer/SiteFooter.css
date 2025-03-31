@@ -11,13 +11,19 @@
     justify-content: space-between;
     background-color: #fff;
 }
-    .bannerLogo {
-        object-fit: contain;
-    }
+.bannerLogo {
+    margin-right: 90%;
+    object-fit: contain;
+}
     .footLinks {
         display: flex;
         flex-direction:row;
         justify-content: space-between;
+    }
+    .footLinksGauche{
+        display: flex;
+        flex-direction:row;
+        justify-content: space-around;
     }
         .footIcons {
             display: flex;

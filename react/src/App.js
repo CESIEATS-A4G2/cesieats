@@ -5,6 +5,7 @@ import Parrainage from "./pages/parrainage/Parrainage";
 import RestaurantPage from "./pages/restaurantPage/RestaurantPage";
 import ItemPage from "./pages/itemPage/ItemPage";
 import HistoriqueCommande from "./pages/historiqueCommande/HistoriqueCommande";
+import SuiviCommande from "./pages/suiviCommande/SuiviCommande";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/restaurant/:name" element={<RestaurantPage />} />
         <Route path="/restaurant/item" element={<ItemPage />} />
         <Route path="historique-commande" element={<HistoriqueCommande />} />
+        <Route path="suivi-commande" element={<SuiviCommande />} />
       </Routes>
     </Router>
   );
