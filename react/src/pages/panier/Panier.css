@@ -1,0 +1,61 @@
+.panier-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: flex-end;
+    z-index: 1000;
+}
+
+.panier-drawer {
+    background-color: white;
+    width: 400px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+}
+
+.panier-drawer h2 {
+    margin: 1.5rem;
+    text-align: center;
+}
+
+.panier-items {
+    flex-grow: 1;
+    overflow-y: auto; /* Permet de scroller quand il y a trop d’items */
+    padding: 0 1.5rem;
+}
+
+.panier-total-section {
+    position: sticky; /* Toujours visible en bas */
+    bottom: 0;
+    background-color: white;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #ddd;
+}
+
+.panier-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.pay-button {
+    background-color: black;
+    color: white;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.pay-button:hover {
+    background-color: #333;
+}
