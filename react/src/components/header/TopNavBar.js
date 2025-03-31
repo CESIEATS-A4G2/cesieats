@@ -22,7 +22,7 @@ function TopNavBar() {
           <FiAlignJustify className="hambIcon" onClick={toggleMenu} />
           <img
             src={bannerLogo}
-            className="bannerLogo"
+            className="bannerLogo2"
             alt="bannerLogo"
             onClick={() => navigate("/")}
             style={{ cursor: "pointer" }}

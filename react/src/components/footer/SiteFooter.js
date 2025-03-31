@@ -21,13 +21,16 @@ function SiteFooter() {
         <div className="footerContainer">
             <img src={bannerLogo} className="bannerLogo" alt="bannerLogo"/>
             <div className="footLinks">
-                <div className="footIcons">
-                    <FaSquareFacebook className="footIcon"/>
-                    <FaSquareTwitter className="footIcon"/>
-                    <FaInstagram className="footIcon"/>
+                <div className="footLinksGauche">
+                    <div className="footIcons">
+                        <FaSquareFacebook className="footIcon"/>
+                        <FaSquareTwitter className="footIcon"/>
+                        <FaInstagram className="footIcon"/>
+                    
+                    </div>
                     <div className="footLanguageIcon">
-                        <IoLanguageOutline className="footIcon"/> 
-                        <p> Francais </p>
+                            <IoLanguageOutline className="footIcon"/> 
+                            <p> Francais </p>
                     </div>
                 </div>
                 <div className="footTexts">
