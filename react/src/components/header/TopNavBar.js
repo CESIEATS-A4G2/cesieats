@@ -4,32 +4,31 @@ import { FiAlignJustify, FiSearch } from "react-icons/fi";
 import { PiShoppingCartSimpleFill } from "react-icons/pi";
 import bannerLogo from "../../resources/images/CESIEat_BannerLogo.png";
 import BurgerMenu from "../burgerMenu/BurgerMenu";
+import Panier from "../../pages/panier/Panier";
 import { useNavigate } from "react-router-dom";
 
 function TopNavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate(); // ← ajout du hook
+  const [isPanierOpen, setIsPanierOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const togglePanier = () => setIsPanierOpen(!isPanierOpen);
 
   return (
     <>
       <div className="topNavBarContainer">
-        {/* Gauche : Hamburger + Logo */}
         <div className="topNavBarLeft">
           <FiAlignJustify className="hambIcon" onClick={toggleMenu} />
           <img
             src={bannerLogo}
-            className="bannerLogo"
+            className="bannerLogo2"
             alt="bannerLogo"
-            onClick={() => navigate("/")} // ← redirection vers Home
-            style={{ cursor: "pointer" }} // ← optionnel : curseur pointeur
+            onClick={() => navigate("/")}
+            style={{ cursor: "pointer" }}
           />
         </div>
 
-        {/* Milieu : Barre de recherche */}
         <div className="topNavBarSearch">
           <FiSearch className="searchIcon" />
           <input
@@ -39,15 +38,14 @@ function TopNavBar() {
           />
         </div>
 
-        {/* Droite : Panier */}
-        <div className="topNavBarCart">
+        <div className="topNavBarCart" onClick={togglePanier}>
           <PiShoppingCartSimpleFill className="cartIcon" />
           Panier • 1
         </div>
       </div>
 
-      {/* Menu latéral (Burger) */}
       <BurgerMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+      <Panier isOpen={isPanierOpen} onClose={() => setIsPanierOpen(false)} /> {/* 🔥 Ajout du panier */}
     </>
   );
 }

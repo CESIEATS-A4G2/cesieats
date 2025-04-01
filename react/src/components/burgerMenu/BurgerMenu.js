@@ -35,7 +35,7 @@ function BurgerMenu({ isOpen, onClose }) {
         <div
           className="burger-item"
           onClick={() => {
-            onClose();           
+            onClose();
             navigate("/mon-compte");
           }}
         >
@@ -43,12 +43,24 @@ function BurgerMenu({ isOpen, onClose }) {
           <span>Gérer le compte</span>
         </div>
 
-        <div className="burger-item">
-          <FaBoxOpen className="burger-icon" />
+  
+        <div
+          className="burger-item"
+          onClick={() => {
+            onClose(); // ferme le menu
+            navigate("/historique-commande");
+          }}
+        >
+          <FaGift className="burger-icon" />
           <span>Commandes</span>
         </div>
-
-        <div className="burger-item">
+        <div
+          className="burger-item"
+          onClick={() => {
+            onClose(); // ferme le menu
+            navigate("/parrainage");
+          }}
+        >
           <FaGift className="burger-icon" />
           <span>Parrainage</span>
         </div>
