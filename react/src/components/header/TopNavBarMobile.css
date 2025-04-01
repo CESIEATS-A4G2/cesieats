@@ -1,0 +1,28 @@
+.topNavBarMobileContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 10px 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.logoContainer {
+    cursor: pointer;
+}
+
+.mobileLogo {
+    width: 60%;
+    cursor: pointer;
+}
+
+.iconsContainerMobile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.notificationIcon, .cartIcon {
+    font-size: 1.8rem;
+    cursor: pointer;
+}

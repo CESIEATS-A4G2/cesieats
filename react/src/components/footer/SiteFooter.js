@@ -1,45 +1,64 @@
-/* TODO :
-
-- MAKE hamb. menu with all elements
-- LINK cart service
-- LINK all menu items on hamb. menu
-- CHANGE logo from text to image
-- REVIEW behaviour (collapsible, etc.)
-- REVIEW & MAKE search bar
-
-*/
-
-import React from "react";
+import React, { useState, useEffect } from "react";
 import './SiteFooter.css';
-import { FaSquareFacebook, FaSquareTwitter, FaInstagram } from "react-icons/fa6"; // https://react-icons.github.io/react-icons/
+import { FaHome, FaReceipt, FaUser } from "react-icons/fa";
+import { FaSquareFacebook, FaSquareTwitter, FaInstagram } from "react-icons/fa6"; 
 import { IoLanguageOutline } from "react-icons/io5";
 import bannerLogo from '../../resources/images/CESIEat_BannerLogo.png';
-
+import { useNavigate } from "react-router-dom";
 
 function SiteFooter() {
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        window.addEventListener("resize", handleResize);
+
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     return (
-        <div className="footerContainer">
-            <img src={bannerLogo} className="bannerLogo" alt="bannerLogo"/>
-            <div className="footLinks">
-                <div className="footLinksGauche">
-                    <div className="footIcons">
-                        <FaSquareFacebook className="footIcon"/>
-                        <FaSquareTwitter className="footIcon"/>
-                        <FaInstagram className="footIcon"/>
-                    
+        <>
+            {isMobile ? (
+                <div className="footerMobile">
+                    <div className="mobileIcon" onClick={() => navigate("/")}>
+                        <FaHome />
+                        <p>Home</p>
                     </div>
-                    <div className="footLanguageIcon">
-                            <IoLanguageOutline className="footIcon"/> 
-                            <p> Francais </p>
+                    <div className="mobileIcon" onClick={() => navigate("/historique")}>
+                        <FaReceipt />
+                        <p>Orders</p>
+                    </div>
+                    <div className="mobileIcon" onClick={() => navigate("/mon-compte")}>
+                        <FaUser />
+                        <p>User</p>
                     </div>
                 </div>
-                <div className="footTexts">
-                    <a href="../public/index.html"> Politique de confidentialité </a>
-                    <a href="../public/index.html"> Conditions d'utilisation </a>
-                    <a href="../public/index.html"> Mes informations personnelles </a>
+            ) : (
+                <div className="footerContainer">
+                    <img src={bannerLogo} className="bannerLogo" alt="bannerLogo"/>
+                    <div className="footLinks">
+                        <div className="footLinksGauche">
+                            <div className="footIcons">
+                                <FaSquareFacebook className="footIcon"/>
+                                <FaSquareTwitter className="footIcon"/>
+                                <FaInstagram className="footIcon"/>
+                            </div>
+                            <div className="footLanguageIcon">
+                                <IoLanguageOutline className="footIcon"/> 
+                                <p> Français </p>
+                            </div>
+                        </div>
+                        <div className="footTexts">
+                            <a href="#"> Politique de confidentialité </a>
+                            <a href="#"> Conditions d'utilisation </a>
+                            <a href="#"> Mes informations personnelles </a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            )}
+        </>
     );
 }
 
