@@ -3,7 +3,7 @@ import { createUser, createRestaurantOwner, createDeliveryDriver, getAllAccounts
 
 const router = express.Router();
 
-router.post('/user', createUser);
+router.post('/', createUser);
 router.post('/restaurant-owner', createRestaurantOwner);
 router.post('/delivery-driver', createDeliveryDriver);
 router.get('/', getAllAccounts);

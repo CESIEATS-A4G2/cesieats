@@ -2,6 +2,9 @@ import dotenv from 'dotenv';
 import express from 'express';
 import orderRoutes from './routes/orderRoutes';
 import accountRoutes from './routes/accountRoutes';
+import restaurantRoutes from './routes/restaurantRoutes';
+import menuRoutes from './routes/menuRoutes';
+import itemRoutes from './routes/itemRoutes';
 import {connectMongoose} from './config/mongoose';
 import {connectSequelize} from './config/sequelize';
 
@@ -21,6 +24,9 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/orders', orderRoutes);
 app.use('/api/accounts', accountRoutes);
+app.use('/api/restaurants', restaurantRoutes);
+app.use('/api', menuRoutes);
+app.use('/api', itemRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hello, World!');
