@@ -1,9 +1,6 @@
 # Ignorer tous les dossiers node_modules partout dans le projet
 node_modules/
 
-# Ignorer les fichiers environnement
-*.env
-
 # Ignorer les fichiers de logs
 npm-debug.log*
 yarn-debug.log*
