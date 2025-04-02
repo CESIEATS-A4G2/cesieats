@@ -8,6 +8,7 @@ import HistoriqueCommande from "./pages/historiqueCommande/HistoriqueCommande";
 import SuiviCommande from "./pages/suiviCommande/SuiviCommande";
 import Connexion from "./pages/connexion/Connexion"
 import Inscription from "./pages/inscription/Inscription"
+import ListeCommandesLivreur from "./pages/listeCommandesLivreur/ListeCommandesLivreur"
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
         <Route path="suivi-commande" element={<SuiviCommande />} />
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/" element={<Connexion />} />
+
+        <Route path="/liste-commandes-livreur" element={<ListeCommandesLivreur />} />
 
       </Routes>
     </Router>
