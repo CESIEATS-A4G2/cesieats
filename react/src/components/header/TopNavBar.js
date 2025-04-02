@@ -42,15 +42,6 @@ function TopNavBar() {
           />
         </div>
 
-        <div className="topNavBarSearch">
-          <FiSearch className="searchIcon" />
-          <input
-            type="text"
-            placeholder="Plats, courses alimentaires, boissons, etc."
-            className="searchInput"
-          />
-        </div>
-
         <div className="topNavBarCart" onClick={togglePanier}>
           <PiShoppingCartSimpleFill className="cartIcon" />
           Panier • 1
