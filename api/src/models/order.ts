@@ -1,7 +1,6 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import {sequelize} from '../config/sequelize';
-import { User } from './account';
-import { RestaurantOwner } from './account';
+import { Account } from './account';
 
 // Interface pour OrderItem (article d'une commande)
 interface OrderItemAttributes {
@@ -89,10 +88,7 @@ Order.init({
 Order.hasMany(OrderItem, { foreignKey: 'orderId', as: 'items' });
 OrderItem.belongsTo(Order, { foreignKey: 'orderId' });
 
-User.hasMany(Order, { foreignKey: 'customerId' });
-Order.belongsTo(User, { foreignKey: 'customerId' });
-
-RestaurantOwner.hasMany(Order, { foreignKey: 'restaurantId' });
-Order.belongsTo(RestaurantOwner, { foreignKey: 'restaurantId' });
+Account.hasMany(Order, { foreignKey: 'customerId' });
+Order.belongsTo(Account, { foreignKey: 'customerId' });
 
 export { Order, OrderItem };
