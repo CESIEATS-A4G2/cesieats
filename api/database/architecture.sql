@@ -171,8 +171,6 @@ BEGIN
     VALUES (CONCAT('Orders ', NEW.order_id, ' placed by account ', NEW.account_id));
 END$$
 
-DELIMITER ;
-
 -- Passe une commande à DONE quand quand elle est insert dans un order
 CREATE TRIGGER after_order_insert
 AFTER INSERT ON Orders
