@@ -6,7 +6,7 @@ CREATE TABLE Accounts (
     password VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
     address VARCHAR(255),
-    role ENUM('User', 'Livreur', 'Restaurateur') NOT NULL,
+    role ENUM('User', 'Delivery', 'Restaurant') NOT NULL,
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -24,8 +24,8 @@ CREATE TABLE Account_Restaurant (
     account_id VARCHAR(12),
     restaurant_id VARCHAR(12),
     PRIMARY KEY (account_id, restaurant_id),
-    FOREIGN KEY (account_id) REFERENCES Accounts(account_id),
-    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id)
+    FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE,
+    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Menus (
@@ -35,7 +35,7 @@ CREATE TABLE Menus (
     description VARCHAR(255),
     price DECIMAL(10,2) NOT NULL,
     image LONGBLOB,
-    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id)
+    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Items (
@@ -45,15 +45,22 @@ CREATE TABLE Items (
     description VARCHAR(255),
     price DECIMAL(10,2) NOT NULL,
     image LONGBLOB,
-    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id)
+    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Menu_Item (
     menu_id VARCHAR(12),
     item_id VARCHAR(12),
     PRIMARY KEY (menu_id, item_id),
-    FOREIGN KEY (menu_id) REFERENCES Menus(menu_id),
-    FOREIGN KEY (item_id) REFERENCES Items(item_id)
+    FOREIGN KEY (menu_id) REFERENCES Menus(menu_id) ON DELETE CASCADE,
+    FOREIGN KEY (item_id) REFERENCES Items(item_id) ON DELETE CASCADE
+);
+
+CREATE TABLE Carts (
+    cart_id VARCHAR(12) PRIMARY KEY,
+    account_id VARCHAR(12),
+    status ENUM('IN PROGRESS', 'DONE') DEFAULT 'IN PROGRESS',
+    FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Orders (
@@ -62,17 +69,11 @@ CREATE TABLE Orders (
     account_id VARCHAR(12),
     restaurant_id VARCHAR(12),
     address VARCHAR(255),
-    status VARCHAR(50) DEFAULT 'Pending',
+    status VARCHAR(50) DEFAULT 'PENDING',
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (cart_id) REFERENCES Carts(cart_id),
-    FOREIGN KEY (account_id) REFERENCES Accounts(account_id),
-    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id)
-);
-
-CREATE TABLE Carts (
-    cart_id VARCHAR(12) PRIMARY KEY,
-    account_id VARCHAR(12),
-    FOREIGN KEY (account_id) REFERENCES Accounts(account_id),
+    FOREIGN KEY (cart_id) REFERENCES Carts(cart_id) ON DELETE CASCADE,
+    FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE,
+    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Cart_Items (
@@ -80,8 +81,8 @@ CREATE TABLE Cart_Items (
     item_id VARCHAR(12),
     quantity INT NOT NULL,
     PRIMARY KEY (cart_id, item_id),
-    FOREIGN KEY (cart_id) REFERENCES Carts(cart_id),
-    FOREIGN KEY (item_id) REFERENCES Items(item_id)
+    FOREIGN KEY (cart_id) REFERENCES Carts(cart_id) ON DELETE CASCADE,
+    FOREIGN KEY (item_id) REFERENCES Items(item_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Cart_Menu (
@@ -89,8 +90,8 @@ CREATE TABLE Cart_Menu (
     menu_id VARCHAR(12),
     quantity INT NOT NULL,
     PRIMARY KEY (account_id, menu_id),
-    FOREIGN KEY (account_id) REFERENCES Accounts(account_id),
-    FOREIGN KEY (menu_id) REFERENCES Menus(menu_id)
+    FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE,
+    FOREIGN KEY (menu_id) REFERENCES Menus(menu_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Reviews (
@@ -99,8 +100,8 @@ CREATE TABLE Reviews (
     rating INT CHECK (rating BETWEEN 1 AND 5), 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (account_id) REFERENCES Accounts(account_id),
-    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id),
+    FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE,
+    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Logs (
@@ -147,13 +148,6 @@ BEGIN
     SET NEW.order_id = CONCAT('ORD', LPAD((SELECT COALESCE(MAX(SUBSTRING(order_id, 4)), 0) + 1 FROM Orders), 6, '0'));
 END$$
 
-CREATE TRIGGER before_insert_reviews
-BEFORE INSERT ON Reviews
-FOR EACH ROW
-BEGIN
-    SET NEW.review_id = CONCAT('REV', LPAD((SELECT COALESCE(MAX(SUBSTRING(review_id, 4)), 0) + 1 FROM Reviews), 6, '0'));
-END$$
-
 CREATE TRIGGER before_insert_logs
 BEFORE INSERT ON Logs
 FOR EACH ROW
@@ -169,7 +163,7 @@ BEGIN
 END$$
 
 -- Log Orders
-CREATE TRIGGER after_order_insert
+CREATE TRIGGER after_order_insert_log
 AFTER INSERT ON Orders
 FOR EACH ROW
 BEGIN
@@ -177,54 +171,76 @@ BEGIN
     VALUES (CONCAT('Orders ', NEW.order_id, ' placed by account ', NEW.account_id));
 END$$
 
+-- Passe une commande à DONE quand quand elle est insert dans un order
+CREATE TRIGGER after_order_insert
+AFTER INSERT ON Orders
+FOR EACH ROW
+BEGIN
+    UPDATE Carts
+    SET status = 'DONE'
+    WHERE cart_id = NEW.cart_id;
+END$$
 DELIMITER ;
 
--- CREATE ACCOUNTS
-INSERT INTO Accounts (account_id, name, email, phone, password, address, role) VALUES
-('ACC000001', 'Alice Dupont', 'alice.dupont@email.com', '0601020304', 'hashed_password_1', '10 rue de Paris, 75001 Paris', 'User'),
-('ACC000002', 'Bob Martin', 'bob.martin@email.com', '0611121314', 'hashed_password_2', '20 avenue de Lyon, 69001 Lyon', 'Livreur'),
-('ACC000003', 'Charlie Durand', 'charlie.durand@email.com', '0622232425', 'hashed_password_3', '30 boulevard de Lille, 59800 Lille', 'Restaurateur');
+-- Insertion des comptes
+INSERT INTO Accounts (name, email, password, phone, address, role) VALUES
+('John Doe', 'john.doe@example.com', 'hashedpassword1', '1234567890', '123 Main St', 'User'),
+('Jane Smith', 'jane.smith@example.com', 'hashedpassword2', '0987654321', '456 Oak St', 'User'),
+('Mike Johnson', 'mike.johnson@example.com', 'hashedpassword3', '1122334455', '789 Pine St', 'Delivery'),
+('Restaurant Owner', 'owner@example.com', 'hashedpassword4', '2233445566', '321 Birch St', 'Restaurant');
 
--- INSERT RESTAURANTS
-INSERT INTO Restaurants (restaurant_id, name, description, address, open_hour) VALUES
-('RES000001', 'Le Bon Goût', 'Un restaurant gastronomique français.', '15 rue des Saveurs, 75002 Paris', '12:00 - 23:00'),
-('RES000002', 'Pizza Express', 'Pizzas fraîches et délicieuses.', '25 avenue Napoléon, 69002 Lyon', '11:00 - 22:30');
+-- Insertion des restaurants
+INSERT INTO Restaurants (name, description, address, open_hour) VALUES
+('Pizza Palace', 'Best pizza in town', '100 Pizza Street', '10:00-22:00'),
+('Burger Heaven', 'Juicy burgers every day', '200 Burger Avenue', '11:00-23:00'),
+('Sushi World', 'Fresh sushi made daily', '300 Sushi Lane', '12:00-21:00');
 
--- INSERT ACCOUNT_RESTAURANT
+-- Lier les propriétaires de restaurants
 INSERT INTO Account_Restaurant (account_id, restaurant_id) VALUES
-('ACC000003', 'RES000001');
+('ACC000001', 'RES000001'),
+('ACC000001', 'RES000002');
 
--- INSERT MENUS
-INSERT INTO Menus (menu_id, restaurant_id, name, description, price) VALUES
-('MEN000001', 'RES000001', 'Menu Gourmet', 'Entrée, plat et dessert.', 29.99),
-('MEN000002', 'RES000002', 'Menu Pizza', 'Pizza + boisson.', 15.99);
+-- Insertion des menus
+INSERT INTO Menus (restaurant_id, name, description, price) VALUES
+('RES000001', 'Pizza Menu', 'A selection of our best pizzas', 15.99),
+('RES000002', 'Burger Menu', 'Our best burgers in a combo', 12.99),
+('RES000003', 'Sushi Set', 'Fresh sushi assortment', 20.99);
 
--- INSERT ITEMS
-INSERT INTO Items (item_id, restaurant_id, name, description, price) VALUES
-('ITM000001', 'RES000001', 'Steak Frites', 'Steak grillé avec frites maison.', 18.50),
-('ITM000002', 'RES000002', 'Pizza Margherita', 'Tomate, mozzarella, basilic.', 12.00);
+-- Insertion des items
+INSERT INTO Items (restaurant_id, name, description, price) VALUES
+('RES000001', 'Pepperoni Pizza', 'Classic pepperoni pizza', 9.99),
+('RES000001', 'Margherita Pizza', 'Tomato, mozzarella, basil', 8.99),
+('RES000002', 'Cheeseburger', 'Juicy beef patty with cheese', 5.99),
+('RES000002', 'Chicken Burger', 'Grilled chicken with lettuce', 6.49),
+('RES000003', 'Salmon Sushi', 'Fresh salmon sushi', 4.99),
+('RES000003', 'Tuna Sushi', 'Premium tuna sushi', 5.49);
 
--- INSERT MENU_ITEM
+-- Associer les items aux menus
 INSERT INTO Menu_Item (menu_id, item_id) VALUES
 ('MEN000001', 'ITM000001'),
-('MEN000002', 'ITM000002');
+('MEN000001', 'ITM000002'),
+('MEN000002', 'ITM000003'),
+('MEN000002', 'ITM000004'),
+('MEN000003', 'ITM000005'),
+('MEN000003', 'ITM000006');
 
--- INSERT CARTS
-INSERT INTO Carts (cart_id, account_id) VALUES
-('CRT000001', 'ACC000001');
+-- Création de paniers
+INSERT INTO Carts (account_id) VALUES
+('ACC000001'),
+('ACC000002');
 
--- INSERT CART_ITEMS
+-- Ajouter des items aux paniers
 INSERT INTO Cart_Items (cart_id, item_id, quantity) VALUES
-('CRT000001', 'ITM000002', 2);
+('CRT000001', 'ITM000001', 2),
+('CRT000001', 'ITM000003', 1),
+('CRT000002', 'ITM000005', 3);
 
--- INSERT CART_MENU
-INSERT INTO Cart_Menu (account_id, menu_id, quantity) VALUES
-('ACC000001', 'MEN000002', 1);
+-- Passer des commandes
+INSERT INTO Orders (cart_id, account_id, restaurant_id, address, status) VALUES
+('CRT000001', 'ACC000001', 'RES000001', '123 Main St', 'PENDING'),
+('CRT000002', 'ACC000002', 'RES000003', '456 Oak St', 'PENDING');
 
--- INSERT ORDERS
-INSERT INTO Orders (order_id, cart_id, account_id, restaurant_id, address, status) VALUES
-('ORD000001', 'CRT000001', 'ACC000001', 'RES000002', '10 rue de Paris, 75001 Paris', 'Pending');
-
--- INSERT REVIEWS
+-- Ajouter des avis
 INSERT INTO Reviews (account_id, restaurant_id, rating) VALUES
-('ACC000001', 'RES000001', 5);
+('ACC000001', 'RES000001', 5),
+('ACC000002', 'RES000003', 4);
