@@ -1,10 +1,4 @@
-.suivi-commande-container {
-    padding: 2rem;
-    text-align: center;
-    background-color: white;
-    min-height: 100vh;
-  }
-  
+
   .commande-info {
     display: flex;
     align-items: center;
@@ -87,3 +81,54 @@
     color: #888;
   }
   
+  /* Styles de base */
+.suivi-commande-container {
+  padding: 2rem;
+  text-align: center;
+  background-color: white;
+  min-height: 100vh;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .suivi-commande-container {
+      padding: 1rem;
+  }
+
+  .commande-info {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 1rem;
+      margin-bottom: 1rem;
+  }
+
+  .commande-image {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 1rem;
+  }
+
+  .btn-etablissement {
+      width: 100%;
+      margin-top: 0.5rem;
+  }
+
+  .tracking-icons {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .tracking-line {
+      width: 70%;
+      height: 4px;
+      margin: 1rem 0;
+  }
+
+  .tracking-text h3 {
+      font-size: 1.2rem;
+  }
+
+  .tracking-text p {
+      font-size: 0.9rem;
+  }
+}
