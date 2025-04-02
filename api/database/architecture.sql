@@ -6,7 +6,7 @@ CREATE TABLE Accounts (
     password VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
     address VARCHAR(255),
-    role ENUM('User', 'Livreur', 'Restaurateur') NOT NULL,
+    role ENUM('User', 'Delivery', 'Restaurant') NOT NULL,
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -24,8 +24,8 @@ CREATE TABLE Account_Restaurant (
     account_id VARCHAR(12),
     restaurant_id VARCHAR(12),
     PRIMARY KEY (account_id, restaurant_id),
-    FOREIGN KEY (account_id) REFERENCES Accounts(account_id),
-    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id)
+    FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE,
+    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Menus (
@@ -35,7 +35,7 @@ CREATE TABLE Menus (
     description VARCHAR(255),
     price DECIMAL(10,2) NOT NULL,
     image LONGBLOB,
-    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id)
+    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Items (
@@ -45,21 +45,22 @@ CREATE TABLE Items (
     description VARCHAR(255),
     price DECIMAL(10,2) NOT NULL,
     image LONGBLOB,
-    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id)
+    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Menu_Item (
     menu_id VARCHAR(12),
     item_id VARCHAR(12),
     PRIMARY KEY (menu_id, item_id),
-    FOREIGN KEY (menu_id) REFERENCES Menus(menu_id),
-    FOREIGN KEY (item_id) REFERENCES Items(item_id)
+    FOREIGN KEY (menu_id) REFERENCES Menus(menu_id) ON DELETE CASCADE,
+    FOREIGN KEY (item_id) REFERENCES Items(item_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Carts (
     cart_id VARCHAR(12) PRIMARY KEY,
     account_id VARCHAR(12),
-    FOREIGN KEY (account_id) REFERENCES Accounts(account_id)
+    status ENUM('IN PROGRESS', 'DONE') DEFAULT 'IN PROGRESS',
+    FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Orders (
@@ -68,11 +69,11 @@ CREATE TABLE Orders (
     account_id VARCHAR(12),
     restaurant_id VARCHAR(12),
     address VARCHAR(255),
-    status VARCHAR(50) DEFAULT 'Pending',
+    status VARCHAR(50) DEFAULT 'PENDING',
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (cart_id) REFERENCES Carts(cart_id),
-    FOREIGN KEY (account_id) REFERENCES Accounts(account_id),
-    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id)
+    FOREIGN KEY (cart_id) REFERENCES Carts(cart_id) ON DELETE CASCADE,
+    FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE,
+    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Cart_Items (
@@ -80,8 +81,8 @@ CREATE TABLE Cart_Items (
     item_id VARCHAR(12),
     quantity INT NOT NULL,
     PRIMARY KEY (cart_id, item_id),
-    FOREIGN KEY (cart_id) REFERENCES Carts(cart_id),
-    FOREIGN KEY (item_id) REFERENCES Items(item_id)
+    FOREIGN KEY (cart_id) REFERENCES Carts(cart_id) ON DELETE CASCADE,
+    FOREIGN KEY (item_id) REFERENCES Items(item_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Cart_Menu (
@@ -89,8 +90,8 @@ CREATE TABLE Cart_Menu (
     menu_id VARCHAR(12),
     quantity INT NOT NULL,
     PRIMARY KEY (account_id, menu_id),
-    FOREIGN KEY (account_id) REFERENCES Accounts(account_id),
-    FOREIGN KEY (menu_id) REFERENCES Menus(menu_id)
+    FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE,
+    FOREIGN KEY (menu_id) REFERENCES Menus(menu_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Reviews (
@@ -99,8 +100,8 @@ CREATE TABLE Reviews (
     rating INT CHECK (rating BETWEEN 1 AND 5), 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (account_id) REFERENCES Accounts(account_id),
-    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id)
+    FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE,
+    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Logs (
@@ -162,7 +163,7 @@ BEGIN
 END$$
 
 -- Log Orders
-CREATE TRIGGER after_order_insert
+CREATE TRIGGER after_order_insert_log
 AFTER INSERT ON Orders
 FOR EACH ROW
 BEGIN
@@ -170,4 +171,15 @@ BEGIN
     VALUES (CONCAT('Orders ', NEW.order_id, ' placed by account ', NEW.account_id));
 END$$
 
+DELIMITER ;
+
+-- Passe une commande à DONE quand quand elle est insert dans un order
+CREATE TRIGGER after_order_insert
+AFTER INSERT ON Orders
+FOR EACH ROW
+BEGIN
+    UPDATE Carts
+    SET status = 'DONE'
+    WHERE cart_id = NEW.cart_id;
+END$$
 DELIMITER ;
