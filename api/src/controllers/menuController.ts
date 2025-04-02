@@ -64,7 +64,6 @@ export const getAllMenusFromRestaurant = async (req: Request, res: Response): Pr
         if(!restaurant){
             res.status(404).json({ message: "Restaurant non trouvé" });
         }
-        // TODO TABLE INTERMEDIAIRE
         const menus = await Menu.findAll({
             where: { restaurant_id: restaurant_id }
         });        
@@ -84,7 +83,6 @@ export const getMenuByIdByRestaurant = async (req: Request, res: Response): Prom
             return;
         }
 
-        // TODO TABLE INTERMEDIAIRE
         const menu = await Menu.findOne({
             where: { restaurant_id, menu_id } // Vérifie que le menu appartient bien au restaurant
         });
