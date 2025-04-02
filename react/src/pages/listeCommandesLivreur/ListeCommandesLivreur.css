@@ -1,0 +1,18 @@
+.liste-command-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f9f9f9;
+  }
+  
+  .liste-command-page > * {
+    flex-shrink: 0;
+  }
+
+  .liste-command-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centre horizontalement */
+    gap: 15px; /* Espacement entre les commandes */
+    padding: 20px;
+}

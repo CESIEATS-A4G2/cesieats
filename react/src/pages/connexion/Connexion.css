@@ -17,7 +17,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('./shutterstock_1470615731-2.jpg') no-repeat center center fixed;
+    background: url('../../resources/images/background_connexion_sushi.jpg') no-repeat center center fixed;
     background-size: cover;
     filter: blur(8px);
     z-index: -1; /* Envoie l'image floutée en arrière-plan */
