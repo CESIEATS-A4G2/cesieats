@@ -1,11 +1,13 @@
 import express from 'express';
-import { createItem } from '../controllers/itemController';
+import { createItem, getAllItemsFromMenuFromRestaurant, getAllItemsFromRestaurant, getItemByIdFromRestaurant, deleteItemFromRestaurant, deleteItemFromMenuFromRestaurant } from '../controllers/itemController';
 
 const router = express.Router();
 
-router.post('/restaurants/:restaurant_id/menus/:menu_id/items', createItem);
-/*router.get('/restaurants/:restaurant_id/menus/:menu_id/items', getAllItemsFromMenu);
-router.get('/restaurants/:restaurant_id/menus/:menu_id/items/:item_id', getItemByIdFromMenu);
-router.delete('/restaurants/:restaurant_id/menus/:menu_id/items/:item_id', deleteItem);*/
+router.post('/restaurants/:restaurant_id/items', createItem);
+router.get('/restaurants/:restaurant_id/menus/:menu_id/items', getAllItemsFromMenuFromRestaurant);
+router.get('/restaurants/:restaurant_id/items', getAllItemsFromRestaurant);
+router.get('/restaurants/:restaurant_id/items/:item_id', getItemByIdFromRestaurant);
+router.delete('/restaurants/:restaurant_id/items/:item_id', deleteItemFromRestaurant);
+router.delete('/restaurants/:restaurant_id/menus/:menu_id/items/:item_id', deleteItemFromMenuFromRestaurant);
 
 export default router;

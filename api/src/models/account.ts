@@ -17,7 +17,7 @@ interface AccountAttributes {
   is_active?: boolean;
 }
 
-// Modèle de base Account
+// Modele de base Account
 class Account extends Model<AccountAttributes> implements AccountAttributes {
   public account_id!: number;
   public name!: string;

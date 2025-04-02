@@ -32,7 +32,20 @@ Menu.init({
     image: { type: DataTypes.BLOB('long') }
 }, { sequelize, modelName: 'Menu', timestamps: false});
 
-const Menu_Item = sequelize.define('Menu_Item', {}, {timestamps: false, tableName: 'Menu_Item'});
+interface Menu_ItemAttributes {
+    menu_id: string;
+    item_id: string;
+}
+
+class Menu_Item extends Model<Menu_ItemAttributes, Optional<Menu_ItemAttributes, 'menu_id' | 'item_id'>> implements Menu_ItemAttributes {
+    public menu_id!: string;
+    public item_id!: string;
+}
+
+Menu_Item.init({
+    menu_id: { type: DataTypes.STRING, primaryKey: true, allowNull: false },
+    item_id: { type: DataTypes.STRING, primaryKey: true, allowNull: false }
+}, { sequelize, modelName: 'Menu_Item', timestamps: false, tableName: 'Menu_Item'});
 
 // Relations
 Menu.belongsToMany(Item, { through: Menu_Item, foreignKey: 'menu_id' });
