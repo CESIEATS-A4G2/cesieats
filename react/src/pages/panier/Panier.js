@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Panier.css";
 import PanierItem from "./PanierItem";
+import { FiArrowLeft } from "react-icons/fi"; // Import de l'icône retour
 
 function Panier({ isOpen, onClose }) {
   const [items, setItems] = useState([
@@ -27,6 +28,12 @@ function Panier({ isOpen, onClose }) {
   return (
     <div className="panier-overlay" onClick={onClose}>
       <div className="panier-drawer" onClick={(e) => e.stopPropagation()}>
+        
+        {/* Bouton retour */}
+        <button className="back-button" onClick={onClose}>
+          <FiArrowLeft /> Retour
+        </button>
+
         <h2>Votre Panier</h2>
         
         {/* List of items */}

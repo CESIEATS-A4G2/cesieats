@@ -26,7 +26,7 @@ function SiteFooter() {
                         <FaHome />
                         <p>Home</p>
                     </div>
-                    <div className="mobileIcon" onClick={() => navigate("/historique")}>
+                    <div className="mobileIcon" onClick={() => navigate("/historique-commande")}>
                         <FaReceipt />
                         <p>Orders</p>
                     </div>

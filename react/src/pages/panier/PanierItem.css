@@ -1,3 +1,4 @@
+/* Styles de base */
 .panier-item {
     display: flex;
     align-items: center;
@@ -7,6 +8,31 @@
     border-radius: 12px;
     margin-bottom: 1rem;
     transition: background-color 0.3s;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .panier-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .item-info {
+        margin-bottom: 0.5rem;
+    }
+
+    .quantity-controls {
+        margin-bottom: 0.5rem;
+        justify-content: space-between;
+    }
+
+    .item-price {
+        margin-bottom: 0.5rem;
+    }
+
+    .remove-icon {
+        align-self: flex-end;
+    }
 }
 
 .panier-item:hover {
@@ -55,4 +81,15 @@
     cursor: pointer;
     color: red;
     font-size: 1.2rem;
+}
+.back-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: black;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 1rem;
 }
