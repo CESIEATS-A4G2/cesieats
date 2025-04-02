@@ -51,11 +51,15 @@
 }
 
 
-.edit-save-buttons, .change-password-button {
+.edit-save-buttons {
+  display: flex;
+  justify-content: space-between; /* Pour bien les aligner */
+  align-items: center;
   margin-top: 1.5rem;
+  gap: 1rem;
 }
 
-.edit-button, .save-button, .change-password-button {
+.edit-button, .save-button, .parrainage-button {
   background-color: #fee131;
   border: none;
   padding: 0.5rem 1rem;
@@ -64,7 +68,7 @@
   transition: background-color 0.2s;
 }
 
-.edit-button:hover, .save-button:hover, .change-password-button:hover {
+.edit-button:hover, .save-button:hover, .parrainage-button:hover {
   background-color: #e0c123;
 }
 
@@ -124,3 +128,24 @@
     text-align: center;
   }
 }
+
+.parrainage-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.parrainage-button {
+  background-color: #fee131;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.parrainage-button:hover {
+  background-color: #e0c123;
+}
+

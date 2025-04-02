@@ -3,6 +3,7 @@ import "./GestionCompte.css";
 import Header from "../../components/header/TopNavBar";
 import Footer from "../../components/footer/SiteFooter";
 import userImg from "../../resources/images/account-illustration.png";
+import { useNavigate } from "react-router-dom"; 
 
 function GestionCompte() {
   const [isEditing, setIsEditing] = useState(false);
@@ -12,6 +13,8 @@ function GestionCompte() {
   const [phone, setPhone] = useState("+33 6 12 34 56 78");
   const [email, setEmail] = useState("aurelie.mamie@wanadoo.com");
   const [password, setPassword] = useState("**********");
+
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -84,9 +87,19 @@ function GestionCompte() {
           )}
           <div className="edit-save-buttons">
             {isEditing ? (
-              <button onClick={handleSave} className="save-button">Sauvegarder</button>
+              <>
+                <button onClick={handleSave} className="save-button">Sauvegarder</button>
+                <button className="parrainage-button" onClick={() => navigate("/parrainage")}>
+                  Parrainer un ami
+                </button>
+              </>
             ) : (
-              <button onClick={() => setIsEditing(true)} className="edit-button">Modifier</button>
+              <>
+                <button onClick={() => setIsEditing(true)} className="edit-button">Modifier</button>
+                <button className="parrainage-button" onClick={() => navigate("/parrainage")}>
+                  Parrainer un ami
+                </button>
+              </>
             )}
           </div>
         </div>
