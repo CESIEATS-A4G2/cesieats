@@ -1,0 +1,98 @@
+.livraison-command-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    padding: 16px;
+}
+
+.livraison-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.livraison-card h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.livraison-card .price {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.livraison-card .details {
+    color: #6c757d;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.qr-code {
+    width: 120px;
+    height: 120px;
+    background: url('../../resources/images/qrcode.png') no-repeat center center;
+    background-size: cover;
+    display: inline-block;
+    margin: 8px 0;
+}
+
+.contact-info {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.address-section {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #ddd;
+}
+
+.address-section p {
+    font-size: 14px;
+    color: #333;
+}
+
+.button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    margin-top: 8px;
+    transition: background-color 0.3s;
+}
+
+.button-recupere {
+    background-color: #28a745;
+}
+
+.button-recupere:hover {
+    background-color: #218838;
+}
+
+.button-recupere.clicked {
+    background-color: #343a40 !important;
+}
+
+.button-livree {
+    background-color: #343a40;
+}
+
+.button-livree.active {
+    background-color: #28a745 !important;
+}
+
+.button-livree:hover {
+    background-color: #343a40 !important;
+}
