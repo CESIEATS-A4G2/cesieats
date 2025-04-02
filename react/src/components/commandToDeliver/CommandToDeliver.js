@@ -1,14 +1,14 @@
 import React from "react";
 import "./CommandToDeliver.css";
-import { FaTimes } from "react-icons/fa"; // Import de l'icône croix
+import { FaTimes } from "react-icons/fa";
 
-function CommandToDeliver({ price, deliveryTime, distance, restaurantAddress, deliveryAddress, onDelete }) {
+function CommandToDeliver({ price, deliveryTime, distance, restaurantAddress, deliveryAddress, onDelete, onClick }) {
     return (
-      <div className="command-deliver-container">
+      <div className="command-deliver-container" onClick={onClick}> {/* Appelle onClick sauf sur la croix */}
         <div className="command-deliver-card">
           <div className="card-header">
             <span className="price">{price}€</span>
-            <FaTimes className="close-icon" onClick={onDelete} /> {/* Gère la suppression */}
+            <FaTimes className="close-icon" onClick={(e) => { e.stopPropagation(); onDelete(); }} /> {/* Arrête la propagation pour éviter de déclencher onClick */}
           </div>
           <div className="card-info">
             <div className="time-distance">
