@@ -4,9 +4,14 @@ import { Restaurant } from '../models/restaurant';
 // Creer un restaurant
 export const createRestaurant = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { name } = req.body;
+        const { name, description, address, open_hour } = req.body;
         // Créer un compte utilisateur avec Sequelize
-        const newRestaurant = await Restaurant.create({name});
+        const newRestaurant = await Restaurant.create({
+            name,
+            description,
+            address,
+            open_hour
+        });
         res.status(201).json(newRestaurant);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la création du restaurant', error });

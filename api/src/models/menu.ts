@@ -5,31 +5,40 @@ import { Restaurant } from '../models/restaurant';
 
 // Interface de Menu
 interface MenuAttributes {
-    menu_id?: number;
-    name: string;
+    menu_id?: string;
     restaurant_id: string;
-    created_at?: Date;
+    name: string;
+    description: string;
+    price: number;
+    image: Buffer;
 }
 
 // Modele Menu
 class Menu extends Model<MenuAttributes, Optional<MenuAttributes, 'menu_id'>> implements MenuAttributes {
-    public menu_id!: number;
-    public name!: string;
+    public menu_id!: string;
     public restaurant_id!: string;
-    public created_at!: Date;
+    public name!: string;
+    public description!: string;
+    public price!: number;
+    public image!: Buffer;
 }
 
 Menu.init({
     menu_id: { type: DataTypes.STRING, primaryKey: true, allowNull: false, defaultValue: () => UUIDV4() },
+    restaurant_id: { type: DataTypes.STRING, allowNull: false },
     name: { type: DataTypes.STRING, allowNull: false, unique: true },
-    restaurant_id: {type: DataTypes.STRING, allowNull:false },
-    created_at: { type: DataTypes.DATE, allowNull: false, defaultValue: DataTypes.NOW },
+    description: { type: DataTypes.STRING },
+    price: { type: DataTypes.DECIMAL(10,2), allowNull: false },
+    image: { type: DataTypes.BLOB('long') }
 }, { sequelize, modelName: 'Menu', timestamps: false});
 
-// Relations
-Menu.hasMany(Item, { foreignKey: "menu_id", as: "items" });
-Item.belongsTo(Menu, { foreignKey: "menu_id", as: "menu" });
-Menu.belongsTo(Restaurant, {foreignKey: "restaurant_id", as: "restaurant"});
-Restaurant.hasMany(Menu, {foreignKey: "restaurant_id", as: "menus"});
+const Menu_Item = sequelize.define('Menu_Item', {}, {timestamps: false, tableName: 'Menu_Item'});
 
-export { Menu };
+// Relations
+Menu.belongsToMany(Item, { through: Menu_Item, foreignKey: 'menu_id' });
+Item.belongsToMany(Menu, { through: Menu_Item, foreignKey: 'item_id' });
+
+Menu.belongsTo(Restaurant, { foreignKey: "restaurant_id", as: "restaurant" });
+Restaurant.hasMany(Menu, { foreignKey: "restaurant_id", as: "menus" });
+
+export { Menu, Menu_Item };

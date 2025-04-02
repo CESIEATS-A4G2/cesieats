@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
-import { Menu } from '../models/menu';
+import { Menu, Menu_Item } from '../models/menu';
 import { Restaurant } from '../models/restaurant';
+import { Item } from '../models/item';
 
 // Creer un menu
 export const createMenu = async (req: Request, res: Response): Promise<void> => {
     try {
         const { restaurant_id } = req.params;
-        const { name } = req.body;
+        const { name, description, price, image } = req.body;
 
         const restaurant = await Restaurant.findByPk(restaurant_id);
         if (!restaurant) {
@@ -14,14 +15,45 @@ export const createMenu = async (req: Request, res: Response): Promise<void> => 
             return;
         }
 
-        // Créer un compte utilisateur avec Sequelize
-        const newMenu = await Menu.create({name, restaurant_id});
-
+        const newMenu = await Menu.create({ restaurant_id, name, description, price, image });
         res.status(201).json(newMenu);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la création du menu', error });
     }
 };
+
+// Ajouter un item a un menu
+export const addItemToMenu = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { restaurant_id, menu_id } = req.params;
+        const { item_id } = req.body;
+
+        const restaurant = await Restaurant.findByPk(restaurant_id);
+        if (!restaurant) {
+            res.status(404).json({ message: "Restaurant non trouvé" });
+            return;
+        }
+
+        const menu = await Menu.findByPk(menu_id);
+        if (!menu) {
+            res.status(404).json({ message: "Menu non trouvé" });
+            return;
+        }
+
+        const item = await Item.findByPk(item_id);
+        if (!item) {
+            res.status(404).json({ message: "Item non trouvé" });
+            return;
+        }
+
+        const menu_item = await Menu_Item.create({menu_id, item_id});
+        res.status(201).json(menu_item);
+        return;
+    } catch (error) {
+        res.status(500).json({ message: "Erreur lors de l'ajout d'un item au menu", error });
+    }
+};
+
 
 // Obtenir tous les menu d'un restaurant
 export const getAllMenusFromRestaurant = async (req: Request, res: Response): Promise<void> => {
@@ -32,6 +64,7 @@ export const getAllMenusFromRestaurant = async (req: Request, res: Response): Pr
         if(!restaurant){
             res.status(404).json({ message: "Restaurant non trouvé" });
         }
+        // TODO TABLE INTERMEDIAIRE
         const menus = await Menu.findAll({
             where: { restaurant_id: restaurant_id }
         });        
@@ -45,14 +78,13 @@ export const getMenuByIdByRestaurant = async (req: Request, res: Response): Prom
     try {
         const { restaurant_id, menu_id } = req.params;
 
-        // Vérifier si le restaurant existe
         const restaurant = await Restaurant.findByPk(restaurant_id);
         if (!restaurant) {6
             res.status(404).json({ message: "Restaurant non trouvé" });
             return;
         }
 
-        // Rechercher le menu qui appartient à ce restaurant
+        // TODO TABLE INTERMEDIAIRE
         const menu = await Menu.findOne({
             where: { restaurant_id, menu_id } // Vérifie que le menu appartient bien au restaurant
         });

@@ -6,7 +6,7 @@ import {Restaurant} from "../models/restaurant";
 export const createItem = async (req: Request, res: Response): Promise<void> => {
     try {
         const { restaurant_id, menu_id } = req.params;
-        const { name, price } = req.body;
+        const { name, description, price, image } = req.body;
 
         const restaurant = await Restaurant.findByPk(restaurant_id);
         if (!restaurant) {
@@ -21,7 +21,7 @@ export const createItem = async (req: Request, res: Response): Promise<void> => 
         }
 
         // Créer l'item
-        const newItem = await Item.create({ name, price, menu_id, restaurant_id });
+        const newItem = await Item.create({ restaurant_id, name, description, price, image  });
 
         res.status(201).json(newItem);
         return;
@@ -30,7 +30,7 @@ export const createItem = async (req: Request, res: Response): Promise<void> => 
     }
 };
 
-export const getAllItemsFromMenu = async (req: Request, res: Response): Promise<void> => {
+/*export const getAllItemsFromMenu = async (req: Request, res: Response): Promise<void> => {
     try {
         const { restaurant_id, menu_id } = req.params;
 
@@ -53,9 +53,9 @@ export const getAllItemsFromMenu = async (req: Request, res: Response): Promise<
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la récupération des items", error });
     }
-};
+};*/
 
-export const getItemByIdFromMenu = async (req: Request, res: Response): Promise<void> => {
+/*export const getItemByIdFromMenu = async (req: Request, res: Response): Promise<void> => {
     try {
         const { restaurant_id, menu_id, item_id } = req.params;
 
@@ -85,9 +85,9 @@ export const getItemByIdFromMenu = async (req: Request, res: Response): Promise<
         console.error("Erreur Sequelize:", error);
         res.status(500).json({ message: "Erreur lors de la récupération de l'item", error });
     }
-};
+};*/
 
-export const deleteItem = async (req: Request, res: Response): Promise<void> => {
+/*export const deleteItem = async (req: Request, res: Response): Promise<void> => {
     try {
         const { restaurant_id, menu_id, item_id } = req.params;
 
@@ -121,4 +121,4 @@ export const deleteItem = async (req: Request, res: Response): Promise<void> => 
         console.error("Erreur Sequelize:", error);
         res.status(500).json({ message: "Erreur lors de la suppression de l'item", error });
     }
-};
+};*/
