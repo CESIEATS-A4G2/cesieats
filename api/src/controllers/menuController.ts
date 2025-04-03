@@ -17,6 +17,7 @@ export const createMenu = async (req: Request, res: Response): Promise<void> => 
 
         const newMenu = await Menu.create({ restaurant_id, name, description, price, image });
         res.status(201).json(newMenu);
+        return;
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la création du menu', error });
     }
@@ -63,11 +64,13 @@ export const getAllMenusFromRestaurant = async (req: Request, res: Response): Pr
         const restaurant = await Restaurant.findByPk(restaurant_id);
         if(!restaurant){
             res.status(404).json({ message: "Restaurant non trouvé" });
+            return;
         }
         const menus = await Menu.findAll({
             where: { restaurant_id: restaurant_id }
         });        
         res.status(200).json(menus);
+        return;
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la récupération des menus', error });
     }
