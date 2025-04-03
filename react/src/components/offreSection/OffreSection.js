@@ -1,8 +1,21 @@
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 import "./OffreSection.css";
 import RestaurantCard from "../restaurantCard/RestaurantCard";
+import api from '../../api'; // 💡 Chemin vers ton fichier api.js
 
 function OffreSection() {
+  const [restaurants, setRestaurants] = useState([]);
+
+  useEffect(() => {
+    api.getAllRestaurants()
+      .then(res => {
+        console.log("Restaurants récupérés :", res.data);
+        setRestaurants(res.data); // On stocke les restos récupérés dans le state
+      })
+      .catch(error => console.error("Erreur lors de la récupération des restaurants :", error));
+  }, []);
+
   return (
     <div className="offre-section">
       <div className="offre-header">
@@ -13,15 +26,17 @@ function OffreSection() {
         </div>
       </div>
       <div className="offre-list">
-      <RestaurantCard name="McDo" image="mcdo" deliveryFee="0,49$" deliveryTime="10-20min" />
-      <RestaurantCard name="tacos" image="tacos" deliveryFee="0,49$" deliveryTime="10-20min" />
-      <RestaurantCard name="McDo" image="mcdo" deliveryFee="0,49$" deliveryTime="10-20min" />
-      <RestaurantCard name="McDo" image="mcdo" deliveryFee="0,49$" deliveryTime="10-20min" />
-      <RestaurantCard name="tacos" image="tacos" deliveryFee="0,49$" deliveryTime="10-20min" />
-      <RestaurantCard name="McDo" image="mcdo" deliveryFee="0,49$" deliveryTime="10-20min" />
-      <RestaurantCard name="McDo" image="mcdo" deliveryFee="0,49$" deliveryTime="10-20min" />
-      <RestaurantCard name="tacos" image="tacos" deliveryFee="0,49$" deliveryTime="10-20min" />
-      <RestaurantCard name="McDo" image="mcdo" deliveryFee="0,49$" deliveryTime="10-20min" />
+        {restaurants.map((restaurant) => (
+          <RestaurantCard
+            restaurant_id={restaurant.restaurant_id}
+            name={restaurant.name}
+            image={"https://www.bioburger.fr/wp-content/uploads/IMG_4002-copie-2BIOBURGER.jpg"} // Remplace par une vraie URL si tu en as
+            deliveryFee="0,49$" // Tu peux remplacer ça par une donnée qui existe dans ta BDD si tu veux
+            deliveryTime={restaurant.open_hour} // J'ai mis les horaires d'ouverture comme "temps de livraison" (à remplacer si besoin)
+            address={restaurant.address}
+            description={restaurant.description}
+          />
+        ))}
       </div>
     </div>
   );

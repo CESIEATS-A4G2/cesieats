@@ -5,7 +5,6 @@ import Header from "../../components/header/TopNavBar";
 import Footer from "../../components/footer/SiteFooter";
 import OffreSection from "../../components/offreSection/OffreSection";
 
-
 function HomePage() {
   return (
     <div className="home-container">
@@ -17,6 +16,5 @@ function HomePage() {
     </div>
   );
 }
-
 
 export default HomePage;
