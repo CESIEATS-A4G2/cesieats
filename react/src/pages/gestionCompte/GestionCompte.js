@@ -5,7 +5,7 @@ import Footer from "../../components/footer/SiteFooter";
 import userImg from "../../resources/images/account-illustration.png";
 import { useNavigate } from "react-router-dom"; 
 
-function GestionCompte() {
+function GestionCompte({ userType = "client" }) {  // Ajout du paramètre userType
   const [isEditing, setIsEditing] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -36,7 +36,7 @@ function GestionCompte() {
       <Header />
       <div className="gestion-container">
         <div className="infos">
-          <h2>Informations personnelles</h2>
+          <h2>Informations personnelles ({userType})</h2>
           <div className="info-block">
             <p className="label">Nom</p>
             {isEditing ? (
@@ -87,19 +87,29 @@ function GestionCompte() {
           )}
           <div className="edit-save-buttons">
             {isEditing ? (
-              <>
-                <button onClick={handleSave} className="save-button">Sauvegarder</button>
-                <button className="parrainage-button" onClick={() => navigate("/parrainage")}>
-                  Parrainer un ami
-                </button>
-              </>
+              <button onClick={handleSave} className="save-button">Sauvegarder</button>
             ) : (
-              <>
-                <button onClick={() => setIsEditing(true)} className="edit-button">Modifier</button>
-                <button className="parrainage-button" onClick={() => navigate("/parrainage")}>
-                  Parrainer un ami
-                </button>
-              </>
+              <button onClick={() => setIsEditing(true)} className="edit-button">Modifier</button>
+            )}
+            {userType === "client" && (
+              <button className="parrainage-button" onClick={() => navigate("/parrainage")}>
+                Parrainer un ami
+              </button>
+            )}
+            {userType === "admin" && (
+              <button className="admin-button" onClick={() => navigate("/admin/dashboard")}>
+                Accéder au dashboard admin
+              </button>
+            )}
+            {userType === "livreur" && (
+              <button className="livreur-button" onClick={() => navigate("/livreur/commandes")}>
+                Voir les commandes à livrer
+              </button>
+            )}
+            {userType === "restaurateur" && (
+              <button className="restaurateur-button" onClick={() => navigate("/restaurateur/menu")}>
+                Gérer mon menu
+              </button>
             )}
           </div>
         </div>

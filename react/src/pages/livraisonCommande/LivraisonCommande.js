@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import Header from "../../components/header/TopNavBar";
+import HeaderLivreurMobile from "../../components/header/headerLivreurMobile/HeaderLivreurMobile"
 import "./LivraisonCommande.css";
-import { useLocation, useNavigate } from "react-router-dom"; // 🔥 Ajout de useNavigate
+import { useLocation, useNavigate } from "react-router-dom"; // Ajout de useNavigate
 
 const LivraisonCommande = () => {
   const location = useLocation();
-  const navigate = useNavigate(); // 🔥 Initialisation de useNavigate
-  const command = location.state?.command || {}; // 🔥 Récupère la commande envoyée via navigate()
+  const navigate = useNavigate(); // Initialisation de useNavigate
+  const command = location.state?.command || {}; // Récupère la commande envoyée via navigate()
 
   const [isRecupere, setIsRecupere] = useState(false);
 
@@ -15,12 +15,12 @@ const LivraisonCommande = () => {
   };
 
   const handleLivreeClick = () => {
-    navigate("/liste-commandes-livreur"); // 🔥 Redirige vers la page de la liste des commandes
+    navigate("/liste-commandes-livreur"); // Redirige vers la page de la liste des commandes
   };
 
   return (
     <div className="livraison-command-page">
-      <Header />
+      <HeaderLivreurMobile />
       
       <div className="livraison-card">
         
@@ -52,8 +52,8 @@ const LivraisonCommande = () => {
           <p>🏠 {command.deliveryAddress}</p>
           <button 
             className={`button button-livree ${isRecupere ? 'active' : ''}`}
-            disabled={!isRecupere} // 🔒 Désactive le bouton si la commande n'est pas récupérée
-            onClick={handleLivreeClick} // 🔥 Redirige quand on clique
+            disabled={!isRecupere} // Désactive le bouton si la commande n'est pas récupérée
+            onClick={handleLivreeClick} // Redirige quand on clique
           >
             Commande livrée
           </button>
