@@ -10,8 +10,6 @@ function HomePage() {
     <div className="home-container">
       <Header />
       <OffreSection />
-      <OffreSection />
-      <OffreSection />
       <Footer />
     </div>
   );

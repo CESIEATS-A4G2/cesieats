@@ -16,7 +16,7 @@ function TopNavBarMobile() {
         <>
             <div className="topNavBarMobileContainer">
                 {/* Logo */}
-                <div className="logoContainer" onClick={() => navigate("/")}>
+                <div className="logoContainer" onClick={() => navigate("/home")}>
                     <img src={bannerLogo} alt="CESIEATS" className="mobileLogo" />
                 </div>
 

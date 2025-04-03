@@ -27,9 +27,12 @@ function RestaurantPage() {
         description={restaurant.description} 
         address={restaurant.address} 
         open_hour={restaurant.open_hour}
-        image={restaurant.image || "https://via.placeholder.com/800x200"} // 🔥 On passe l'image en prop
+        image={restaurant.image || "https://via.placeholder.com/800x200"}
       />
-      <ProductSection restaurant_id={restaurant.restaurant_id} /> {/* 🔥 Passe l'ID ici */}
+      
+      <ProductSection restaurant_id={restaurant.restaurant_id} titre="Nos Menus" type="menus" />
+      <ProductSection restaurant_id={restaurant.restaurant_id} titre="Nos Items" type="items" />
+
       <Footer />
     </div>
   );

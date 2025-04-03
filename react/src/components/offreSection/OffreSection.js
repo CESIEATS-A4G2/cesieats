@@ -19,7 +19,7 @@ function OffreSection() {
   return (
     <div className="offre-section">
       <div className="offre-header">
-        <h2>Offre du jour</h2>
+        <h2>Menu</h2>
         <div className="arrows">
           <button>{"<"}</button>
           <button>{">"}</button>

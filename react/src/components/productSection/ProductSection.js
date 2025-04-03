@@ -1,34 +1,45 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../productCard/ProductCard";
-import api from '../../api'; // Assure-toi que c'est bien le chemin vers ton api.js
+import api from '../../api';
 import "./ProductSection.css";
 
-function ProductSection({ restaurant_id }) {
+function ProductSection({ restaurant_id, titre, type }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    console.log(restaurant_id)
-    api.getAllItemsByRestaurant(restaurant_id)
-      .then(res => {
-        console.log("Produits récupérés :", res.data);
-        setProducts(res.data);
-      })
-      .catch(err => console.error("Erreur lors de la récupération des produits :", err));
-  }, [restaurant_id]);
+    if (type === "items") {
+      api.getAllItemsByRestaurant(restaurant_id) // 🔥 Récupère tous les items
+        .then(res => {
+          console.log("Produits récupérés :", res.data);
+          setProducts(res.data);
+        })
+        .catch(err => console.error("Erreur lors de la récupération des produits :", err));
+    }
+
+    if (type === "menus") {
+      api.getAllMenus(restaurant_id) // 🔥 Récupère tous les menus
+        .then(res => {
+          console.log("Menus récupérés :", res.data);
+          setProducts(res.data);
+        })
+        .catch(err => console.error("Erreur lors de la récupération des menus :", err));
+    }
+
+  }, [restaurant_id, type]);
 
   return (
     <div className="product-section">
-      <h2>NOS PETITES FAIMS</h2>
+      <h2>{titre}</h2>
       <div className="product-list">
         {products.map((item) => (
           <ProductCard
-            key={item.item_id}
+            key={item.item_id || item.menu_id} // 🔥 Supporte les items ET les menus
             name={item.name}
-            price={`${item.price} €`} // J'ajoute € après le prix
-            image={item.image || "https://via.placeholder.com/150"} // Si l'image est null, on met une image par défaut
+            price={item.price ? `${item.price} €` : "Menu"} // 🔥 Si c'est un item affiche le prix sinon affiche "Menu"
+            image={item.image || "https://via.placeholder.com/150"}
             description={item.description}
-            optionsLabel="Options" // Tu peux changer ça si tu veux que ça soit dynamique
-            options={["Option 1", "Option 2", "Option 3"]} // Tu peux aussi ajouter des vraies options si tu les as dans ta BDD
+            optionsLabel="Options"
+            options={["Option 1", "Option 2", "Option 3"]}
           />
         ))}
       </div>
