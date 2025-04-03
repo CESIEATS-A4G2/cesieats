@@ -1,0 +1,40 @@
+/* Styles de base */
+.commande-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .commande-item {
+      flex-direction: column;
+      align-items: stretch;
+  }
+
+  .commande-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+  }
+
+  .commande-image {
+      width: 70px;
+      height: 70px;
+  }
+
+  .commande-details {
+      margin-top: 1rem;
+      text-align: left;
+  }
+
+  .commande-button {
+      width: 100%;
+      margin-top: 1rem;
+  }
+}

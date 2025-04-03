@@ -1,0 +1,35 @@
+/* Styles de base */
+.historique-container {
+  padding: 1rem;
+}
+
+.historique-section {
+  margin-bottom: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .historique-container {
+      padding: 0.5rem;
+  }
+
+  .historique-section h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+  }
+
+  .commande-item {
+      padding: 0.8rem;
+      margin-bottom: 0.8rem;
+  }
+
+  .commande-image {
+      width: 60px;
+      height: 60px;
+  }
+
+  .commande-button {
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,21 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.home-container > * {
+  flex-shrink: 0;
+}
+
+/* Pour que le contenu entre le header et footer prenne toute la hauteur restante */
+.offre-section {
+  flex-grow: 1;
+  padding: 16px;
+}
+
+/* Footer collé en bas même si peu de contenu */
+footer {
+  margin-top: auto;
+}

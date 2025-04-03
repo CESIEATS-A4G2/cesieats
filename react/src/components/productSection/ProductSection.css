@@ -1,0 +1,56 @@
+/* Section des produits */
+.product-section {
+  margin-top: 24px;
+}
+
+/* Header de la section */
+.product-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.product-header h2 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.arrows button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+/* Liste des produits */
+.product-list {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+
+/* RESPONSIVE STYLES */
+@media (max-width: 768px) {
+  .product-section {
+      padding: 0 16px;
+  }
+
+  .product-header h2 {
+      font-size: 18px;
+  }
+
+  .product-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 2 colonnes */
+      gap: 12px; /* Espace entre les cartes */
+      padding-bottom: 12px;
+  }
+
+  .arrows button {
+      font-size: 16px;
+  }
+}

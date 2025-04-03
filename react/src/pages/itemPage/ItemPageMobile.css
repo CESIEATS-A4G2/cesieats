@@ -1,0 +1,82 @@
+/* Styles pour la version mobile de la page ItemPage */
+
+@media (max-width: 768px) {
+    .item-page-mobile {
+      background-color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .item-content-mobile {
+      padding: 10px;
+      flex: 1;
+    }
+  
+    .back-btn-mobile {
+      background: none;
+      border: none;
+      color: #000;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+  
+    .item-main-mobile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+  
+    .item-image-mobile {
+      width: 100%;
+      border-radius: 10px;
+    }
+  
+    .item-details-mobile {
+      width: 100%;
+    }
+  
+    .price-mobile {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-top: 10px;
+    }
+  
+    .option-block-mobile {
+      margin: 20px 0;
+    }
+  
+    .option-title-mobile {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+    }
+  
+    .mandatory-mobile {
+      background-color: #eee;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 0.8rem;
+    }
+  
+    .option-line-mobile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+  
+    .add-btn-mobile {
+      background-color: #000;
+      color: white;
+      padding: 15px;
+      width: 100%;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  }
+  

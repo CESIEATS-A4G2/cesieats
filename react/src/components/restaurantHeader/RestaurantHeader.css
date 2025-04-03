@@ -1,0 +1,40 @@
+.restaurant-header {
+    margin-bottom: 24px;
+  }
+  
+  .restaurant-banner {
+    height: 200px;
+    background: url('../../resources/images/image_background_url.png') center/cover no-repeat;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .restaurant-banner-overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    font-weight: bold;
+  }
+  
+  .restaurant-info {
+    padding: 16px;
+  }
+  
+  .restaurant-info h1 {
+    font-size: 2rem;
+    margin: 0;
+  }
+  
+  .restaurant-info p {
+    margin: 4px 0;
+    color: #444;
+  }
+  
+  .restaurant-info a {
+    color: #000;
+    font-weight: bold;
+    text-decoration: underline;
+  }
