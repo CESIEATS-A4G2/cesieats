@@ -18,7 +18,7 @@ function ConnexionMenu() {
         <h1>Connexion</h1>
         <input className="email" type="email" id="email" placeholder="Email" required/>
         <input type="password" id="password" placeholder="Mot de passe" required/>
-        <button type="submit">Se connecter</button>
+        <button type="submit" className="boutonConnexion">Se connecter</button>
         <Link to="/inscription" className="inscriptionBouton">Inscription ?</Link>
 
       </form>

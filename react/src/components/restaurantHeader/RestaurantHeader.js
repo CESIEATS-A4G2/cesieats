@@ -1,16 +1,23 @@
 import React from "react";
 import "./RestaurantHeader.css";
 
-function RestaurantHeader() {
+function RestaurantHeader({ name, description, address, open_hour, image }) {
   return (
     <div className="restaurant-header">
-      <div className="restaurant-banner">
+      <div 
+        className="restaurant-banner" 
+        style={{ 
+          background: `url(${image}) center/cover no-repeat`,
+          height: '200px'
+        }}
+      >
+        <div className="restaurant-banner-overlay">{name}</div>
       </div>
       <div className="restaurant-info">
-        <h1>McDonald's®</h1>
-        <p>⭐ 4.5 (171 notes) • Américain • $ • <a href="#">Plus d'informations</a></p>
-        <p>5 Rue Du Renard, PARIS, - 75004</p>
-        <p>$ • Américain • Burgers • Fast food</p>
+        <h1>{name}</h1>
+        <p>{description}</p>
+        <p>Adresse : {address}</p>
+        <p>Heures d'ouverture : {open_hour}</p>
       </div>
     </div>
   );

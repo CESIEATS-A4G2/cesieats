@@ -37,7 +37,7 @@ function TopNavBar() {
             src={bannerLogo}
             className="bannerLogo2"
             alt="bannerLogo"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/home")}
             style={{ cursor: "pointer" }}
           />
         </div>

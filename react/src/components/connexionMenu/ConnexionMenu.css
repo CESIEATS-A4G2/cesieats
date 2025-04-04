@@ -35,7 +35,7 @@
     margin-top: 10px;
 }
   /* Bouton */
-  button {
+  .boutonConnexion {
     margin-top: 15px;
     padding: 10px;
     background-color: #28a745;
@@ -47,7 +47,7 @@
     transition: background-color 0.3s;
   }
   
-  button:hover {
+  .boutonConnexion:hover {
     background-color: #218838;
   }
   
@@ -70,7 +70,7 @@
         padding: 8px;
     }
   
-    button {
+    .boutonConnexion {
         padding: 8px;
     }
   }

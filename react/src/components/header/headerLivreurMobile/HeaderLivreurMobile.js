@@ -1,6 +1,6 @@
 import React from "react";
 import "./HeaderLivreurMobile.css";
-import { FiBell, FiUser } from "react-icons/fi"; // Remplacé FiShoppingCart par FiUser
+import { FiBell, FiUser } from "react-icons/fi";
 import bannerLogo from "../../../resources/images/CESIEat_BannerLogo.png";
 import { useNavigate } from "react-router-dom";
 

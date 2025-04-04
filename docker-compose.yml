@@ -1,0 +1,103 @@
+services:
+  nginx:
+    image: nginx:latest #NGinx gateway
+    container_name: gateway
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf #config file cascade 
+      - react-build:/usr/share/nginx/html/react  #accès react
+    ports:
+      - "8080:8080" #Exposed to listen on port 8080 : client port
+    networks:
+      - app-network
+    depends_on: #Do not allow nginx to go up before auth
+      - auth
+      - react
+      - api
+
+  auth:  #authentification service and middleware 
+    build: ./auth
+    container_name: auth
+    ports:
+      - "5000:3000"
+    networks:
+      - app-network
+
+
+  react:  #Access React front-end
+    build: ./react
+    container_name: react
+    ports:
+      - "4000:3000"
+    networks:
+      - app-network
+    volumes:
+      - react-build:/usr/share/nginx/html
+
+  api:
+    build: ./api
+    container_name: api
+    ports:
+      - "3000:3000"
+    environment:
+      MONGO_URI: mongodb://mongo:27017/cesieatsdb
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: cesieats_db
+    env_file:
+      - ./api/.env
+    depends_on:
+      mongo:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    command: npm start
+    networks:
+      - app-network
+      - db-network
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    networks:
+      - db-network
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cesieats_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 1234
+    volumes:
+      - sql-data:/var/lib/mysql
+      - ./api/database/architecture-datas.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+    networks:
+      - db-network
+
+volumes:
+  mongo-data:
+  sql-data:
+  react-build:
+
+
+networks:
+  app-network:
+  db-network:
