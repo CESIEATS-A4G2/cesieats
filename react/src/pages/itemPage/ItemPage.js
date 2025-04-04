@@ -18,7 +18,6 @@ function ItemPage() {
     options,
   } = state || {};
 
-  // Détecte si l'utilisateur est sur un appareil mobile
   const isMobile = window.innerWidth <= 768;
 
   if (isMobile) {
@@ -34,19 +33,22 @@ function ItemPage() {
               <p className="price-mobile">{price}</p>
               <p>{description}</p>
 
-              <div className="option-block-mobile">
-                <div className="option-title-mobile">
-                  <strong>{optionsLabel}</strong>
-                  <span className="mandatory-mobile">Obligatoire</span>
+              {/* 🔥 Affiche seulement si des options existent */}
+              {options?.length > 0 && (
+                <div className="option-block-mobile">
+                  <div className="option-title-mobile">
+                    <strong>{optionsLabel}</strong>
+                    <span className="mandatory-mobile">Obligatoire</span>
+                  </div>
+                  <p>Choisissez-en 1</p>
+                  {options.map((option, i) => (
+                    <label key={i} className="option-line-mobile">
+                      <input type="radio" name="option" />
+                      {option}
+                    </label>
+                  ))}
                 </div>
-                <p>Choisissez-en 1</p>
-                {options?.map((option, i) => (
-                  <label key={i} className="option-line-mobile">
-                    <input type="radio" name="option" />
-                    {option}
-                  </label>
-                ))}
-              </div>
+              )}
 
               <button className="add-btn-mobile">Ajouter au panier</button>
             </div>
@@ -69,19 +71,22 @@ function ItemPage() {
             <p className="price">{price}</p>
             <p>{description}</p>
 
-            <div className="option-block">
-              <div className="option-title">
-                <strong>{optionsLabel}</strong>
-                <span className="mandatory">Obligatoire</span>
+            {/* 🔥 Affiche seulement si des options existent */}
+            {options?.length > 0 && (
+              <div className="option-block">
+                <div className="option-title">
+                  <strong>{optionsLabel}</strong>
+                  <span className="mandatory">Obligatoire</span>
+                </div>
+                <p>Choisissez-en 1</p>
+                {options.map((option, i) => (
+                  <label key={i} className="option-line">
+                    <input type="radio" name="option" />
+                    {option}
+                  </label>
+                ))}
               </div>
-              <p>Choisissez-en 1</p>
-              {options?.map((option, i) => (
-                <label key={i} className="option-line">
-                  <input type="radio" name="option" />
-                  {option}
-                </label>
-              ))}
-            </div>
+            )}
 
             <button className="add-btn">Ajouter au panier</button>
           </div>
