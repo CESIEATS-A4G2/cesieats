@@ -7,7 +7,7 @@ export const createAccount = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { name, email, password, phone, adress, role } = req.body;
+    const { name, email, password, phone, address, role } = req.body;
 
     // Créer un compte utilisateur avec Sequelize
     const newAccount = await Account.create({
@@ -15,11 +15,12 @@ export const createAccount = async (
       email,
       password,
       phone,
-      adress,
+      address,
       role,
     });
 
     res.status(201).json(newAccount);
+    return;
   } catch (error) {
     res
       .status(500)
@@ -35,6 +36,25 @@ export const getAllAccounts = async (
   try {
     const accounts = await Account.findAll();
     res.status(200).json(accounts);
+    return;
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Erreur lors de la récupération des comptes", error });
+  }
+};
+
+export const getAllAccountsByRole = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { role } = req.params;
+    const accounts = await Account.findAll({
+      where: { role: role },
+    });
+    res.status(200).json(accounts);
+    return;
   } catch (error) {
     res
       .status(500)
@@ -47,13 +67,15 @@ export const getAccountById = async (
   res: Response
 ): Promise<void> => {
   try {
+    const { account_id } = req.params;
     // Obtenir une commande par ID avec Sequelize
-    const user = await Account.findByPk(req.params.id);
+    const user = await Account.findByPk(account_id);
     if (!user) {
       res.status(404).json({ message: "Compte non trouvé" });
       return;
     }
     res.status(200).json(user);
+    return;
   } catch (error) {
     res
       .status(500)
@@ -67,8 +89,9 @@ export const deleteAccount = async (
   res: Response
 ): Promise<void> => {
   try {
+    const { account_id } = req.params;
     const deletedAccount = await Account.destroy({
-      where: { account_id: req.params.id },
+      where: { account_id: account_id },
     });
     if (!deletedAccount) {
       res.status(404).json({ message: "Compte non trouvé" });
@@ -76,6 +99,7 @@ export const deleteAccount = async (
     }
 
     res.status(200).json({ message: "Compte supprimé avec succès" });
+    return;
   } catch (error) {
     res
       .status(500)

@@ -1,7 +1,5 @@
-import { DataTypes, Model, Optional } from "sequelize";
+import { DataTypes, Model, Optional, UUIDV4 } from "sequelize";
 import { sequelize } from "../config/sequelize";
-// import { Order } from './order';
-//import Menu from './menu';
 
 // Interface pour Account
 interface AccountAttributes {
@@ -10,22 +8,25 @@ interface AccountAttributes {
   email: string;
   password: string;
   phone?: string;
-  adress?: string;
-  role: "User" | "Livreur" | "Restaurateur";
+  address?: string;
+  role: "User" | "Delivery Man" | "Restaurateur";
   created_at?: Date;
   updated_at?: Date;
   is_active?: boolean;
 }
 
 // Modele de base Account
-class Account extends Model<AccountAttributes> implements AccountAttributes {
-  public account_id!: number;
+class Account
+  extends Model<AccountAttributes, Optional<AccountAttributes, "account_id">>
+  implements AccountAttributes
+{
+  public account_id?: number;
   public name!: string;
   public email!: string;
   public password!: string;
   public phone?: string;
-  public adress?: string;
-  public role!: "User" | "Livreur" | "Restaurateur";
+  public address?: string;
+  public role!: "User" | "Delivery Man" | "Restaurateur";
   public created_at?: Date;
   public updated_at?: Date;
   public is_active?: boolean;
@@ -34,9 +35,10 @@ class Account extends Model<AccountAttributes> implements AccountAttributes {
 Account.init(
   {
     account_id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.STRING,
       primaryKey: true,
+      allowNull: false,
+      defaultValue: () => UUIDV4(),
     },
     name: {
       type: DataTypes.STRING,
@@ -54,11 +56,11 @@ Account.init(
     phone: {
       type: DataTypes.STRING,
     },
-    adress: {
+    address: {
       type: DataTypes.STRING,
     },
     role: {
-      type: DataTypes.ENUM("User", "Livreur", "Restaurateur"),
+      type: DataTypes.ENUM("User", "Delivery Man", "Restaurateur"),
       allowNull: false,
     },
     created_at: {
@@ -74,11 +76,7 @@ Account.init(
       defaultValue: true,
     },
   },
-  {
-    sequelize,
-    tableName: "accounts",
-    timestamps: true
-  }
+  { sequelize, modelName: "Account", timestamps: false }
 );
 
 export { Account };
