@@ -17,10 +17,10 @@ function InscriptionMenu() {
       <form className="form" onSubmit={handleLogin}> {/* Ajout de onSubmit ici */}
         <h1>Enregistrement</h1>
         <input className="email" type="email" id="email" placeholder="Email" required/>
-        <input type="password" id="password" placeholder="Mot de passe" required/>
-        <input type="password" id="password" placeholder="Confirmez le mot de passe" required/>
-        <button type="submit">Enregistrer</button>
-        <Link to="/" className="ConnectionBouton">Connection ?</Link> {}
+        <input type="password" className="password1" id="password" placeholder="Mot de passe" required/>
+        <input type="password" className="password2" placeholder="Confirmez le mot de passe" required/>
+        <button type="submit" className="inscriptionBouton">Enregistrer</button>
+        <Link to="/" className="connectionBouton">Connexion ?</Link> {}
       </form>
     </div>
   );
