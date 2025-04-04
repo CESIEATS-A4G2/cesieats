@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
 import HomePage from "./pages/homePage/HomePage";
 import GestionCompte from "./pages/gestionCompte/GestionCompte";
 import Parrainage from "./pages/parrainage/Parrainage";
@@ -13,7 +13,7 @@ import LivraisonLivreur from "./pages/livraisonCommande/LivraisonCommande"
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter basename="/react">
       <Routes>
         <Route path="/home" element={<HomePage />} />
         <Route path="/mon-compte" element={<GestionCompte />} />
@@ -29,7 +29,7 @@ function App() {
         <Route path="/livraison-livreur" element={<LivraisonLivreur />} />
 
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
