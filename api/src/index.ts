@@ -6,6 +6,7 @@ import accountRoutes from './routes/accountRoutes';
 import restaurantRoutes from './routes/restaurantRoutes';
 import menuRoutes from './routes/menuRoutes';
 import itemRoutes from './routes/itemRoutes';
+import cartRoutes from './routes/cartRoutes';
 import {connectMongoose} from './config/mongoose';
 import {connectSequelize} from './config/sequelize';
 
@@ -26,11 +27,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors()); // Autorise toutes les origines
 
 // Routes
-app.use('/api/orders', orderRoutes);
 app.use('/api/accounts', accountRoutes);
+app.use('/api/accounts', cartRoutes);
 app.use('/api/restaurants', restaurantRoutes);
-app.use('/api', menuRoutes);
-app.use('/api', itemRoutes);
+app.use('/api/restaurants', menuRoutes);
+app.use('/api/restaurants', itemRoutes);
+app.use('/api/orders', orderRoutes);
+
 
 app.get('/', (req, res) => {
     res.send('Hello, World!');
