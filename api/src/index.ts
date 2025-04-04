@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
+import cors from 'cors';
 import orderRoutes from './routes/orderRoutes';
 import accountRoutes from './routes/accountRoutes';
 import restaurantRoutes from './routes/restaurantRoutes';
@@ -20,6 +21,9 @@ connectSequelize();
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// test
+app.use(cors()); // Autorise toutes les origines
 
 // Routes
 app.use('/api/orders', orderRoutes);
