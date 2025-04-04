@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
 import HomePage from "./pages/homePage/HomePage";
 import GestionCompte from "./pages/gestionCompte/GestionCompte";
 import Parrainage from "./pages/parrainage/Parrainage";
@@ -19,7 +19,7 @@ import api from './api';  // 💡 Importation de ton fichier API
 function App() {
 
   return (
-    <Router>
+    <BrowserRouter basename="/react">
       <Routes>
         <Route path="/home" element={<HomePage />} />
         <Route path="/mon-compte" element={<GestionCompte />} />
@@ -35,7 +35,7 @@ function App() {
 
         <Route path="/commandes-restaurateur" element={<CommandesRestaurateur />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
