@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from "react";
-import "./BurgerMenu.css";
+import "./BurgerMenuRestaurateur.css";
 import pfp from "../../resources/images/pfp.png";
-import { FaUser, FaBoxOpen, FaGift } from "react-icons/fa";
+import { FaUser, FaSuitcase, FaClipboardList, FaHamburger, FaChartLine} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-function BurgerMenu({ isOpen, onClose }) {
+function BurgerMenuRestaurateur({ isOpen, onClose }) {
   const menuRef = useRef();
   const navigate = useNavigate(); // 💡 à mettre AVANT le return conditionnel
 
@@ -33,40 +33,64 @@ function BurgerMenu({ isOpen, onClose }) {
         </div>
 
         <div
-          className="burger-item"
+          className="suitcase-item"
           onClick={() => {
             onClose();
-            navigate("/mon-compte");
+            navigate("/commandes-restaurateur");
           }}
         >
-          <FaUser className="burger-icon" />
-          <span>Gérer le compte</span>
+          <FaSuitcase className="suitcase-icon" />
+          <span>Commandes</span>
         </div>
 
   
         <div
-          className="burger-item"
+          className="menu-item"
           onClick={() => {
             onClose(); // ferme le menu
-            navigate("/historique-commande");
+            navigate("/home");
           }}
         >
-          <FaBoxOpen className="burger-icon" />
-          <span>Commandes</span>
+          <FaClipboardList className="menu-icon" />
+          <span>Menu</span>
         </div>
+
         <div
-          className="burger-item"
+          className="article-item"
           onClick={() => {
             onClose(); // ferme le menu
-            navigate("/parrainage");
+            navigate("/home");
           }}
         >
-          <FaGift className="burger-icon" />
-          <span>Parrainage</span>
+          <FaHamburger className="article-icon" />
+          <span>Articles</span>
         </div>
+
+        <div
+          className="account-item"
+          onClick={() => {
+            onClose(); // ferme le menu
+            navigate("/mon-compte");
+          }}
+        >
+          <FaUser className="account-icon" />
+          <span>Compte</span>
+        </div>
+
+        <div
+          className="stat-item"
+          onClick={() => {
+            onClose(); // ferme le menu
+            navigate("/home");
+          }}
+        >
+          <FaChartLine className="stat-icon" />
+          <span>Statistique</span>
+        </div>
+
       </div>
     </div>
   );
 }
 
-export default BurgerMenu;
+export default BurgerMenuRestaurateur;
