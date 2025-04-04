@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Restaurant, Account_Restaurant } from "../models/restaurant";
+import { Account } from "../models/account";
 
 // Creer un restaurant
 export const createRestaurant = async (
@@ -8,7 +9,6 @@ export const createRestaurant = async (
 ): Promise<void> => {
   try {
     const { name, description, address, open_hour } = req.body;
-    // Créer un compte utilisateur avec Sequelize
     const newRestaurant = await Restaurant.create({
       name,
       description,
@@ -48,7 +48,6 @@ export const getRestaurantById = async (
   res: Response
 ): Promise<void> => {
   try {
-    // Obtenir un restaurant par son ID avec Sequelize
     const restaurant = await Restaurant.findByPk(req.params.restaurant_id);
     if (!restaurant) {
       res.status(404).json({ message: "Restaurant non trouvé" });
@@ -63,22 +62,24 @@ export const getRestaurantById = async (
   }
 };
 
-export const addRestaurantToUser = async (
+export const addRestaurantToRestaurateur = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
     const { restaurant_id } = req.params;
     const { account_id } = req.body;
+    const role = "Restaurateur";
 
-    const restaurant = await Restaurant.findByPk(req.params.restaurant_id);
+    const restaurant = await Restaurant.findByPk(restaurant_id);
     if (!restaurant) {
       res.status(404).json({ message: "Restaurant non trouvé" });
       return;
     }
 
-    if (!account_id) {
-      res.status(404).json({ message: "Utilisateur non trouvé" });
+    const account = await Account.findOne({where:{account_id:account_id, role:role}});
+    if (!account) {
+      res.status(404).json({ message: "Utilisateur non trouvé ou n'est pas restaurateur" });
       return;
     }
 
@@ -105,21 +106,23 @@ export const addRestaurantToUser = async (
   }
 };
 
-export const removeRestaurantFromUser = async (
+export const removeRestaurantFromRestaurateur = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
     const { restaurant_id, account_id } = req.params;
+    const role = "Restaurateur";
 
-    const restaurant = await Restaurant.findByPk(req.params.restaurant_id);
+    const restaurant = await Restaurant.findByPk(restaurant_id);
     if (!restaurant) {
       res.status(404).json({ message: "Restaurant non trouvé" });
       return;
     }
 
-    if (!account_id) {
-      res.status(404).json({ message: "Utilisateur non trouvé" });
+    const account = await Account.findOne({where:{account_id:account_id, role:role}});
+    if (!account) {
+      res.status(404).json({ message: "Utilisateur non trouvé ou n'est pas restaurateur" });
       return;
     }
 
@@ -142,7 +145,7 @@ export const removeRestaurantFromUser = async (
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Erreur lors de l'ajout d'un restaurant à un utilisateur", error });
+      .json({ message: "Erreur lors du retirement d'un restaurant à un utilisateur", error });
   }
 };
 
