@@ -10,6 +10,7 @@ import Connexion from "./pages/connexion/Connexion"
 import Inscription from "./pages/inscription/Inscription"
 import ListeCommandesLivreur from "./pages/listeCommandesLivreur/ListeCommandesLivreur"
 import LivraisonLivreur from "./pages/livraisonCommande/LivraisonCommande"
+import CommandesRestaurateur from "./pages/commandesRestaurateur/CommandesRestaurateur"
 
 function App() {
   return (
@@ -27,6 +28,8 @@ function App() {
 
         <Route path="/liste-commandes-livreur" element={<ListeCommandesLivreur />} />
         <Route path="/livraison-livreur" element={<LivraisonLivreur />} />
+
+        <Route path="/commandes-restaurateur" element={<CommandesRestaurateur />} />
 
       </Routes>
     </Router>
