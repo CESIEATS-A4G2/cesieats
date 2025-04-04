@@ -4,8 +4,8 @@ import { FaTimes } from "react-icons/fa";
 
 function CommandToDeliver({ price, deliveryTime, distance, restaurantAddress, deliveryAddress, onDelete, onClick }) {
     return (
-      <div className="command-deliver-container" onClick={onClick}> {/* Appelle onClick sauf sur la croix */}
-        <div className="command-deliver-card">
+      <div className="command-deliver-container" > {/* Appelle onClick sauf sur la croix */}
+        <div className="command-deliver-card" onClick={onClick}>
           <div className="card-header">
             <span className="price">{price}€</span>
             <FaTimes className="close-icon" onClick={(e) => { e.stopPropagation(); onDelete(); }} /> {/* Arrête la propagation pour éviter de déclencher onClick */}
