@@ -3,11 +3,11 @@ import { createItem, getAllItemsFromMenuFromRestaurant, getAllItemsFromRestauran
 
 const router = express.Router();
 
-router.post('/restaurants/:restaurant_id/items', createItem);
-router.get('/restaurants/:restaurant_id/menus/:menu_id/items', getAllItemsFromMenuFromRestaurant);
-router.get('/restaurants/:restaurant_id/items', getAllItemsFromRestaurant);
-router.get('/restaurants/:restaurant_id/items/:item_id', getItemByIdFromRestaurant);
-router.delete('/restaurants/:restaurant_id/items/:item_id', deleteItemFromRestaurant);
-router.delete('/restaurants/:restaurant_id/menus/:menu_id/items/:item_id', deleteItemFromMenuFromRestaurant);
+router.post('/:restaurant_id/items', createItem);
+router.get('/:restaurant_id/menus/:menu_id/items', getAllItemsFromMenuFromRestaurant);
+router.get('/:restaurant_id/items', getAllItemsFromRestaurant);
+router.get('/:restaurant_id/items/:item_id', getItemByIdFromRestaurant);
+router.delete('/:restaurant_id/items/:item_id', deleteItemFromRestaurant);
+router.delete('/:restaurant_id/menus/:menu_id/items/:item_id', deleteItemFromMenuFromRestaurant);
 
 export default router;

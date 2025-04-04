@@ -3,7 +3,7 @@ import { sequelize } from "../config/sequelize";
 
 // Interface pour Account
 interface AccountAttributes {
-  account_id?: number;
+  account_id?: string;
   name: string;
   email: string;
   password: string;
@@ -20,7 +20,7 @@ class Account
   extends Model<AccountAttributes, Optional<AccountAttributes, "account_id">>
   implements AccountAttributes
 {
-  public account_id?: number;
+  public account_id?: string;
   public name!: string;
   public email!: string;
   public password!: string;
