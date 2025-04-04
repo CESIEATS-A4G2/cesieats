@@ -6,13 +6,18 @@ import RestaurantPage from "./pages/restaurantPage/RestaurantPage";
 import ItemPage from "./pages/itemPage/ItemPage";
 import HistoriqueCommande from "./pages/historiqueCommande/HistoriqueCommande";
 import SuiviCommande from "./pages/suiviCommande/SuiviCommande";
-import Connexion from "./pages/connexion/Connexion"
-import Inscription from "./pages/inscription/Inscription"
-import ListeCommandesLivreur from "./pages/listeCommandesLivreur/ListeCommandesLivreur"
+
+import Connexion from "./pages/connexion/Connexion";
+import Inscription from "./pages/inscription/Inscription";
+import ListeCommandesLivreur from "./pages/listeCommandesLivreur/ListeCommandesLivreur";
 import LivraisonLivreur from "./pages/livraisonCommande/LivraisonCommande"
 import CommandesRestaurateur from "./pages/commandesRestaurateur/CommandesRestaurateur"
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import api from './api';  // 💡 Importation de ton fichier API
 
 function App() {
+
   return (
     <Router>
       <Routes>
@@ -25,16 +30,13 @@ function App() {
         <Route path="suivi-commande" element={<SuiviCommande />} />
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/" element={<Connexion />} />
-
         <Route path="/liste-commandes-livreur" element={<ListeCommandesLivreur />} />
         <Route path="/livraison-livreur" element={<LivraisonLivreur />} />
 
         <Route path="/commandes-restaurateur" element={<CommandesRestaurateur />} />
-
       </Routes>
     </Router>
   );
 }
 
 export default App;
-

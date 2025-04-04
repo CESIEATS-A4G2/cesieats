@@ -6,7 +6,7 @@ CREATE TABLE Accounts (
     password VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
     address VARCHAR(255),
-    role ENUM('User', 'Delivery', 'Restaurant') NOT NULL,
+    role ENUM('User', 'Delivery Man', 'Restaurateur ') NOT NULL,
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
