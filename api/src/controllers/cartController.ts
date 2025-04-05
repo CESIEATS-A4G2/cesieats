@@ -1,5 +1,10 @@
 import { Request, Response } from "express";
-import { Cart, Cart_Item, Cart_Menu } from "../models/cart";
+import {
+  Cart,
+  Cart_Item,
+  Cart_Menu,
+  CartWithAssociations,
+} from "../models/cart";
 import { Account } from "../models/account";
 import { Item } from "../models/item";
 import { Menu } from "../models/menu";
@@ -34,6 +39,33 @@ export const createCart = async (
   }
 };
 
+export const getFullCartByAccountId = async (account_id: string) => {
+  const status = "IN PROGRESS";
+
+  const cart = (await Cart.findOne({
+    where: { account_id: account_id, status: status },
+    include: [
+      {
+        model: Item,
+        as: "Items",
+        through: {
+          attributes: ["quantity"],
+        },
+      },
+      {
+        model: Menu,
+        as: "Menus",
+        through: {
+          attributes: ["quantity"],
+        },
+        include: [Item],
+      },
+    ],
+  })) as CartWithAssociations;
+
+  return cart;
+};
+
 export const getAllCartContentAccount = async (
   req: Request,
   res: Response
@@ -42,24 +74,7 @@ export const getAllCartContentAccount = async (
     const { account_id } = req.params;
     const status = "IN PROGRESS";
 
-    const cart = await Cart.findOne({
-      where: { account_id: account_id, status: status },
-      include: [
-        {
-          model: Item,
-          through: {
-            attributes: ["quantity"],
-          },
-        },
-        {
-          model: Menu,
-          through: {
-            attributes: ["quantity"],
-          },
-        },
-      ],
-    });
-
+    const cart = await getFullCartByAccountId(account_id);
     res.status(200).json(cart);
     return;
   } catch (error) {
@@ -78,23 +93,26 @@ export const getAllDoneCartsAccount = async (
     const { account_id } = req.params;
     const status = "DONE";
 
-    const carts = await Cart.findAll({
+    const carts = (await Cart.findAll({
       where: { account_id: account_id, status: status },
       include: [
         {
           model: Item,
+          as: "Items",
           through: {
             attributes: ["quantity"],
           },
         },
         {
           model: Menu,
+          as: "Menus",
           through: {
             attributes: ["quantity"],
           },
+          include: [Item],
         },
       ],
-    });
+    })) as CartWithAssociations[];
 
     res.status(200).json(carts);
     return;

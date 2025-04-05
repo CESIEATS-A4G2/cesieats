@@ -10,6 +10,11 @@ interface CartAttributes {
   status?: "IN PROGRESS" | "DONE";
 }
 
+interface CartWithAssociations extends CartAttributes {
+  Items: (Item & { Cart_Item: { quantity: number } })[];
+  Menus: (Menu & { Cart_Menu: { quantity: number }; Items: Item[] })[];
+}
+
 // Modele Cart
 class Cart
   extends Model<CartAttributes, Optional<CartAttributes, "cart_id">>
@@ -18,6 +23,9 @@ class Cart
   public cart_id?: string;
   public account_id!: string;
   public status?: "IN PROGRESS" | "DONE";
+
+  public Items!: (Item & { Cart_Item: { quantity: number } })[];
+  public Menus!: (Menu & { Cart_Menu: { quantity: number }; Items: Item[] })[];
 }
 
 Cart.init(
@@ -106,13 +114,13 @@ Cart_Item.init(
 );
 
 // Relations
-Cart.belongsToMany(Menu, { through: Cart_Menu, foreignKey: "cart_id" });
-Menu.belongsToMany(Cart, { through: Cart_Menu, foreignKey: "menu_id" });
+Cart.belongsToMany(Menu, { through: Cart_Menu, foreignKey: "cart_id", as: "Menus" });
+Menu.belongsToMany(Cart, { through: Cart_Menu, foreignKey: "menu_id", as: "Carts" });
 
-Cart.belongsToMany(Item, { through: Cart_Item, foreignKey: "cart_id" });
-Item.belongsToMany(Cart, { through: Cart_Item, foreignKey: "item_id" });
+Cart.belongsToMany(Item, { through: Cart_Item, foreignKey: "cart_id", as: "Items" });
+Item.belongsToMany(Cart, { through: Cart_Item, foreignKey: "item_id", as: "Carts" });
 
 Account.hasMany(Cart, { foreignKey: "account_id", as: "carts" });
 Cart.belongsTo(Account, { foreignKey: "account_id", as: "account" });
 
-export { Cart, Cart_Menu, Cart_Item };
+export { Cart, Cart_Menu, Cart_Item, CartWithAssociations };
