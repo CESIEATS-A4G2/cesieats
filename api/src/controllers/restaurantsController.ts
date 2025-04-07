@@ -48,7 +48,8 @@ export const getRestaurantById = async (
   res: Response
 ): Promise<void> => {
   try {
-    const restaurant = await Restaurant.findByPk(req.params.restaurant_id);
+    const { restaurant_id } = req.params;
+    const restaurant = await Restaurant.findByPk(restaurant_id);
     if (!restaurant) {
       res.status(404).json({ message: "Restaurant non trouvé" });
       return;
