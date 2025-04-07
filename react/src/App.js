@@ -12,6 +12,7 @@ import Inscription from "./pages/inscription/Inscription";
 import ListeCommandesLivreur from "./pages/listeCommandesLivreur/ListeCommandesLivreur";
 import LivraisonLivreur from "./pages/livraisonCommande/LivraisonCommande"
 import CommandesRestaurateur from "./pages/commandesRestaurateur/CommandesRestaurateur"
+import GestionCommandeRestaurateur from "./pages/gestionCommandeRestaurateur/GestionCommandeRestaurateur"
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import api from './api';  // 💡 Importation de ton fichier API
@@ -34,6 +35,7 @@ function App() {
         <Route path="/livraison-livreur" element={<LivraisonLivreur />} />
 
         <Route path="/commandes-restaurateur" element={<CommandesRestaurateur />} />
+        <Route path="/gestioncommande-restaurateur" element={<GestionCommandeRestaurateur />} />
       </Routes>
     </BrowserRouter>
   );
