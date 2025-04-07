@@ -8,6 +8,7 @@ import {
 import { Account } from "../models/account";
 import { Item } from "../models/item";
 import { Menu } from "../models/menu";
+import { INTEGER } from "sequelize";
 
 export const createCart = async (
   req: Request,
@@ -320,6 +321,64 @@ export const removeMenuFromCart = async (
   } catch (error) {
     res.status(500).json({
       message: "Erreur lors de la suppression d'un menu du panier",
+      error,
+    });
+  }
+};
+
+export const updateQuantityItemFromCart = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { account_id, item_id, quantity } = req.params;
+
+    const cart_item = await Cart_Item.findOne({ where: { account_id: account_id, item_id: item_id } });
+    if (!cart_item) {
+      res.status(404).json({ message: "Le produit n'est pas dans le panier" });
+      return;
+    }
+
+    await Cart_Item.update(
+      { quantity: parseInt(quantity) },
+      {
+        where: { account_id: account_id },
+      }
+    );
+    res.status(200).json({ message: "La quantité du produit a été mise à jour" });
+    return;
+  } catch (error) {
+    res.status(500).json({
+      message: "Erreur lors de la mise à jour de la quantité du produit du panier de l'utilisateur",
+      error,
+    });
+  }
+};
+
+export const updateQuantityMenuFromCart = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { account_id, menu_id, quantity } = req.params;
+
+    const cart_menu = await Cart_Menu.findOne({ where: { account_id: account_id, menu_id: menu_id } });
+    if (!cart_menu) {
+      res.status(404).json({ message: "Le menu n'est pas dans le panier" });
+      return;
+    }
+
+    await Cart_Menu.update(
+      { quantity: parseInt(quantity) },
+      {
+        where: { account_id: account_id },
+      }
+    );
+    res.status(200).json({ message: "La quantité du menu a été mise à jour" });
+    return;
+  } catch (error) {
+    res.status(500).json({
+      message: "Erreur lors de la mise à jour de la quantité du menu du panier de l'utilisateur",
       error,
     });
   }
