@@ -12,6 +12,9 @@ import ListeCommandesLivreur from "./pages/listeCommandesLivreur/ListeCommandesL
 
 import CommandesRestaurateur from "./pages/commandesRestaurateur/CommandesRestaurateur"
 import GestionCommandeRestaurateur from "./pages/gestionCommandeRestaurateur/GestionCommandeRestaurateur"
+import GestionMenuRestaurateur from "./pages/gestionMenu/GestionMenu"
+import CreationMenuRestaurateur from "./pages/creationMenu/CreationMenu"
+
 
 import axios from 'axios';
 import { useState, useEffect } from 'react';
@@ -28,7 +31,7 @@ function App() {
         <Route path="/mon-compte" element={<GestionCompte />} />
         <Route path="/parrainage" element={<Parrainage />} />
         <Route path="/restaurant/:name" element={<RestaurantPage />} />
-        <Route path="/restaurant/item" element={<ItemPage />} />
+        <Route path="/restaurant/:name/:item" element={<ItemPage />} />
         <Route path="historique-commande" element={<HistoriqueCommande />} />
         <Route path="suivi-commande" element={<SuiviCommande />} />
         <Route path="/inscription" element={<Inscription />} />
@@ -42,6 +45,9 @@ function App() {
 
         <Route path="/commandes-restaurateur" element={<CommandesRestaurateur />} />
         <Route path="/gestioncommande-restaurateur" element={<GestionCommandeRestaurateur />} />
+        <Route path="/gestionmenu-restaurateur" element={<GestionMenuRestaurateur />} />
+        <Route path="/creationnmenu-restaurateur" element={<CreationMenuRestaurateur />} />
+
 
       </Routes>
     </BrowserRouter>

@@ -48,7 +48,7 @@ function BurgerMenuRestaurateur({ isOpen, onClose }) {
           className="menu-itemresto"
           onClick={() => {
             onClose(); // ferme le menu
-            navigate("/home");
+            navigate("/gestionmenu-restaurateur");
           }}
         >
           <FaClipboardList className="menu-iconresto" />

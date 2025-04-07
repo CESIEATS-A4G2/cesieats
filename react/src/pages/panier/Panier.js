@@ -1,26 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Panier.css";
 import PanierItem from "./PanierItem";
-import { FiArrowLeft } from "react-icons/fi"; // Import de l'icône retour
+import { FiArrowLeft } from "react-icons/fi";
+import api from '../../api';
 
-function Panier({ isOpen, onClose }) {
-  const [items, setItems] = useState([
-    { id: 1, name: "6 CHICKEN McNUGGETS™", price: 7.6, description: "6 spécialités panées au poulet", quantity: 1 },
-    { id: 2, name: "DOUBLE CHEESE", price: 6.5, description: "Double fromage, double plaisir", quantity: 1 },
-    { id: 3, name: "PETITE FRITE", price: 3.9, description: "Frites dorées et croustillantes", quantity: 1 },
-    { id: 4, name: "P'TIT WRAP RANCH", price: 4.0, description: "Wrap frais au poulet", quantity: 1 },
-    { id: 5, name: "COCA-COLA", price: 2.5, description: "Boisson rafraîchissante", quantity: 1 },
-    { id: 6, name: "NUGGETS X20", price: 14.0, description: "20 morceaux de nuggets délicieux", quantity: 1 },
-  ]);
 
-  const total = items.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
+function Panier({ isOpen, onClose, account_id }) {
+  const [items, setItems] = useState([]);
+  const [total, setTotal] = useState(0);
+  account_id = "ACC000001";
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchCart();
+    }
+  }, [isOpen]);
+
+  const fetchCart = async () => {
+    try {
+      const response = await api.getCart(account_id); 
+      console.log(response);
+      const cartData = response.data[0]; 
+
+      const formattedItems = cartData.Items.map(item => ({
+        id: item.item_id,
+        name: item.name,
+        price: parseFloat(item.price),
+        description: item.description,
+        quantity: item.Cart_Item.quantity,
+      }));
+
+      setItems(formattedItems);
+
+      const totalValue = formattedItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+      setTotal(totalValue.toFixed(2));
+    } catch (error) {
+      console.error("Erreur lors de la récupération du panier :", error);
+    }
+  };
 
   const updateQuantity = (id, quantity) => {
-    setItems(prevItems => prevItems.map(item => item.id === id ? { ...item, quantity } : item));
+    setItems(prevItems => 
+      prevItems.map(item => item.id === id ? { ...item, quantity } : item)
+    );
+
+    const newTotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    setTotal(newTotal.toFixed(2));
   };
 
   const removeItem = (id) => {
     setItems(prevItems => prevItems.filter(item => item.id !== id));
+
+    const newTotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    setTotal(newTotal.toFixed(2));
   };
 
   if (!isOpen) return null;
@@ -29,14 +61,12 @@ function Panier({ isOpen, onClose }) {
     <div className="panier-overlay" onClick={onClose}>
       <div className="panier-drawer" onClick={(e) => e.stopPropagation()}>
         
-        {/* Bouton retour */}
         <button className="back-button" onClick={onClose}>
           <FiArrowLeft /> Retour
         </button>
 
         <h2>Votre Panier</h2>
         
-        {/* List of items */}
         <div className="panier-items">
           {items.map(item => (
             <PanierItem 
@@ -52,7 +82,6 @@ function Panier({ isOpen, onClose }) {
           ))}
         </div>
         
-        {/* Total & Payment Button */}
         <div className="panier-total-section">
           <div className="panier-total">
             <span>Total :</span>
