@@ -5,9 +5,7 @@ import { Menu } from "../models/menu";
 import { Item } from "../models/item";
 
 interface CartAttributes {
-  cart_id?: string;
   account_id: string;
-  status?: "IN PROGRESS" | "DONE";
 }
 
 interface CartWithAssociations extends CartAttributes {
@@ -17,12 +15,10 @@ interface CartWithAssociations extends CartAttributes {
 
 // Modele Cart
 class Cart
-  extends Model<CartAttributes, Optional<CartAttributes, "cart_id">>
+  extends Model<CartAttributes>
   implements CartAttributes
 {
-  public cart_id?: string;
   public account_id!: string;
-  public status?: "IN PROGRESS" | "DONE";
 
   public Items!: (Item & { Cart_Item: { quantity: number } })[];
   public Menus!: (Menu & { Cart_Menu: { quantity: number }; Items: Item[] })[];
@@ -30,27 +26,16 @@ class Cart
 
 Cart.init(
   {
-    cart_id: {
-      type: DataTypes.STRING,
-      primaryKey: true,
-      allowNull: false,
-      defaultValue: () => UUIDV4(),
-    },
     account_id: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    status: {
-      type: DataTypes.ENUM("IN PROGRESS", "DONE"),
-      allowNull: false,
-      defaultValue: "IN PROGRESS",
     },
   },
   { sequelize, modelName: "Cart", timestamps: false }
 );
 
 interface Cart_MenuAttributes {
-  cart_id: string;
+  account_id: string;
   menu_id: string;
   quantity: number;
 }
@@ -58,18 +43,18 @@ interface Cart_MenuAttributes {
 class Cart_Menu
   extends Model<
     Cart_MenuAttributes,
-    Optional<Cart_MenuAttributes, "cart_id" | "menu_id">
+    Optional<Cart_MenuAttributes, "account_id" | "menu_id">
   >
   implements Cart_MenuAttributes
 {
-  public cart_id!: string;
+  public account_id!: string;
   public menu_id!: string;
   public quantity!: number;
 }
 
 Cart_Menu.init(
   {
-    cart_id: { type: DataTypes.STRING, primaryKey: true, allowNull: false },
+    account_id: { type: DataTypes.STRING, primaryKey: true, allowNull: false },
     menu_id: { type: DataTypes.STRING, primaryKey: true, allowNull: false },
     quantity: { type: DataTypes.INTEGER, allowNull: false },
   },
@@ -82,7 +67,7 @@ Cart_Menu.init(
 );
 
 interface Cart_ItemAttributes {
-  cart_id: string;
+  account_id: string;
   item_id: string;
   quantity: number;
 }
@@ -90,18 +75,18 @@ interface Cart_ItemAttributes {
 class Cart_Item
   extends Model<
     Cart_ItemAttributes,
-    Optional<Cart_ItemAttributes, "cart_id" | "item_id">
+    Optional<Cart_ItemAttributes, "account_id" | "item_id">
   >
   implements Cart_ItemAttributes
 {
-  public cart_id!: string;
+  public account_id!: string;
   public item_id!: string;
   public quantity!: number;
 }
 
 Cart_Item.init(
   {
-    cart_id: { type: DataTypes.STRING, primaryKey: true, allowNull: false },
+    account_id: { type: DataTypes.STRING, primaryKey: true, allowNull: false },
     item_id: { type: DataTypes.STRING, primaryKey: true, allowNull: false },
     quantity: { type: DataTypes.INTEGER, allowNull: false },
   },
@@ -114,10 +99,10 @@ Cart_Item.init(
 );
 
 // Relations
-Cart.belongsToMany(Menu, { through: Cart_Menu, foreignKey: "cart_id", as: "Menus" });
+Cart.belongsToMany(Menu, { through: Cart_Menu, foreignKey: "account_id", as: "Menus" });
 Menu.belongsToMany(Cart, { through: Cart_Menu, foreignKey: "menu_id", as: "Carts" });
 
-Cart.belongsToMany(Item, { through: Cart_Item, foreignKey: "cart_id", as: "Items" });
+Cart.belongsToMany(Item, { through: Cart_Item, foreignKey: "account_id", as: "Items" });
 Item.belongsToMany(Cart, { through: Cart_Item, foreignKey: "item_id", as: "Carts" });
 
 Account.hasMany(Cart, { foreignKey: "account_id", as: "carts" });

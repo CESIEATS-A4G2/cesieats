@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { Order } from "../models/order";
-import { Cart } from "../models/cart";
-import { getFullCartByAccountId } from "../controllers/cartController";
+import { getFullCartByAccountId, deleteCartByAccountId, createCartForAccountId } from "../controllers/cartController";
 
 export const createOrder = async (
   req: Request,
@@ -47,7 +46,8 @@ export const createOrder = async (
 
     await newOrder.save();
 
-    await Cart.destroy({ where: { cart_id: cart.cart_id } });
+    deleteCartByAccountId(account_id);
+    createCartForAccountId(account_id);
 
     res.status(201).json({ message: "Commande créée", order: newOrder });
     return;

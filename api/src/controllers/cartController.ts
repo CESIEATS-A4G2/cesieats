@@ -17,7 +17,7 @@ export const createCart = async (
     const { account_id } = req.params;
 
     const cartInProgress = await Cart.findOne({
-      where: { status: "IN PROGRESS" },
+      where: { account_id: account_id },
     });
     if (cartInProgress) {
       res
@@ -26,9 +26,7 @@ export const createCart = async (
       return;
     }
 
-    const newCart = await Cart.create({
-      account_id,
-    });
+    const newCart = createCartForAccountId(account_id);
 
     res.status(201).json(newCart);
     return;
@@ -39,11 +37,13 @@ export const createCart = async (
   }
 };
 
-export const getFullCartByAccountId = async (account_id: string) => {
-  const status = "IN PROGRESS";
+export const createCartForAccountId = async (account_id: string) => {
+  return await Cart.create({ account_id });
+};
 
+export const getFullCartByAccountId = async (account_id: string) => {
   const cart = (await Cart.findOne({
-    where: { account_id: account_id, status: status },
+    where: { account_id: account_id },
     include: [
       {
         model: Item,
@@ -72,7 +72,6 @@ export const getAllCartContentAccount = async (
 ): Promise<void> => {
   try {
     const { account_id } = req.params;
-    const status = "IN PROGRESS";
 
     const cart = await getFullCartByAccountId(account_id);
     res.status(200).json(cart);
@@ -85,7 +84,7 @@ export const getAllCartContentAccount = async (
   }
 };
 
-export const getAllDoneCartsAccount = async (
+/*export const getAllDoneCartsAccount = async (
   req: Request,
   res: Response
 ): Promise<void> => {
@@ -94,7 +93,7 @@ export const getAllDoneCartsAccount = async (
     const status = "DONE";
 
     const carts = (await Cart.findAll({
-      where: { account_id: account_id, status: status },
+      where: { account_id: account_id },
       include: [
         {
           model: Item,
@@ -122,8 +121,9 @@ export const getAllDoneCartsAccount = async (
       error,
     });
   }
-};
+};*/
 
+/*
 export const updateCartToDone = async (
   req: Request,
   res: Response
@@ -147,6 +147,7 @@ export const updateCartToDone = async (
     });
   }
 };
+*/
 
 export const deleteCart = async (
   req: Request,
@@ -160,9 +161,7 @@ export const deleteCart = async (
       res.status(404).json({ message: "Ce compte n'existe pas" });
       return;
     }
-    const deletedAccount = await Cart.destroy({
-      where: { account_id: account_id, status: "IN PROGRESS" },
-    });
+    const deletedAccount = deleteCartByAccountId(account_id);
     if (!deletedAccount) {
       res.status(404).json({ message: "Le compte n'a pas de panier" });
       return;
@@ -177,6 +176,10 @@ export const deleteCart = async (
   }
 };
 
+export const deleteCartByAccountId = async (account_id: string) => {
+  return await Cart.destroy({ where: { account_id: account_id } });
+};
+
 export const addItemToCart = async (
   req: Request,
   res: Response
@@ -186,17 +189,17 @@ export const addItemToCart = async (
     const { item_id, quantity } = req.body;
 
     const cart = await Cart.findOne({
-      where: { account_id: account_id, status: "IN PROGRESS" },
+      where: { account_id: account_id },
     });
     if (!cart) {
       res.status(404).json({ message: "Le compte n'a pas de panier" });
       return;
     }
 
-    const cart_id = cart.cart_id;
+    const cart_id = cart.account_id;
 
     const cart_item_link = await Cart_Item.findOne({
-      where: { cart_id: cart_id, item_id: item_id },
+      where: { account_id: cart_id, item_id: item_id },
     });
     if (cart_item_link) {
       res.status(404).json({ message: "L'item est déjà ajouté à ce panier" });
@@ -204,7 +207,7 @@ export const addItemToCart = async (
     }
 
     const cart_item = await Cart_Item.create({
-      cart_id,
+      account_id,
       item_id,
       quantity,
     });
@@ -227,17 +230,14 @@ export const removeItemFromCart = async (
     const { item_id } = req.body;
 
     const cart = await Cart.findOne({
-      where: { account_id: account_id, status: "IN PROGRESS" },
+      where: { account_id: account_id },
     });
     if (!cart) {
       res.status(404).json({ message: "Le compte n'a pas de panier" });
       return;
     }
-
-    const cart_id = cart.cart_id;
-
     const deletedCart_item = await Cart_Item.destroy({
-      where: { cart_id: cart_id, item_id: item_id },
+      where: { account_id: account_id, item_id: item_id },
     });
     if (!deletedCart_item) {
       res.status(404).json({ message: "L'item n'est pas dans le panier" });
@@ -263,17 +263,15 @@ export const addMenuToCart = async (
     const { menu_id, quantity } = req.body;
 
     const cart = await Cart.findOne({
-      where: { account_id: account_id, status: "IN PROGRESS" },
+      where: { account_id: account_id },
     });
     if (!cart) {
       res.status(404).json({ message: "Le compte n'a pas de panier" });
       return;
     }
 
-    const cart_id = cart.cart_id;
-
     const cart_menu_link = await Cart_Menu.findOne({
-      where: { cart_id: cart_id, menu_id: menu_id },
+      where: { account_id: account_id, menu_id: menu_id },
     });
     if (cart_menu_link) {
       res.status(404).json({ message: "Ce menu est déjà ajouté à ce panier" });
@@ -281,7 +279,7 @@ export const addMenuToCart = async (
     }
 
     const cart_menu = await Cart_Menu.create({
-      cart_id,
+      account_id,
       menu_id,
       quantity,
     });
@@ -304,17 +302,15 @@ export const removeMenuFromCart = async (
     const { menu_id } = req.body;
 
     const cart = await Cart.findOne({
-      where: { account_id: account_id, status: "IN PROGRESS" },
+      where: { account_id: account_id },
     });
     if (!cart) {
       res.status(404).json({ message: "Le compte n'a pas de panier" });
       return;
     }
 
-    const cart_id = cart.cart_id;
-
     const deletedCart_menu = await Cart_Menu.destroy({
-      where: { cart_id: cart_id, menu_id: menu_id },
+      where: { account_id: account_id, menu_id: menu_id },
     });
     if (!deletedCart_menu) {
       res.status(404).json({ message: "Le menu n'est pas dans le panier" });
