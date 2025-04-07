@@ -4,7 +4,6 @@ import PanierItem from "./PanierItem";
 import { FiArrowLeft } from "react-icons/fi";
 import api from '../../api';
 
-
 function Panier({ isOpen, onClose, account_id }) {
   const [items, setItems] = useState([]);
   const [total, setTotal] = useState(0);
@@ -18,9 +17,11 @@ function Panier({ isOpen, onClose, account_id }) {
 
   const fetchCart = async () => {
     try {
+      console.log("try");
       const response = await api.getCart(account_id); 
-      console.log(response);
-      const cartData = response.data[0]; 
+      console.log("La réponse pour ", account_id, " : ", response.data);
+
+      const cartData = response.data;
 
       const formattedItems = cartData.Items.map(item => ({
         id: item.item_id,
@@ -35,23 +36,33 @@ function Panier({ isOpen, onClose, account_id }) {
       const totalValue = formattedItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
       setTotal(totalValue.toFixed(2));
     } catch (error) {
-      console.error("Erreur lors de la récupération du panier :", error);
+      console.log("catch");
+      const errorMessage = error.response?.data?.message || "Une erreur est survenue lors de la requête.";
+      const errorDetails = error.response?.data?.error?.message || "Pas de détails supplémentaires.";
+      console.log("message erreur : ", error);
+      console.log("message response : ", error.response);
+      alert(`Erreur : ${errorMessage}\nDétails : ${errorDetails}`);
     }
+    
   };
 
   const updateQuantity = (id, quantity) => {
-    setItems(prevItems => 
-      prevItems.map(item => item.id === id ? { ...item, quantity } : item)
+    const updatedItems = items.map(item => 
+      item.id === id ? { ...item, quantity } : item
     );
 
-    const newTotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    setItems(updatedItems);
+
+    const newTotal = updatedItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
     setTotal(newTotal.toFixed(2));
   };
 
   const removeItem = (id) => {
-    setItems(prevItems => prevItems.filter(item => item.id !== id));
+    const updatedItems = items.filter(item => item.id !== id);
 
-    const newTotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    setItems(updatedItems);
+
+    const newTotal = updatedItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
     setTotal(newTotal.toFixed(2));
   };
 
