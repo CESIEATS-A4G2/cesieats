@@ -73,11 +73,9 @@ export const getOrdersByAccountId = async (
     return;
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({
-        error: "Erreur lors de la récupération des commandes d'un compte",
-      });
+    res.status(500).json({
+      error: "Erreur lors de la récupération des commandes d'un compte",
+    });
   }
 };
 
@@ -93,12 +91,10 @@ export const getOrdersByStatus = async (
     return;
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({
-        error:
-          "Erreur lors de la récupération des commandes par état de commande",
-      });
+    res.status(500).json({
+      error:
+        "Erreur lors de la récupération des commandes par état de commande",
+    });
   }
 };
 
@@ -115,16 +111,13 @@ export const getOrdersByAccountIdByStatus = async (
     return;
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({
-        error:
-          "Erreur lors de la récupération des commandes d'un compte par état de commande",
-      });
+    res.status(500).json({
+      error:
+        "Erreur lors de la récupération des commandes d'un compte par état de commande",
+    });
   }
 };
 
-/*
 export const updateOrderStatus = async (
   req: Request,
   res: Response
@@ -133,17 +126,32 @@ export const updateOrderStatus = async (
   const { status } = req.body;
 
   try {
-    const orders = await Order.find({ _id: account_id, status: status });
-    res.status(201).json(orders);
+    await Order.findByIdAndUpdate({ order_id }, { status: status });
+    res.status(201).json({ message: "Commande mise à jour" });
     return;
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({
-        error:
-          "Erreur lors de la récupération des commandes d'un compte par état de commande",
-      });
+    res.status(500).json({
+      error:
+        "Erreur lors de la mise à jour du statut de la commande d'un compte",
+    });
   }
 };
-*/
+
+export const getOrderById = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { order_id } = req.params;
+
+  try {
+    const order = await Order.findById(order_id);
+    res.status(201).json(order);
+    return;
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Erreur lors de la récupération d'une commande d'un compte",
+    });
+  }
+};
