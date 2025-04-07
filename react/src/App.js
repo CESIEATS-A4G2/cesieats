@@ -13,6 +13,9 @@ import ListeCommandesLivreur from "./pages/listeCommandesLivreur/ListeCommandesL
 import LivraisonLivreur from "./pages/livraisonCommande/LivraisonCommande"
 import CommandesRestaurateur from "./pages/commandesRestaurateur/CommandesRestaurateur"
 import GestionCommandeRestaurateur from "./pages/gestionCommandeRestaurateur/GestionCommandeRestaurateur"
+import GestionMenuRestaurateur from "./pages/gestionMenu/GestionMenu"
+import CreationMenuRestaurateur from "./pages/creationMenu/CreationMenu"
+
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import api from './api';  // 💡 Importation de ton fichier API
@@ -36,6 +39,10 @@ function App() {
 
         <Route path="/commandes-restaurateur" element={<CommandesRestaurateur />} />
         <Route path="/gestioncommande-restaurateur" element={<GestionCommandeRestaurateur />} />
+        <Route path="/gestionmenu-restaurateur" element={<GestionMenuRestaurateur />} />
+        <Route path="/creationnmenu-restaurateur" element={<CreationMenuRestaurateur />} />
+
+
       </Routes>
     </BrowserRouter>
   );
