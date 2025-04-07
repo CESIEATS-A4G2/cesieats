@@ -20,6 +20,7 @@ import GestionArticleRestaurateur from "./pages/gestionArticle/GestionArticle"
 import CreationArticleRestaurateur from "./pages/creationArticle/CreationArticle"
 
 import AdminCompte from "./pages/adminCompte/AdminCompte";
+import GestionUtilisateurAdmin from "./pages/gestionUtilisateurAdmin/GestionUtilisateurAdmin"
 
 import axios from 'axios';
 import { useState, useEffect } from 'react';
@@ -43,7 +44,8 @@ function App() {
         <Route path="/liste-commandes-livreur" element={<ListeCommandesLivreur />} />
         <Route path="/livraison-livreur" element={<LivraisonLivreur />} />
 
-        <Route path="/admin-compte" element={<AdminCompte />} />
+        <Route path="/compte-admin" element={<AdminCompte />} />
+        <Route path="/gestion-compte-admin" element={<GestionUtilisateurAdmin />} />
 
         <Route path="/commandes-restaurateur" element={<CommandesRestaurateur />} />
         <Route path="/gestioncommande-restaurateur" element={<GestionCommandeRestaurateur />} />

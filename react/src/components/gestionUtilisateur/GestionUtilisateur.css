@@ -1,0 +1,72 @@
+.utilisateur-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px 30px; /* Augmentation de l'espace horizontal */
+    margin-bottom: 15px;
+    transition: background-color 0.2s;
+    width: 100%; /* Utilise toute la largeur disponible */
+    max-width: 800px; /* Limite maximale pour éviter un étirement trop large */
+  }
+  
+  .utilisateur-row:hover {
+    background-color: #f1f5f9;
+  }
+  
+  .utilisateur-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-grow: 1; /* Permet au contenu de prendre plus d'espace */
+  }
+  
+  .utilisateur-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .utilisateur-username {
+    font-weight: 600;
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px; /* Limite pour éviter un débordement excessif */
+  }
+  
+  .utilisateur-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .utilisateur-button {
+    padding: 6px 12px;
+    font-size: 0.875rem;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+  }
+  
+  .utilisateur-button.suspendre {
+    background-color: black;
+    color: white;
+  }
+  
+  .utilisateur-button.suspendre:hover {
+    background-color: #333;
+  }
+  
+  .utilisateur-button.supprimer {
+    background-color: red;
+    color: white;
+  }
+  
+  .utilisateur-button.supprimer:hover {
+    background-color: #b30000;
+  }

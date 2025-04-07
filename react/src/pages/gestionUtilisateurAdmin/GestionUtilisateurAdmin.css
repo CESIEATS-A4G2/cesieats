@@ -1,0 +1,20 @@
+.gestionutilisateur-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f9fafb;
+    font-family: sans-serif;
+  }
+  
+  .contenu-utilisateurs {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  
+  .contenu-utilisateurs h1 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #333;
+  }
