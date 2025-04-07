@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "./OffreSection.css";
 import RestaurantCard from "../restaurantCard/RestaurantCard";
-import api from '../../api'; // 💡 Chemin vers ton fichier api.js
+import api from '../../api';
 
 function OffreSection() {
   const [restaurants, setRestaurants] = useState([]);

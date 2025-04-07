@@ -4,11 +4,15 @@ import "./ItemPageMobile.css";
 import Header from "../../components/header/TopNavBar";
 import Footer from "../../components/footer/SiteFooter";
 import { useLocation, useNavigate } from "react-router-dom";
+import api from "../../api"; // Import de ton fichier API
 
 function ItemPage() {
   const { state } = useLocation();
-  const navigate = useNavigate();
+  const location = useLocation();
+  const item_id = location.pathname.split('/').pop();
 
+  const navigate = useNavigate();
+  const account_id = "ACC000001"; // Remplace par l'ID de l'utilisateur connecté
   const {
     name,
     price,
@@ -18,7 +22,20 @@ function ItemPage() {
     options,
   } = state || {};
 
+
   const isMobile = window.innerWidth <= 768;
+
+  const handleAddToCart = async () => {
+    try {
+      // Envoi de l'item au panier via l'API
+      console.log("voila : ", account_id, item_id);
+      await api.addItemToCart(account_id, item_id, 1);
+      alert("L'item a été ajouté au panier !");
+    } catch (error) {
+      console.error("Erreur lors de l'ajout au panier :", error);
+      alert("Une erreur est survenue lors de l'ajout au panier.");
+    }
+  };
 
   if (isMobile) {
     return (
@@ -33,7 +50,6 @@ function ItemPage() {
               <p className="price-mobile">{price}</p>
               <p>{description}</p>
 
-              {/* 🔥 Affiche seulement si des options existent */}
               {options?.length > 0 && (
                 <div className="option-block-mobile">
                   <div className="option-title-mobile">
@@ -50,7 +66,7 @@ function ItemPage() {
                 </div>
               )}
 
-              <button className="add-btn-mobile">Ajouter au panier</button>
+              <button className="add-btn-mobile" onClick={handleAddToCart}>Ajouter au panier</button>
             </div>
           </div>
         </div>
@@ -71,7 +87,6 @@ function ItemPage() {
             <p className="price">{price}</p>
             <p>{description}</p>
 
-            {/* 🔥 Affiche seulement si des options existent */}
             {options?.length > 0 && (
               <div className="option-block">
                 <div className="option-title">
@@ -88,7 +103,7 @@ function ItemPage() {
               </div>
             )}
 
-            <button className="add-btn">Ajouter au panier</button>
+            <button className="add-btn" onClick={handleAddToCart}>Ajouter au panier</button>
           </div>
         </div>
       </div>

@@ -8,23 +8,22 @@ function ProductSection({ restaurant_id, titre, type }) {
 
   useEffect(() => {
     if (type === "items") {
-      api.getAllItemsByRestaurant(restaurant_id) // 🔥 Récupère tous les items
+      api.getAllItemsByRestaurant(restaurant_id)
         .then(res => {
           console.log("Produits récupérés :", res.data);
           setProducts(res.data);
         })
         .catch(err => console.error("Erreur lors de la récupération des produits :", err));
     }
-
+  
     if (type === "menus") {
-      api.getAllMenus(restaurant_id) // 🔥 Récupère tous les menus
+      api.getAllMenus(restaurant_id)
         .then(res => {
           console.log("Menus récupérés :", res.data);
           setProducts(res.data);
         })
         .catch(err => console.error("Erreur lors de la récupération des menus :", err));
     }
-
   }, [restaurant_id, type]);
 
   return (
@@ -33,9 +32,9 @@ function ProductSection({ restaurant_id, titre, type }) {
       <div className="product-list">
         {products.map((item) => (
           <ProductCard
-            key={item.item_id || item.menu_id} // 🔥 Supporte les items ET les menus
+            id={item.item_id || item.menu_id}
             name={item.name}
-            price={item.price ? `${item.price} €` : "Menu"} // 🔥 Si c'est un item affiche le prix sinon affiche "Menu"
+            price={item.price ? `${item.price} €` : "Menu"}
             image={item.image || "https://via.placeholder.com/150"}
             description={item.description}
             optionsLabel="Options"
