@@ -40,16 +40,16 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     }
 
     const token = jwt.sign(
-      { id: user.id, role: user.role },
+      { id: user.account_id, name: user.name, role: user.role },
       process.env.JWT_SECRET as string,
       { expiresIn: '2m' }
     );
     res
       .cookie('token', token, {
         httpOnly: true,
-        secure: false, // à mettre true en prod si HTTPS
+        secure: false, // à mettre true en prod SEULEMENT avec HTTPS
         sameSite: 'lax',
-        maxAge: 2 * 60 * 1000
+        maxAge: 2 * 60 * 1000 //2 mins
       })
       .status(200)
       .json({ message: 'Successful Login !' });
@@ -75,17 +75,28 @@ export const authenticate = async (req: Request, res: Response): Promise<void> =
       return;
     }
 
-    const { id } = decoded as { id: number };
-
-
+    const { id } = decoded as { id: string };
     try {
       const { data: user } = await axios.get(`${API_URL}/${id}`);
       res.status(200).json({
         message: 'User authenticated',
-        user: user.username
+        user: user.name,
+        id: id
       });
     } catch (err: any) {
       res.status(err.response?.status || 500).json({ message: 'Error retrieving user', error: err.message });
     }
   });
+};
+
+
+export const deleteUser = async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
+
+  try {
+    await axios.delete(`${API_URL}/${id}`);
+    res.status(200).json({ message: `User with id ${id} deleted.` });
+  } catch (err: any) {
+    res.status(err.response?.status || 500).json({ message: 'Error deleting user', error: err.message });
+  }
 };
