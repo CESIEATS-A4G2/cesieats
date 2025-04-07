@@ -1,21 +1,16 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./ProductCard.css";
 
-function ProductCard({ name, price, image, description, optionsLabel, options }) {
+function ProductCard({id, name, price, image, description, optionsLabel, options}) {
+  console.log("id", id);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleClick = () => {
-    navigate("/restaurant/item", {
-      state: {
-        name,
-        price,
-        description,
-        image,
-        optionsLabel,
-        options,
-      },
-    });
+    console.log(id)
+    const currentUrl = location.pathname; // Par exemple : "/restaurant/1/menu"
+    navigate(`${currentUrl}/${id}`); // On redirige vers la page du restaurant par son ID
   };
 
   return (
