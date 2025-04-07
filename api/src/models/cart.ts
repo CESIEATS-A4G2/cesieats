@@ -14,10 +14,7 @@ interface CartWithAssociations extends CartAttributes {
 }
 
 // Modele Cart
-class Cart
-  extends Model<CartAttributes>
-  implements CartAttributes
-{
+class Cart extends Model<CartAttributes> implements CartAttributes {
   public account_id!: string;
 
   public Items!: (Item & { Cart_Item: { quantity: number } })[];
@@ -26,10 +23,7 @@ class Cart
 
 Cart.init(
   {
-    account_id: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    account_id: { type: DataTypes.STRING, primaryKey: true, allowNull: false },
   },
   { sequelize, modelName: "Cart", timestamps: false }
 );
@@ -99,11 +93,27 @@ Cart_Item.init(
 );
 
 // Relations
-Cart.belongsToMany(Menu, { through: Cart_Menu, foreignKey: "account_id", as: "Menus" });
-Menu.belongsToMany(Cart, { through: Cart_Menu, foreignKey: "menu_id", as: "Carts" });
+Cart.belongsToMany(Menu, {
+  through: Cart_Menu,
+  foreignKey: "account_id",
+  as: "Menus",
+});
+Menu.belongsToMany(Cart, {
+  through: Cart_Menu,
+  foreignKey: "menu_id",
+  as: "Carts",
+});
 
-Cart.belongsToMany(Item, { through: Cart_Item, foreignKey: "account_id", as: "Items" });
-Item.belongsToMany(Cart, { through: Cart_Item, foreignKey: "item_id", as: "Carts" });
+Cart.belongsToMany(Item, {
+  through: Cart_Item,
+  foreignKey: "account_id",
+  as: "Items",
+});
+Item.belongsToMany(Cart, {
+  through: Cart_Item,
+  foreignKey: "item_id",
+  as: "Carts",
+});
 
 Account.hasMany(Cart, { foreignKey: "account_id", as: "carts" });
 Cart.belongsTo(Account, { foreignKey: "account_id", as: "account" });

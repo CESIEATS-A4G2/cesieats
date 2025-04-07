@@ -56,7 +56,7 @@ CREATE TABLE Menu_Item (
 );
 
 CREATE TABLE Carts (
-    account_id VARCHAR(12),
+    account_id VARCHAR(12) PRIMARY KEY,
     FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE
 );
 

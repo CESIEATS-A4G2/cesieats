@@ -196,10 +196,8 @@ export const addItemToCart = async (
       return;
     }
 
-    const cart_id = cart.account_id;
-
     const cart_item_link = await Cart_Item.findOne({
-      where: { account_id: cart_id, item_id: item_id },
+      where: { account_id: account_id, item_id: item_id },
     });
     if (cart_item_link) {
       res.status(404).json({ message: "L'item est déjà ajouté à ce panier" });
