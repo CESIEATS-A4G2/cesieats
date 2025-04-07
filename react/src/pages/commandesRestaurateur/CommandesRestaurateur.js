@@ -19,13 +19,13 @@ function CommandesRestaurateur() {
             <div className="columns">
                 <div className="column">
                     <h2>Préparation</h2>
-                    <TicketCommandeRestaurateur />
+                    <TicketCommandePreteRestaurateur nom="Dems" temps="25 min" type="preparation"/>
                 </div>
                 <div className="column">
                     <h2>Prête</h2>
-                    <TicketCommandePreteRestaurateur />
-                    <TicketCommandePreteRestaurateur />
-                    <TicketCommandePreteRestaurateur />
+                    <TicketCommandePreteRestaurateur nom="Emilie N" temps="10 min" type="prete" />
+                    <TicketCommandePreteRestaurateur nom="Jean D" temps="5 min" type="prete" />
+                    <TicketCommandePreteRestaurateur nom="Sophie M" temps="2 min" type="prete" />
                 </div>
             </div>
             <BurgerMenuRestaurateur isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)}/>
