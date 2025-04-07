@@ -59,7 +59,7 @@ function BurgerMenuRestaurateur({ isOpen, onClose }) {
           className="article-itemresto"
           onClick={() => {
             onClose(); // ferme le menu
-            navigate("/home");
+            navigate("/gestionarticle-restaurateur");
           }}
         >
           <FaHamburger className="article-iconresto" />
