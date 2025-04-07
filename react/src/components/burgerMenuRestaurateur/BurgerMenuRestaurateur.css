@@ -1,5 +1,5 @@
 /* ====== Overlay de fond ====== */
-.burger-menu-overlay {
+.burger-menuresto-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -10,8 +10,8 @@
 }
 
 /* ====== Menu latéral ====== */
-.burger-menu {
-    width: 80px; /* Correspond au menu compact de ton screen */
+.burger-menuresto {
+    width: 150px; /* Correspond au menu compact de ton screen */
     height: 100%;
     background: #ffffff;
     padding-top: 20px;
@@ -26,14 +26,14 @@
 }
 
 /* ====== Avatar en haut du menu ====== */
-.burger-header {
+.burger-headerresto {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.burger-avatar {
+.burger-avatarresto {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -41,12 +41,12 @@
 }
 
 /* ====== Style des items de menu ====== */
-.burger-item,
-.suitcase-item,
-.menu-item,
-.article-item,
-.account-item,
-.stat-item {
+.burger-itemresto,
+.suitcase-itemresto,
+.menu-itemresto,
+.article-itemresto,
+.account-itemresto,
+.stat-itemresto {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -56,22 +56,22 @@
     gap: 5px; /* Espace uniforme entre l'icône et le texte */
 }
 
-.burger-item:hover,
-.suitcase-item:hover,
-.menu-item:hover,
-.article-item:hover,
-.account-item:hover,
-.stat-item:hover {
+.burger-itemresto:hover,
+.suitcase-itemresto:hover,
+.menu-itemresto:hover,
+.article-itemresto:hover,
+.account-itemresto:hover,
+.stat-itemresto:hover {
     color: #ff6600;
     transform: scale(1.1);
 }
 
 /* ====== Icônes des items de menu ====== */
-.suitcase-icon,
-.menu-icon,
-.article-icon,
-.account-icon,
-.stat-icon {
+.suitcase-iconresto,
+.menu-iconresto,
+.article-iconresto,
+.account-iconresto,
+.stat-iconresto {
     font-size: 28px;
     color: black;
     display: block; /* Assure un rendu uniforme */
@@ -79,11 +79,11 @@
 }
 
 /* ====== Texte en dessous de chaque icône ====== */
-.suitcase-item span,
-.menu-item span,
-.article-item span,
-.account-item span,
-.stat-item span {
+.suitcase-itemresto span,
+.menu-itemresto span,
+.article-itemresto span,
+.account-itemresto span,
+.stat-itemresto span {
     font-size: 12px;
     color: black;
     text-align: center;

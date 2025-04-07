@@ -25,66 +25,66 @@ function BurgerMenuRestaurateur({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="burger-menu-overlay">
-      <div className="burger-menu" ref={menuRef}>
-        <div className="burger-header">
-          <img src={pfp} alt="Profil" className="burger-avatar" />
+    <div className="burger-menuresto-overlay">
+      <div className="burger-menuresto" ref={menuRef}>
+        <div className="burger-headerresto">
+          <img src={pfp} alt="Profil" className="burger-avatarresto" />
           <h2>Aurélien</h2>
         </div>
 
         <div
-          className="suitcase-item"
+          className="suitcase-itemresto"
           onClick={() => {
             onClose();
             navigate("/commandes-restaurateur");
           }}
         >
-          <FaSuitcase className="suitcase-icon" />
+          <FaSuitcase className="suitcase-iconresto" />
           <span>Commandes</span>
         </div>
 
   
         <div
-          className="menu-item"
+          className="menu-itemresto"
           onClick={() => {
             onClose(); // ferme le menu
             navigate("/home");
           }}
         >
-          <FaClipboardList className="menu-icon" />
+          <FaClipboardList className="menu-iconresto" />
           <span>Menu</span>
         </div>
 
         <div
-          className="article-item"
+          className="article-itemresto"
           onClick={() => {
             onClose(); // ferme le menu
             navigate("/home");
           }}
         >
-          <FaHamburger className="article-icon" />
+          <FaHamburger className="article-iconresto" />
           <span>Articles</span>
         </div>
 
         <div
-          className="account-item"
+          className="account-itemresto"
           onClick={() => {
             onClose(); // ferme le menu
             navigate("/mon-compte");
           }}
         >
-          <FaUser className="account-icon" />
+          <FaUser className="account-iconresto" />
           <span>Compte</span>
         </div>
 
         <div
-          className="stat-item"
+          className="stat-itemresto"
           onClick={() => {
             onClose(); // ferme le menu
             navigate("/home");
           }}
         >
-          <FaChartLine className="stat-icon" />
+          <FaChartLine className="stat-iconresto" />
           <span>Statistique</span>
         </div>
 
