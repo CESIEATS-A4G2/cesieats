@@ -6,7 +6,7 @@ CREATE TABLE Accounts (
     password VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
     address VARCHAR(255),
-    role ENUM('User', 'Delivery', 'Restaurant') NOT NULL,
+    role ENUM('User', 'Delivery Man', 'Restaurateur ') NOT NULL,
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -76,7 +76,7 @@ CREATE TABLE Orders (
     FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
-CREATE TABLE Cart_Items (
+CREATE TABLE Cart_Item (
     cart_id VARCHAR(12),
     item_id VARCHAR(12),
     quantity INT NOT NULL,
@@ -86,11 +86,11 @@ CREATE TABLE Cart_Items (
 );
 
 CREATE TABLE Cart_Menu (
-    account_id VARCHAR(12),
+    cart_id VARCHAR(12),
     menu_id VARCHAR(12),
     quantity INT NOT NULL,
-    PRIMARY KEY (account_id, menu_id),
-    FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE,
+    PRIMARY KEY (cart_id, menu_id),
+    FOREIGN KEY (cart_id) REFERENCES Carts(cart_id) ON DELETE CASCADE,
     FOREIGN KEY (menu_id) REFERENCES Menus(menu_id) ON DELETE CASCADE
 );
 

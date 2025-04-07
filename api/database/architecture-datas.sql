@@ -6,7 +6,7 @@ CREATE TABLE Accounts (
     password VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
     address VARCHAR(255),
-    role ENUM('User', 'Delivery', 'Restaurant') NOT NULL,
+    role ENUM('User', 'Delivery Man', 'Restaurateur ') NOT NULL,
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -76,7 +76,7 @@ CREATE TABLE Orders (
     FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
-CREATE TABLE Cart_Items (
+CREATE TABLE Cart_Item (
     cart_id VARCHAR(12),
     item_id VARCHAR(12),
     quantity INT NOT NULL,
@@ -86,11 +86,11 @@ CREATE TABLE Cart_Items (
 );
 
 CREATE TABLE Cart_Menu (
-    account_id VARCHAR(12),
+    cart_id VARCHAR(12),
     menu_id VARCHAR(12),
     quantity INT NOT NULL,
-    PRIMARY KEY (account_id, menu_id),
-    FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE,
+    PRIMARY KEY (cart_id, menu_id),
+    FOREIGN KEY (cart_id) REFERENCES Carts(cart_id) ON DELETE CASCADE,
     FOREIGN KEY (menu_id) REFERENCES Menus(menu_id) ON DELETE CASCADE
 );
 
@@ -186,8 +186,8 @@ DELIMITER ;
 INSERT INTO Accounts (name, email, password, phone, address, role) VALUES
 ('John Doe', 'john.doe@example.com', 'hashedpassword1', '1234567890', '123 Main St', 'User'),
 ('Jane Smith', 'jane.smith@example.com', 'hashedpassword2', '0987654321', '456 Oak St', 'User'),
-('Mike Johnson', 'mike.johnson@example.com', 'hashedpassword3', '1122334455', '789 Pine St', 'Delivery'),
-('Restaurant Owner', 'owner@example.com', 'hashedpassword4', '2233445566', '321 Birch St', 'Restaurant');
+('Mike Johnson', 'mike.johnson@example.com', 'hashedpassword3', '1122334455', '789 Pine St', 'Delivery Man'),
+('Restaurant Owner', 'owner@example.com', 'hashedpassword4', '2233445566', '321 Birch St', 'Restaurateur');
 
 -- Insertion des restaurants
 INSERT INTO Restaurants (name, description, address, open_hour) VALUES
@@ -230,7 +230,7 @@ INSERT INTO Carts (account_id) VALUES
 ('ACC000002');
 
 -- Ajouter des items aux paniers
-INSERT INTO Cart_Items (cart_id, item_id, quantity) VALUES
+INSERT INTO Cart_Item (cart_id, item_id, quantity) VALUES
 ('CRT000001', 'ITM000001', 2),
 ('CRT000001', 'ITM000003', 1),
 ('CRT000002', 'ITM000005', 3);

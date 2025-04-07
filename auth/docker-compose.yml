@@ -1,0 +1,8 @@
+version: '3.8' #composer version
+
+services: 
+  auth-service:
+    build: ./
+    container_name: auth-service
+    ports:
+      - "3000:3000"
