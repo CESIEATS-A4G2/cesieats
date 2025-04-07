@@ -28,14 +28,15 @@ function OffreSection() {
       <div className="offre-list">
         {restaurants.map((restaurant) => (
           <RestaurantCard
-            restaurant_id={restaurant.restaurant_id}
-            name={restaurant.name}
-            image={"https://www.bioburger.fr/wp-content/uploads/IMG_4002-copie-2BIOBURGER.jpg"} // Remplace par une vraie URL si tu en as
-            deliveryFee="0,49$" // Tu peux remplacer ça par une donnée qui existe dans ta BDD si tu veux
-            deliveryTime={restaurant.open_hour} // J'ai mis les horaires d'ouverture comme "temps de livraison" (à remplacer si besoin)
-            address={restaurant.address}
-            description={restaurant.description}
-          />
+          restaurant_id={restaurant.restaurant_id}
+          name={restaurant.name}
+          image={restaurant.image} // Remplace par une vraie URL si tu en as
+          description={restaurant.description}
+          address={restaurant.address}
+          open_hour={restaurant.open_hour} // J'ai mis les horaires d'ouverture ici, mais tu peux changer ça si besoin
+          fees={0.49} // Tu peux remplacer ça par une donnée qui existe dans ta BDD si tu veux
+          prep_time={restaurant.prep_time} // J'ai mis les horaires d'ouverture comme "temps de livraison" (à remplacer si besoin)
+        />
         ))}
       </div>
     </div>

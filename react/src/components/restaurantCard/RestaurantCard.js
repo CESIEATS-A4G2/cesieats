@@ -3,7 +3,7 @@ import "./RestaurantCard.css";
 import images from "../../resources/images";
 import { useNavigate } from "react-router-dom";
 
-function RestaurantCard({ restaurant_id, name, image, description, address, open_hour }) {
+function RestaurantCard({ restaurant_id, name, image, description, address, open_hour,fees,prep_time }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -21,6 +21,7 @@ function RestaurantCard({ restaurant_id, name, image, description, address, open
           <span className="address">{address}</span>
           <span className="dot">•</span>
           <span className="open-hour">{open_hour}</span>
+          <span className="fees">{fees}</span>
         </div>
       </div>
     </div>
