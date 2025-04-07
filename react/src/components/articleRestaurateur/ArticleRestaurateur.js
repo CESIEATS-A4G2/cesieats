@@ -1,28 +1,27 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./MenuRestaurateur.css";
+import "./ArticleRestaurateur.css"; // CSS dédié pour les articles
 
-function MenuRestaurateur({ name, image, description, price, items }) {
+function ArticleRestaurateur({ name, description, price, image }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/creationmenu-restaurateur", {
+    navigate("/creationarticle-restaurateur", {
       state: {
         name,
         description,
         price,
         image,
-        items,
       },
     });
   };
 
   return (
-    <div className="menu-card" onClick={handleClick}>
+    <div className="article-card" onClick={handleClick}>
       <img src={image} alt={name} />
       <h3>{name}</h3>
     </div>
   );
 }
 
-export default MenuRestaurateur;
+export default ArticleRestaurateur;
