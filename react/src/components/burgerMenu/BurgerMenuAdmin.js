@@ -59,7 +59,7 @@ function BurgerMenuAdmin({ isOpen, onClose }) {
           className="burger-item"
           onClick={() => {
             onClose(); // ferme le menu
-            navigate("/"); // A METTRE A JOUR
+            navigate("/gestioncommand-admin"); // A METTRE A JOUR
           }}
         >
           <FaBoxOpen className="burger-icon" />
