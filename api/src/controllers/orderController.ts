@@ -1,95 +1,58 @@
-import { Request, Response } from 'express';
-import { Order } from '../models/order';  // Assure-toi que `Order` est le modèle Sequelize
+import { Request, Response } from "express";
+import { Order } from "../models/order";
+import { getFullCartByAccountId, deleteCartByAccountId, createCartForAccountId } from "../controllers/cartController";
 
-// Créer une commande
-export const createOrder = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const { customerId, restaurantId, deliveryAddress, deliveryInstructions, status, items, totalAmount, deliveryFee, paymentMethod, createdAt, updatedAt, completed, rating, transactionId } = req.body;
+export const createOrder = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { account_id } = req.params;
 
-        // Créer la commande avec Sequelize
-        const newOrder = await Order.create({
-            customerId,
-            restaurantId,
-            deliveryAddress,
-            deliveryInstructions,
-            status,
-            totalAmount,
-            deliveryFee,
-            paymentMethod,
-            completed,
-            rating,
-            transactionId
-        });
-
-        res.status(201).json(newOrder);
-    } catch (error) {
-        res.status(500).json({ message: 'Erreur lors de la création de la commande', error });
+  try {
+    const cart = await getFullCartByAccountId(account_id);
+    if (!cart) {
+      res.status(404).json({ error: "Panier non trouvé" });
+      return;
     }
-};
 
-// Obtenir toutes les commandes
-export const getAllOrders = async (req: Request, res: Response): Promise<void> => {
-    try {
-        // Obtenir toutes les commandes avec Sequelize
-        const orders = await Order.findAll();
-        res.status(200).json(orders);
-    } catch (error) {
-        res.status(500).json({ message: 'Erreur lors de la récupération des commandes', error });
-    }
-};
+    const items = cart.Items.map((ci) => ({
+      name: ci.name,
+      quantity: ci.Cart_Item.quantity,
+      price: ci.price,
+    }));
 
-// Obtenir une commande par ID
-export const getOrderById = async (req: Request, res: Response): Promise<void> => {
-    try {
-        // Obtenir une commande par ID avec Sequelize
-        const order = await Order.findByPk(req.params.id);
-        if (!order) {
-            res.status(404).json({ message: 'Commande non trouvée' });
-            return;
-        }
-        res.status(200).json(order);
-    } catch (error) {
-        res.status(500).json({ message: 'Erreur lors de la récupération de la commande', error });
-    }
-};
+    const menus = cart.Menus.map((cm) => ({
+      name: cm.name,
+      quantity: cm.Cart_Menu.quantity,
+      items: cm.Items.map((i) => ({
+        name: i.name,
+        price: i.price,
+      })),
+    }));
 
-// Mettre à jour une commande
-export const updateOrder = async (req: Request, res: Response): Promise<void> => {
-    try {
-        // Mettre à jour une commande avec Sequelize
-        const [updated] = await Order.update(req.body, {
-            where: { id: req.params.id },
-            returning: true
-        });
+    const totalItems = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    const totalMenus = menus.reduce(
+      (sum, m) => sum + m.items.reduce((s, i) => s + i.price, 0),
+      0
+    );
+    const totalPrice = totalItems + totalMenus;
 
-        if (!updated) {
-            res.status(404).json({ message: 'Commande non trouvée' });
-            return;
-        }
+    const newOrder = new Order({
+      account_id,
+      items,
+      menus,
+      totalPrice,
+    });
 
-        // Récupérer la commande mise à jour
-        const updatedOrder = await Order.findByPk(req.params.id);
-        res.status(200).json(updatedOrder);
-    } catch (error) {
-        res.status(500).json({ message: 'Erreur lors de la mise à jour de la commande', error });
-    }
-};
+    await newOrder.save();
 
-// Supprimer une commande
-export const deleteOrder = async (req: Request, res: Response): Promise<void> => {
-    try {
-        // Supprimer une commande avec Sequelize
-        const deleted = await Order.destroy({
-            where: { id: req.params.id }
-        });
+    deleteCartByAccountId(account_id);
+    createCartForAccountId(account_id);
 
-        if (!deleted) {
-            res.status(404).json({ message: 'Commande non trouvée' });
-            return;
-        }
-
-        res.status(200).json({ message: 'Commande supprimée avec succès' });
-    } catch (error) {
-        res.status(500).json({ message: 'Erreur lors de la suppression de la commande', error });
-    }
+    res.status(201).json({ message: "Commande créée", order: newOrder });
+    return;
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur lors de la validation" });
+  }
 };

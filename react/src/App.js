@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
 import HomePage from "./pages/homePage/HomePage";
 import GestionCompte from "./pages/gestionCompte/GestionCompte";
 import Parrainage from "./pages/parrainage/Parrainage";
@@ -9,6 +9,10 @@ import SuiviCommande from "./pages/suiviCommande/SuiviCommande";
 import Connexion from "./pages/connexion/Connexion";
 import Inscription from "./pages/inscription/Inscription";
 import ListeCommandesLivreur from "./pages/listeCommandesLivreur/ListeCommandesLivreur";
+
+import CommandesRestaurateur from "./pages/commandesRestaurateur/CommandesRestaurateur"
+import GestionCommandeRestaurateur from "./pages/gestionCommandeRestaurateur/GestionCommandeRestaurateur"
+
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import api from './api';  // 💡 Importation de ton fichier API
@@ -18,7 +22,7 @@ import AdminCompte from "./pages/adminCompte/AdminCompte";
 function App() {
 
   return (
-    <Router>
+    <BrowserRouter basename="/react">
       <Routes>
         <Route path="/home" element={<HomePage />} />
         <Route path="/mon-compte" element={<GestionCompte />} />
@@ -32,10 +36,15 @@ function App() {
         <Route path="/liste-commandes-livreur" element={<ListeCommandesLivreur />} />
         <Route path="/livraison-livreur" element={<LivraisonLivreur />} />
 
+
         <Route path="/admin-compte" element={<AdminCompte />} />
 
+
+        <Route path="/commandes-restaurateur" element={<CommandesRestaurateur />} />
+        <Route path="/gestioncommande-restaurateur" element={<GestionCommandeRestaurateur />} />
+
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
