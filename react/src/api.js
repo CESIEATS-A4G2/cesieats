@@ -27,6 +27,11 @@ const api = {
     // Ajouter un item à un menu
     addItemToMenu: (restaurantId, menuId, data) => axios.post(`${API_URL}/restaurants/${restaurantId}/menus/${menuId}`, data),
 
+    // 🌟 Gestion du compte
+    getUser: (userId) => axios.get(`${API_URL}/users/${userId}`),
+    updateUser: (userId, data) => axios.put(`${API_URL}/users/${userId}`, data),
+    deleteUser: (userId) => axios.delete(`${API_URL}/users/${userId}`),
+    
     // Carts
     createCart: (account_id, data) => axios.post(`${API_URL}/accounts/${account_id}/cart`, data),
     getCart: (account_id) => axios.get(`${API_URL}/accounts/${account_id}/carts`),
