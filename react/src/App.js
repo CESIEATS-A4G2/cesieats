@@ -24,8 +24,6 @@ import AdminCompte from "./pages/adminCompte/AdminCompte";
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import api from './api';  // 💡 Importation de ton fichier API
-import LivraisonLivreur from "./pages/livraisonCommande/LivraisonCommande"
-import AdminCompte from "./pages/adminCompte/AdminCompte";
 import GestionCommandeAdmin from "./pages/gestionCommandeAdmin/GestionCommandeAdmin";
 import CommandeAdmin from "./pages/commandeAdmin/CommandeAdmin";
 
