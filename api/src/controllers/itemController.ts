@@ -7,7 +7,7 @@ import { Op } from "sequelize";
 export const createItem = async (req: Request, res: Response): Promise<void> => {
     try {
         const { restaurant_id } = req.params;
-        const { name, description, price, image } = req.body;
+        const { options_label, options, name, description, price, image } = req.body;
 
         const restaurant = await Restaurant.findByPk(restaurant_id);
         if (!restaurant) {
@@ -16,7 +16,7 @@ export const createItem = async (req: Request, res: Response): Promise<void> => 
         }
 
         // Créer l'item
-        const newItem = await Item.create({ restaurant_id, name, description, price, image  });
+        const newItem = await Item.create({ restaurant_id, options_label, options, name, description, price, image  });
 
         res.status(201).json(newItem);
         return;

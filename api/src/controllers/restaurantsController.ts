@@ -8,11 +8,14 @@ export const createRestaurant = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { name, description, address, open_hour } = req.body;
+    const { name, description, address,fees, prep_time, image, open_hour } = req.body;
     const newRestaurant = await Restaurant.create({
       name,
       description,
       address,
+      fees,
+      prep_time,
+      image,
       open_hour,
     });
     res.status(201).json(newRestaurant);
