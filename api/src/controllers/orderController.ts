@@ -101,7 +101,7 @@ export const createOrdersTest = async (
       {
         "account_id": "ACC000002",
         "restaurant_id": "RES000002",
-        "status": "DELIVERY IN PROGRESS",
+        "status": "DELIVERY_IN_PROGRESS",
         "items": [
           { "name": "Sushi Roll", "quantity": 3, "price": 5.5 }
         ],
@@ -120,7 +120,7 @@ export const createOrdersTest = async (
       {
         "account_id": "ACC000001",
         "restaurant_id": "RES000002",
-        "status": "IN PREPARATION",
+        "status": "IN_PREPARATION",
         "items": [
           { "name": "Tacos", "quantity": 4, "price": 4.0 }
         ],
@@ -130,7 +130,7 @@ export const createOrdersTest = async (
       {
         "account_id": "ACC000002",
         "restaurant_id": "RES000001",
-        "status": "PENDING CONFIRMATION",
+        "status": "PENDING_CONFIRMATION",
         "items": [],
         "menus": [
           {
@@ -147,7 +147,7 @@ export const createOrdersTest = async (
       {
         "account_id": "ACC000001",
         "restaurant_id": "RES000002",
-        "status": "DELIVERY IN PROGRESS",
+        "status": "DELIVERY_IN_PROGRESS",
         "items": [
           { "name": "Chicken Wings", "quantity": 6, "price": 1.2 }
         ],
@@ -166,7 +166,7 @@ export const createOrdersTest = async (
       {
         "account_id": "ACC000002",
         "restaurant_id": "RES000001",
-        "status": "IN PREPARATION",
+        "status": "IN_PREPARATION",
         "items": [
           { "name": "Vegan Bowl", "quantity": 1, "price": 9.5 },
           { "name": "Smoothie", "quantity": 1, "price": 4.5 }
@@ -207,10 +207,10 @@ export const getOrdersByStatus = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { status } = req.body;
+  const { status } = req.params;
 
   try {
-    const orders = await Order.find({ status });
+    const orders = await Order.find({ status: status });
     res.status(201).json(orders);
     return;
   } catch (err) {
@@ -226,8 +226,7 @@ export const getOrdersByAccountIdByStatus = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { account_id } = req.params;
-  const { status } = req.body;
+  const { account_id, status } = req.params;
 
   try {
     const orders = await Order.find({ account_id: account_id, status: status });
@@ -246,8 +245,7 @@ export const updateOrderStatus = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { order_id } = req.params;
-  const { status } = req.body;
+  const { order_id, status } = req.params;
 
   try {
     await Order.findByIdAndUpdate({ order_id }, { status: status });

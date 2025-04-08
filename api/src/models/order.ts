@@ -5,8 +5,8 @@ const orderSchema = new mongoose.Schema({
   restaurant_id: String,
   status: {
     type: String,
-    enum: ["PENDING CONFIRMATION", "IN PREPARATION", "DELIVERY IN PROGRESS", "DONE"],
-    default: "PENDING CONFIRMATION"
+    enum: ["PENDING_CONFIRMATION", "IN_PREPARATION", "DELIVERY_IN_PROGRESS", "DONE"],
+    default: "PENDING_CONFIRMATION"
   },
   items: [{
     name: String,
