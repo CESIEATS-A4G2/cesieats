@@ -3,7 +3,7 @@ import "./ListeCommandesLivreur.css";
 import HeaderLivreurMobile from "../../components/header/headerLivreurMobile/HeaderLivreurMobile";
 import CommandToDeliver from "../../components/commandToDeliver/CommandToDeliver";
 import { useNavigate } from "react-router-dom";
-import api from "../../api";  // Assure-toi que c'est bien importé
+import api from "../../api";
 
 function ListeCommandesLivreur() {
     const navigate = useNavigate();
@@ -11,17 +11,9 @@ function ListeCommandesLivreur() {
     
     // 🔥 Récupération des commandes via l'API
     useEffect(() => {
-        api.getOrderByStatus("PENDING CONFIRMATION")
-            .then(response => {
-                const fetchedCommands = response.data.map(command => ({
-                    id: command.id,
-                    price: command.price,
-                    deliveryTime: command.deliveryTime,
-                    distance: command.distance,
-                    restaurantAddress: command.restaurantAddress,
-                    deliveryAddress: command.deliveryAddress
-                }));
-                setCommands(fetchedCommands);
+        api.getOrderByStatus("PENDING_CONFIRMATION")
+            .then(res => {
+                setCommands(res.data); 
             })
             .catch(error => console.error("Erreur lors de la récupération des commandes :", error));
     }, []);
@@ -40,12 +32,7 @@ function ListeCommandesLivreur() {
         <div className="liste-command-content">
           {commands.map((command) => (
             <CommandToDeliver 
-              key={command.id}
-              price={command.price} 
-              deliveryTime={command.deliveryTime} 
-              distance={command.distance} 
-              restaurantAddress={command.restaurantAddress} 
-              deliveryAddress={command.deliveryAddress}
+              command={command} // 🔥 Passe l'objet entier ici
               onDelete={() => deleteCommand(command.id)}
               onClick={() => handleCommandClick(command)}
             />
