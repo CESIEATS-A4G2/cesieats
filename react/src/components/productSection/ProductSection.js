@@ -35,6 +35,7 @@ function ProductSection({ restaurant_id, titre, type }) {
             id={item.item_id || item.menu_id}
             name={item.name}
             price={item.price ? `${item.price} €` : "Menu"}
+            type = {type}
             image={item.image || "https://via.placeholder.com/150"}
             description={item.description}
             optionsLabel="Options"

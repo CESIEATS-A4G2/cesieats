@@ -11,6 +11,11 @@ function ItemPage() {
   const location = useLocation();
   const item_id = location.pathname.split('/').pop();
 
+  const segments = location.pathname.split('/'); // Divise l'URL en segments
+  const type = segments[segments.length - 2]; // Récupère l'avant-dernier élément
+
+  console.log("le type : ", type)
+
   const navigate = useNavigate();
   const account_id = "ACC000001"; // Remplace par l'ID de l'utilisateur connecté
   const {
@@ -27,13 +32,24 @@ function ItemPage() {
 
   const handleAddToCart = async () => {
     try {
-      // Envoi de l'item au panier via l'API
-      console.log("voila : ", account_id, item_id);
-      await api.addItemToCart(account_id, item_id, 1);
+      console.log("ID envoyé : ", account_id, item_id);
+  
+      if (type === "items") {
+        console.log("items");
+        await api.addItemToCart(account_id, item_id, 1);
+        window.location.reload();
+
+      } else {
+        console.log("menus", item_id);
+        await api.addMenuToCart(account_id, item_id, 1);
+        window.location.reload();
+      }
+  
       alert("L'item a été ajouté au panier !");
     } catch (error) {
-      console.error("Erreur lors de l'ajout au panier :", error);
-      alert("Une erreur est survenue lors de l'ajout au panier.");
+      const errorMessage = error.response?.data?.message || "Une erreur est survenue lors de la requête.";
+      const errorDetails = error.response?.data?.error?.message || "Pas de détails supplémentaires.";
+      alert(`Erreur : ${errorMessage}\nDétails : ${errorDetails}`);
     }
   };
 
