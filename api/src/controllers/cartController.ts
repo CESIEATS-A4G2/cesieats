@@ -85,71 +85,6 @@ export const getAllCartContentAccount = async (
   }
 };
 
-/*export const getAllDoneCartsAccount = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    const { account_id } = req.params;
-    const status = "DONE";
-
-    const carts = (await Cart.findAll({
-      where: { account_id: account_id },
-      include: [
-        {
-          model: Item,
-          as: "Items",
-          through: {
-            attributes: ["quantity"],
-          },
-        },
-        {
-          model: Menu,
-          as: "Menus",
-          through: {
-            attributes: ["quantity"],
-          },
-          include: [Item],
-        },
-      ],
-    })) as CartWithAssociations[];
-
-    res.status(200).json(carts);
-    return;
-  } catch (error) {
-    res.status(500).json({
-      message: "Erreur lors de la récupération des paniers de l'utilisateur",
-      error,
-    });
-  }
-};*/
-
-/*
-export const updateCartToDone = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    const { account_id } = req.params;
-    const status = "IN PROGRESS";
-
-    const accounts = await Cart.update(
-      { status: "DONE" },
-      {
-        where: { account_id: account_id, status: status },
-      }
-    );
-    res.status(200).json({ message: "Panier validé avec succès" });
-    return;
-  } catch (error) {
-    res.status(500).json({
-      message: "Erreur lors de la validation du panier de l'utilisateur",
-      error,
-    });
-  }
-};
-*/
-
 export const deleteCart = async (
   req: Request,
   res: Response
@@ -342,7 +277,7 @@ export const updateQuantityItemFromCart = async (
     await Cart_Item.update(
       { quantity: parseInt(quantity) },
       {
-        where: { account_id: account_id },
+        where: { account_id: account_id, item_id: item_id },
       }
     );
     res.status(200).json({ message: "La quantité du produit a été mise à jour" });
@@ -371,7 +306,7 @@ export const updateQuantityMenuFromCart = async (
     await Cart_Menu.update(
       { quantity: parseInt(quantity) },
       {
-        where: { account_id: account_id },
+        where: { account_id: account_id, menu_id: menu_id },
       }
     );
     res.status(200).json({ message: "La quantité du menu a été mise à jour" });
