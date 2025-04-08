@@ -56,6 +56,9 @@ const api = {
     changeQuantityToCart: (account_id, item_id, quantity) => axios.put(`${API_URL}/accounts/${account_id}/cart/items/${item_id}/${quantity}`), 
 
 
+    // Order
+    createOrder: (account_id) => axios.post(`${API_URL}/accounts/${account_id}/orders`)
+
 };
 
 export default api;

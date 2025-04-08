@@ -3,10 +3,13 @@ import "./Panier.css";
 import PanierItem from "./PanierItem";
 import { FiArrowLeft } from "react-icons/fi";
 import api from '../../api';
+import { useNavigate } from "react-router-dom";
 
 function Panier({ isOpen, onClose, account_id }) {
   const [items, setItems] = useState([]);
   const [total, setTotal] = useState(0);
+  const navigate = useNavigate();
+
   account_id = "ACC000001";
 
   useEffect(() => {
@@ -23,14 +26,13 @@ function Panier({ isOpen, onClose, account_id }) {
 
       const cartData = response.data;
 
-      // 🔥 Formater les items
       const formattedItems = cartData.Items.map(item => ({
         id: item.item_id,
         name: item.name,
         price: parseFloat(item.price),
         description: item.description,
         quantity: item.Cart_Item.quantity,
-        type: "item" // 🔥 On indique que c'est un item
+        type: "item"
       }));
 
       // 🔥 Formater les menus
@@ -96,6 +98,11 @@ const updateQuantity = async (id, quantity) => {
     setTotal(newTotal.toFixed(2));
   };
 
+  const handlePaymentRedirect = () => {
+    navigate("/payment", { state: { total } }); // ✅ Envoie le total à la page de paiement
+};
+
+
   if (!isOpen) return null;
 
   return (
@@ -128,7 +135,7 @@ const updateQuantity = async (id, quantity) => {
             <span>Total :</span>
             <span>{total} $US</span>
           </div>
-          <button className="pay-button">Passer au paiement</button>
+          <button className="pay-button" onClick={handlePaymentRedirect}>Passer au paiement</button>
         </div>
       </div>
     </div>
