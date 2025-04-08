@@ -31,9 +31,9 @@ const api = {
     addItemToMenu: (restaurantId, menuId, data) => axios.post(`${API_URL}/restaurants/${restaurantId}/menus/${menuId}`, data),
 
     // Gestion du compte
-    getUser: (userId) => axios.get(`${API_URL}/users/${userId}`),
-    updateUser: (userId, data) => axios.put(`${API_URL}/users/${userId}`, data),
-    deleteUser: (userId) => axios.delete(`${API_URL}/users/${userId}`),
+    getUser: (userId) => axios.get(`${API_URL}/accounts/${userId}`),
+    updateUser: (userId, data) => axios.put(`${API_URL}/accounts/${userId}`, data),
+    deleteUser: (userId) => axios.delete(`${API_URL}/accounts/${userId}`),
     getAllUsers: () => axios.get(`${API_URL}/accounts`),
     
     // Carts
@@ -57,8 +57,10 @@ const api = {
     changeQuantityToCart: (account_id, item_id, quantity) => axios.put(`${API_URL}/accounts/${account_id}/cart/items/${item_id}/${quantity}`), 
 
 
-    // Order
-    createOrder: (account_id) => axios.post(`${API_URL}/accounts/${account_id}/orders`)
+    // OrderGET
+    createOrder: (account_id) => axios.post(`${API_URL}/accounts/${account_id}/orders`),
+    getOrderByStatus: (status) => axios.get(`${API_URL}/orders/status/${status}`),
+    changeStatusByOrder: (order_id, status) => axios.put(`${API_URL}/orders/${order_id}/${status}`),
 
 };
 
