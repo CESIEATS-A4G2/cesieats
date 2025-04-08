@@ -18,7 +18,7 @@ CREATE TABLE Restaurants (
     address VARCHAR(255) NOT NULL,
     fees DECIMAL(10,2) NOT NULL,
     prep_time INT,
-    image LONGBLOB,
+    image VARCHAR(255),
     open_hour VARCHAR(50)
 );
 
@@ -36,7 +36,7 @@ CREATE TABLE Menus (
     name VARCHAR(150) NOT NULL,
     description VARCHAR(255),
     price DECIMAL(10,2) NOT NULL,
-    image LONGBLOB,
+    image VARCHAR(255),
     FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
@@ -48,7 +48,7 @@ CREATE TABLE Items (
     name VARCHAR(150) NOT NULL,
     description VARCHAR(255),
     price DECIMAL(10,2) NOT NULL,
-    image LONGBLOB,
+    image VARCHAR(255),
     FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 

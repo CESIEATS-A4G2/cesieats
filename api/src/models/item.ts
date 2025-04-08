@@ -10,7 +10,7 @@ interface ItemAttributes {
     name: string;
     description: string;
     price: number;
-    image: Buffer;
+    image: string;
 }
 
 // Modele Item
@@ -22,7 +22,7 @@ class Item extends Model<ItemAttributes, Optional<ItemAttributes, 'item_id'>> im
     public name!: string;
     public description!: string;
     public price!: number;
-    public image!: Buffer;
+    public image!: string;
 }
 
 Item.init({
@@ -33,7 +33,7 @@ Item.init({
     name: { type: DataTypes.STRING, allowNull: false, unique: true },
     description: { type: DataTypes.STRING },
     price: { type: DataTypes.DECIMAL(10,2), allowNull: false },
-    image: { type: DataTypes.BLOB('long') }
+    image: { type: DataTypes.STRING }
 }, { sequelize, modelName: 'Item', timestamps: false});
 
 export { Item };

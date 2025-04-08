@@ -10,7 +10,7 @@ interface MenuAttributes {
     name: string;
     description: string;
     price: number;
-    image: Buffer;
+    image: string;
 }
 
 // Modele Menu
@@ -20,7 +20,7 @@ class Menu extends Model<MenuAttributes, Optional<MenuAttributes, 'menu_id'>> im
     public name!: string;
     public description!: string;
     public price!: number;
-    public image!: Buffer;
+    public image!: string;
 }
 
 Menu.init({
@@ -29,7 +29,7 @@ Menu.init({
     name: { type: DataTypes.STRING, allowNull: false, unique: true },
     description: { type: DataTypes.STRING },
     price: { type: DataTypes.DECIMAL(10,2), allowNull: false },
-    image: { type: DataTypes.BLOB('long') }
+    image: { type: DataTypes.STRING }
 }, { sequelize, modelName: 'Menu', timestamps: false});
 
 interface Menu_ItemAttributes {
