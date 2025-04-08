@@ -37,7 +37,7 @@ function BurgerMenuAdmin({ isOpen, onClose }) {
           className="burger-item"
           onClick={() => {
             onClose();
-            navigate("/admin-compte");
+            navigate("/compte-admin");
           }}
         >
           <FaUser className="burger-icon" />
@@ -49,7 +49,7 @@ function BurgerMenuAdmin({ isOpen, onClose }) {
           className="burger-item"
           onClick={() => {
             onClose(); // ferme le menu
-            navigate("/"); //A METTRE A JOUR
+            navigate("/gestion-compte-admin"); //A METTRE A JOUR
           }}
         >
           <MdGroups2 className="burger-icon" />
@@ -59,7 +59,7 @@ function BurgerMenuAdmin({ isOpen, onClose }) {
           className="burger-item"
           onClick={() => {
             onClose(); // ferme le menu
-            navigate("/"); // A METTRE A JOUR
+            navigate("/gestion-compte-admin"); // A METTRE A JOUR
           }}
         >
           <FaBoxOpen className="burger-icon" />

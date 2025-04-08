@@ -1,7 +1,7 @@
 import React from "react";
 import "./GestionUtilisateurAdmin.css";
 
-import Header from "../../components/header/headerDeconnecte";
+import Header from "../../components/header/TopNavBarAdmin";
 import Footer from "../../components/footer/SiteFooter";
 import GestionUtilisateur from "../../components/gestionUtilisateur/GestionUtilisateur";
 import noProfilPicture from "../../resources/images/noProfilPicture.png"
@@ -10,13 +10,13 @@ function GestionUtilisateurAdmin() {
   const users = [
     {
       id: 1,
-      username: "Abdel",
+      username: "Billy",
       role: "Livreur",
       avatar: noProfilPicture,
     },
     {
       id: 2,
-      username: "Karim",
+      username: "Mika",
       role: "Restaurateur",
       avatar: noProfilPicture,
     },
