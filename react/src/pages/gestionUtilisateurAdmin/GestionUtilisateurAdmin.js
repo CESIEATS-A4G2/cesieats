@@ -16,27 +16,6 @@ function GestionUtilisateurAdmin() {
     }).catch(error => console.error("Erreur lors de la récupération des comptes :", error));
   }, []);
 
-  const users = [
-    {
-      id: 1,
-      username: "Billy",
-      role: "Livreur",
-      avatar: noProfilPicture,
-    },
-    {
-      id: 2,
-      username: "Mika",
-      role: "Restaurateur",
-      avatar: noProfilPicture,
-    },
-    {
-        id: 3,
-        username: "Paul",
-        role: "Utilisateur",
-        avatar: noProfilPicture,
-      }
-  ];
-
   const handleSuspend = (id) => {
     console.log(`Suspendre l'utilisateur avec l'id ${id}`);
   };

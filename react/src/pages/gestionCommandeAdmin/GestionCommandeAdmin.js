@@ -1,14 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+
 import "./GestionCommandeAdmin.css";
 import TicketCommandeAdmin from "../../components/ticketCommandeAdmin/TicketCommandeAdmin";
 import TicketCommandePreteAdmin from "../../components/ticketCommandeAdmin/TicketCommandePreteAdmin";
 import { FiAlignJustify } from "react-icons/fi";  // Import de l'icône
 import Header from "../../components/header/TopNavBarAdmin";
 import Footer from "../../components/footer/SiteFooter";
+import api from "../../api";
+
 
 function GestionCommandeAdmin() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+    const [orders, setOrders] = useState([]);
+  useEffect(() => {
+    api.getAllOrders().then(res => {setOrders(res.data);
+      console.log("Comptes récupérés :", res.data);
+    }).catch(error => console.error("Erreur lors de la récupération des comptes :", error));
+  }, []);
 
     return (
       
