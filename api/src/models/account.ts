@@ -10,6 +10,7 @@ interface AccountAttributes {
   phone?: string;
   address?: string;
   role: "User" | "Delivery Man" | "Restaurateur";
+  image?: string;
   created_at?: Date;
   updated_at?: Date;
   is_active?: boolean;
@@ -27,6 +28,7 @@ class Account
   public phone?: string;
   public address?: string;
   public role!: "User" | "Delivery Man" | "Restaurateur";
+  public image?: string;
   public created_at?: Date;
   public updated_at?: Date;
   public is_active?: boolean;
@@ -62,6 +64,10 @@ Account.init(
     role: {
       type: DataTypes.ENUM("User", "Delivery Man", "Restaurateur"),
       allowNull: false,
+    },
+    image: {
+      type: DataTypes.STRING,
+      defaultValue: "https://res.cloudinary.com/dzsnjlgc5/image/upload/v1744120309/thumb_15951118880user_ffpe0r.png",
     },
     created_at: {
       type: DataTypes.DATE,
