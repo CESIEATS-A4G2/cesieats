@@ -20,6 +20,7 @@ import GestionArticleRestaurateur from "./pages/gestionArticle/GestionArticle"
 import CreationArticleRestaurateur from "./pages/creationArticle/CreationArticle"
 
 import AdminCompte from "./pages/adminCompte/AdminCompte";
+import GestionUtilisateurAdmin from "./pages/gestionUtilisateurAdmin/GestionUtilisateurAdmin"
 
 import axios from 'axios';
 import { useState, useEffect } from 'react';
@@ -37,7 +38,7 @@ function App() {
         <Route path="/mon-compte" element={<GestionCompte />} />
         <Route path="/parrainage" element={<Parrainage />} />
         <Route path="/restaurant/:name" element={<RestaurantPage />} />
-        <Route path="/restaurant/:name/:item" element={<ItemPage />} />
+        <Route path="/restaurant/:name/:type/:item" element={<ItemPage />} />
         <Route path="historique-commande" element={<HistoriqueCommande />} />
         <Route path="suivi-commande" element={<SuiviCommande />} />
         <Route path="/inscription" element={<Inscription />} />
@@ -46,9 +47,12 @@ function App() {
         <Route path="/liste-commandes-livreur" element={<ListeCommandesLivreur />} />
         <Route path="/livraison-livreur" element={<LivraisonLivreur />} />
 
-        <Route path="/admin-compte" element={<AdminCompte />} />
+        
+        <Route path="/compte-admin" element={<AdminCompte />} />
+        <Route path="/gestion-compte-admin" element={<GestionUtilisateurAdmin />} />
         <Route path="/gestioncommand-admin" element={<GestionCommandeAdmin />} />
         <Route path="/commande-admin" element={<CommandeAdmin />} />
+
 
         <Route path="/commandes-restaurateur" element={<CommandesRestaurateur />} />
         <Route path="/gestioncommande-restaurateur" element={<GestionCommandeRestaurateur />} />

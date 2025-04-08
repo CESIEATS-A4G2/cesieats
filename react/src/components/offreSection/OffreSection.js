@@ -10,7 +10,6 @@ function OffreSection() {
   useEffect(() => {
     api.getAllRestaurants()
       .then(res => {
-        console.log("Restaurants récupérés :", res.data);
         setRestaurants(res.data); // On stocke les restos récupérés dans le state
       })
       .catch(error => console.error("Erreur lors de la récupération des restaurants :", error));
