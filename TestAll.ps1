@@ -18,7 +18,7 @@ Write-Host "`n[4] REACT BUILD & TEST" -ForegroundColor Blue
 Set-Location react
 npm install
 npm run build
-# npm test -- --watchAll=false
+npm test -- --watchAll=false
 Set-Location ..
 
 Write-Host "`n[5] EXECUTION DES TESTS DES SERVICES" -ForegroundColor Blue

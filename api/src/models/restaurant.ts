@@ -5,7 +5,7 @@ import { Account } from '../models/account';
 
 // Interface de Restaurant
 interface RestaurantAttributes {
-    restaurant_id?: number;
+    restaurant_id?: string;
     name: string;
     description: string;
     address: string;
@@ -14,7 +14,7 @@ interface RestaurantAttributes {
 
 // Modele Restaurant
 class Restaurant extends Model<RestaurantAttributes, Optional<RestaurantAttributes, 'restaurant_id'>> implements RestaurantAttributes {
-    public restaurant_id!: number;
+    public restaurant_id!: string;
     public name!: string;
     public description!: string;
     public address!: string;

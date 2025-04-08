@@ -17,7 +17,7 @@ echo -e "\n \033[1;34m[4] REACT BUILD & TEST\033[0m"
 cd react
 npm install
 npm run build
-#npm test -- --watchAll=false
+npm test -- --watchAll=false
 cd ..
 
 echo -e "\n \033[1;34m[5] EXECUTION DES TESTS DES SERVICES \033[0m"

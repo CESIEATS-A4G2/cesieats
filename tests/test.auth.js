@@ -1,5 +1,13 @@
 const axios = require("axios").default;
 
+/* Scénario : 
+  -1 : connexion compte existant
+  -2 : inscription
+  -3 : connexion nouveau compte
+  -4 : test d'authentification au token
+  -5 : suppression du compte créé
+*/
+
 const testAuth = async () => {
   const Authroute = "http://localhost:5000"; //Exposition direct au service (éviter les blocages routes privées NGINX)
 
