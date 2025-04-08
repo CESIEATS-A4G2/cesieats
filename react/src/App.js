@@ -18,6 +18,7 @@ import GestionMenuRestaurateur from "./pages/gestionMenu/GestionMenu"
 import CreationMenuRestaurateur from "./pages/creationMenu/CreationMenu"
 import GestionArticleRestaurateur from "./pages/gestionArticle/GestionArticle"
 import CreationArticleRestaurateur from "./pages/creationArticle/CreationArticle"
+import PaymentPage from "./pages/paymentPage/PaymentPage"
 
 import AdminCompte from "./pages/adminCompte/AdminCompte";
 import GestionUtilisateurAdmin from "./pages/gestionUtilisateurAdmin/GestionUtilisateurAdmin"
@@ -39,6 +40,7 @@ function App() {
         <Route path="/parrainage" element={<Parrainage />} />
         <Route path="/restaurant/:name" element={<RestaurantPage />} />
         <Route path="/restaurant/:name/:type/:item" element={<ItemPage />} />
+        <Route path="/payment" element={<PaymentPage />} />
         <Route path="historique-commande" element={<HistoriqueCommande />} />
         <Route path="suivi-commande" element={<SuiviCommande />} />
         <Route path="/inscription" element={<Inscription />} />
