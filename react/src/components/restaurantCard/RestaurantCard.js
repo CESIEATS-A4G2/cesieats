@@ -21,7 +21,6 @@ function RestaurantCard({ restaurant_id, name, image, description, address, open
           <span className="address">{address}</span>
           <span className="dot">•</span>
           <span className="open-hour">{open_hour}</span>
-          <span className="fees">{fees}</span>
         </div>
       </div>
     </div>

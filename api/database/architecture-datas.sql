@@ -150,7 +150,7 @@ INSERT INTO Accounts (name, email, password, phone, address, role) VALUES
 INSERT INTO Restaurants (name, description, address,fees,prep_time,image, open_hour) VALUES
 ('Pizza Palace', 'Best pizza in town', '100 Pizza Street',1.99,15,'https://res.cloudinary.com/dzsnjlgc5/image/upload/v1744045996/30be7d11a3ed6f6183354d1933fbb6c7_ovqign.jpg', '10:00-22:00'),
 ('Burger Heaven', 'Juicy burgers every day', '200 Burger Avenue',0.99,25,'https://res.cloudinary.com/dzsnjlgc5/image/upload/v1744046073/unnamed_plknyk.png', '11:00-23:00'),
-('Sushi World', 'Fresh sushi made daily', '300 Sushi Lane',2.59,30,'https://res.cloudinary.com/dzsnjlgc5/image/upload/v1744046073/unnamed_plknyk.png', '12:00-21:00');
+('Sushi World', 'Fresh sushi made daily', '300 Sushi Lane',2.59,30,'https://res.cloudinary.com/dzsnjlgc5/image/upload/v1744103757/images_1_qlqgih.jpg', '12:00-21:00');
 
 -- Lier les propriétaires de restaurants
 INSERT INTO Account_Restaurant (account_id, restaurant_id) VALUES
@@ -158,10 +158,10 @@ INSERT INTO Account_Restaurant (account_id, restaurant_id) VALUES
 ('ACC000001', 'RES000002');
 
 -- Insertion des menus
-INSERT INTO Menus (restaurant_id, name, description, price) VALUES
-('RES000001', 'Pizza Menu', 'A selection of our best pizzas', 15.99),
-('RES000002', 'Burger Menu', 'Our best burgers in a combo', 12.99),
-('RES000003', 'Sushi Set', 'Fresh sushi assortment', 20.99);
+INSERT INTO Menus (restaurant_id, name, description, price,image) VALUES
+('RES000001', 'Pizza Menu', 'A selection of our best pizzas', 15.99,'https://res.cloudinary.com/dzsnjlgc5/image/upload/v1744103991/16bb0a3ab8ea98cfe8906135767f7bf4_k6mck8.jpg'),
+('RES000002', 'Burger Menu', 'Our best burgers in a combo', 12.99,'https://res.cloudinary.com/dzsnjlgc5/image/upload/v1744104070/Menu-Burger-Californian_ocvpli.png'),
+('RES000003', 'Sushi Set', 'Fresh sushi assortment', 20.99,'https://res.cloudinary.com/dzsnjlgc5/image/upload/v1744104115/1000_F_82346311_Ei9MME34m3GPY1VnHgbcK5Vp5YT4hxKl_m4i7vc.jpg');
 
 -- Insertion des items
 INSERT INTO Items (restaurant_id, name, description, price,image) VALUES
