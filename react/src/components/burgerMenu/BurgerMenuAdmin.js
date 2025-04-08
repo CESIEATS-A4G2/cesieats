@@ -60,6 +60,7 @@ function BurgerMenuAdmin({ isOpen, onClose }) {
           onClick={() => {
             onClose(); // ferme le menu
             navigate("/gestion-compte-admin"); // A METTRE A JOUR
+
           }}
         >
           <FaBoxOpen className="burger-icon" />

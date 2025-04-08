@@ -25,6 +25,8 @@ import GestionUtilisateurAdmin from "./pages/gestionUtilisateurAdmin/GestionUtil
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import api from './api';  // 💡 Importation de ton fichier API
+import GestionCommandeAdmin from "./pages/gestionCommandeAdmin/GestionCommandeAdmin";
+import CommandeAdmin from "./pages/commandeAdmin/CommandeAdmin";
 
 
 function App() {
@@ -41,11 +43,16 @@ function App() {
         <Route path="suivi-commande" element={<SuiviCommande />} />
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/" element={<Connexion />} />
+        
         <Route path="/liste-commandes-livreur" element={<ListeCommandesLivreur />} />
         <Route path="/livraison-livreur" element={<LivraisonLivreur />} />
 
+        
         <Route path="/compte-admin" element={<AdminCompte />} />
         <Route path="/gestion-compte-admin" element={<GestionUtilisateurAdmin />} />
+        <Route path="/gestioncommand-admin" element={<GestionCommandeAdmin />} />
+        <Route path="/commande-admin" element={<CommandeAdmin />} />
+
 
         <Route path="/commandes-restaurateur" element={<CommandesRestaurateur />} />
         <Route path="/gestioncommande-restaurateur" element={<GestionCommandeRestaurateur />} />

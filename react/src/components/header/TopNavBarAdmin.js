@@ -33,7 +33,7 @@ function TopNavBarAdmin() {
             src={bannerLogo}
             className="bannerLogo2"
             alt="bannerLogo"
-            onClick={() => navigate("/")} // A UPDATE !!!
+            onClick={() => navigate("/gestioncommand-admin")} // A UPDATE !!!
             style={{ cursor: "pointer" }}
           />
         </div>
