@@ -5,6 +5,7 @@ import Footer from "../../components/footer/SiteFooter";
 import userImg from "../../resources/images/account-illustration.png";
 import { useNavigate } from "react-router-dom"; 
 import api from '../../api'; // 💡 Chemin vers ton fichier api.js
+import axios from "axios";
 
 const trigger = false; // Variable globale pour le trigger
 function AdminCompte({ userType = "admin" }) {  // Ajout du paramètre userType
@@ -15,7 +16,9 @@ function AdminCompte({ userType = "admin" }) {  // Ajout du paramètre userType
   const [phone, setPhone] = useState("+33 6 12 34 56 78");
   const [email, setEmail] = useState("aurelie.mamie@wanadoo.com");
   const [password, setPassword] = useState("**********");
-
+  const preset_key = "cldinery";
+  const cloud_name = "dzsnjlgc5";
+  const [image, setImage] = useState(); // Remplace par une vraie URL si tu en as
   const navigate = useNavigate(); 
 
   useEffect(() => {
@@ -31,7 +34,15 @@ function AdminCompte({ userType = "admin" }) {  // Ajout du paramètre userType
 
   };
 
-
+function handleFile(event){
+  const file = event.target.files[0];
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", preset_key); // Remplace par ton upload preset
+  axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, formData)
+  .then(res => setImage(res.data.secure_url))
+  .catch(err => console.error(err));
+}
   
   const handleChangePassword = () => setIsPasswordModalOpen(true);
 
@@ -44,7 +55,21 @@ function AdminCompte({ userType = "admin" }) {  // Ajout du paramètre userType
       <Header />
       <div className="gestion-container">
         <div className="infos">
+          
           <h2>Informations personnelles ({userType})</h2>
+          <div className="info-block">
+            <p className="label">Image de profil</p>
+            {isEditing ? (
+              <input
+                type="file"
+                onChange={handleFile}
+                className="editable-input"
+              />
+            ) : (
+              <p className="value">{name}</p>
+            )}
+          </div>
+          {image &&<img src={image} alt="pic" height="200" width="200" />}
           <div className="info-block">
             <p className="label">Nom</p>
             {isEditing ? (
