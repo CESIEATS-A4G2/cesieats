@@ -38,6 +38,7 @@ function GestionUtilisateurAdmin() {
             role={account.role}
             onSuspend={handleSuspend}
             onDelete={handleDelete}
+            avatar={account.avatar ? account.avatar : noProfilPicture} // Utiliser l'avatar ou une image par défaut
           />
         ))}
       </div>

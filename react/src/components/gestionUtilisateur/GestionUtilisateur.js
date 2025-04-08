@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import "./GestionUtilisateur.css";
 
-const GestionUtilisateur = ({ name,role,user, onSuspend, onDelete, }) => {
+const GestionUtilisateur = ({ name,role,user, onSuspend, onDelete,avatar }) => {
   const [modalType, setModalType] = useState(null); // "suspendre" ou "supprimer"
   const [showModal, setShowModal] = useState(false);
   const [suspensionDays, setSuspensionDays] = useState(7); // Valeur par défaut
@@ -19,7 +19,7 @@ const GestionUtilisateur = ({ name,role,user, onSuspend, onDelete, }) => {
     <>
       <div className="utilisateur-row">
         <div className="utilisateur-info">
-          <img src={user.avatar} alt="avatar" className="utilisateur-avatar" />
+          <img src={avatar} alt="avatar" className="utilisateur-avatar" />
           <div className="utilisateur-details">
             <div className="utilisateur-username">
               {name} | {user.role} 
