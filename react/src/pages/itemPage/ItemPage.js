@@ -37,9 +37,12 @@ function ItemPage() {
       if (type === "items") {
         console.log("items");
         await api.addItemToCart(account_id, item_id, 1);
+        window.location.reload();
+
       } else {
-        console.log("menus");
+        console.log("menus", item_id);
         await api.addMenuToCart(account_id, item_id, 1);
+        window.location.reload();
       }
   
       alert("L'item a été ajouté au panier !");

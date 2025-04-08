@@ -10,12 +10,14 @@ function PanierItem({ id, name, price, description, quantity, updateQuantity, re
 
   const handleAddToCart = async () => {
     try {
-      const deleteResponse = await api.deleteItemToCart("ACC000001", id);
+      console.log("Item ", id)
+      await api.deleteItemToCart("ACC000001", id);
       removeItem(id);
       alert("L'item a été supprimé du panier !");
     } catch (error1) {
       try {
-        const deleteResponse = await api.deleteMenuToCart("ACC000001", id);
+        console.log("Menu ", id)
+        await api.deleteMenuToCart("ACC000001", id);
         removeItem(id);
         alert("Le menu a été supprimé du panier !");
       } catch (error2) {

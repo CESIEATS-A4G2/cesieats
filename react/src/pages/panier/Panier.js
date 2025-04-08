@@ -23,17 +23,32 @@ function Panier({ isOpen, onClose, account_id }) {
 
       const cartData = response.data;
 
+      // 🔥 Formater les items
       const formattedItems = cartData.Items.map(item => ({
         id: item.item_id,
         name: item.name,
         price: parseFloat(item.price),
         description: item.description,
         quantity: item.Cart_Item.quantity,
+        type: "item" // 🔥 On indique que c'est un item
       }));
 
-      setItems(formattedItems);
+      // 🔥 Formater les menus
+      const formattedMenus = cartData.Menus.map(menu => ({
+        id: menu.menu_id,
+        name: menu.name,
+        price: parseFloat(menu.price),
+        description: menu.description,
+        quantity: 1, // 🔥 Par défaut 1 car l'API ne renvoie pas de quantité pour les menus
+        type: "menu" // 🔥 On indique que c'est un menu
+      }));
 
-      const totalValue = formattedItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+      // 🔥 Fusionner les items et les menus dans un seul tableau
+      const allItems = [...formattedItems, ...formattedMenus];
+      setItems(allItems);
+
+      // 🔥 Calculer le total (somme des prix * quantités)
+      const totalValue = allItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
       setTotal(totalValue.toFixed(2));
     } catch (error) {
       console.log("catch");
@@ -43,8 +58,8 @@ function Panier({ isOpen, onClose, account_id }) {
       console.log("message response : ", error.response);
       alert(`Erreur : ${errorMessage}\nDétails : ${errorDetails}`);
     }
-    
-  };
+};
+
 
   const updateQuantity = (id, quantity) => {
     const updatedItems = items.map(item => 

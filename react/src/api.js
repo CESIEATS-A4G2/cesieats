@@ -37,17 +37,17 @@ const api = {
     getCart: (account_id) => axios.get(`${API_URL}/accounts/${account_id}/cart`),
     deleteCart: (account_id) => axios.delete(`${API_URL}/accounts/${account_id}/cart`), 
     deleteItemToCart: (account_id, item_id) => axios.delete(`${API_URL}/accounts/${account_id}/cart/items`, {
-        item_id: item_id
+        data : {item_id: item_id}
     }),    
     deleteMenuToCart: (account_id, menu_id) => axios.delete(`${API_URL}/accounts/${account_id}/cart/menus`, {
-        menu_id: menu_id
+         data : {menu_id: menu_id}
     }),    
     addItemToCart: (account_id, item_id, quantity) => axios.post(`${API_URL}/accounts/${account_id}/cart/items`, {
         item_id: item_id,
         quantity: quantity
     }),
     addMenuToCart: (account_id, item_id, quantity) => axios.post(`${API_URL}/accounts/${account_id}/cart/menus`, {
-        item_id: item_id,
+        menu_id: item_id,
         quantity: quantity
     })
 
