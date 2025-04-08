@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.post('/accounts/:account_id/orders', createOrder);
 router.get('/accounts/:account_id/orders', getOrdersByAccountId);
-router.get('/accounts/:account_id/orders/status', getOrdersByAccountIdByStatus);
-router.get('/orders/status', getOrdersByStatus);
-router.put('/orders/:order_id', updateOrderStatus);
+router.get('/accounts/:account_id/orders/status/:status', getOrdersByAccountIdByStatus);
+router.get('/orders/status/:status', getOrdersByStatus);
+router.put('/orders/:order_id/:status', updateOrderStatus);
 router.get('/orders/:order_id', getOrderById);
 
 router.get('/orders/test/generate', createOrdersTest); //supprimer
