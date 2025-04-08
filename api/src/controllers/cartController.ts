@@ -39,7 +39,7 @@ export const createCart = async (
 };
 
 export const createCartForAccountId = async (account_id: string) => {
-  return await Cart.create({ account_id });
+  return await Cart.create({ account_id: account_id });
 };
 
 export const getFullCartByAccountId = async (account_id: string) => {
@@ -103,6 +103,7 @@ export const deleteCart = async (
       return;
     }
 
+    createCartForAccountId(account_id);
     res.status(200).json({ message: "Panier supprimé avec succès" });
     return;
   } catch (error) {
@@ -146,6 +147,14 @@ export const addItemToCart = async (
       quantity,
     });
 
+    if (!cart.restaurant_id) {
+      const item = await Item.findByPk(item_id);
+      await Cart.update(
+        { restaurant_id: item?.restaurant_id },
+        { where: { account_id: account_id } }
+      );
+    }
+
     res.status(201).json(cart_item);
     return;
   } catch (error) {
@@ -176,6 +185,14 @@ export const removeItemFromCart = async (
     if (!deletedCart_item) {
       res.status(404).json({ message: "L'item n'est pas dans le panier" });
       return;
+    }
+
+    const cart_item = await Cart_Item.findAll({
+      where: { account_id: account_id },
+    });
+    if (cart_item.length === 0) {
+      deleteCartByAccountId(account_id);
+      createCartForAccountId(account_id);
     }
 
     res.status(200).json({ message: "Item supprimé du panier avec succès" });
@@ -218,6 +235,14 @@ export const addMenuToCart = async (
       quantity,
     });
 
+    if (!cart.restaurant_id) {
+      const menu = await Menu.findByPk(menu_id);
+      await Cart.update(
+        { restaurant_id: menu?.restaurant_id },
+        { where: { account_id: account_id } }
+      );
+    }
+
     res.status(201).json(cart_menu);
     return;
   } catch (error) {
@@ -251,6 +276,14 @@ export const removeMenuFromCart = async (
       return;
     }
 
+    const cart_menu = await Cart_Menu.findAll({
+      where: { account_id: account_id },
+    });
+    if (cart_menu.length === 0) {
+      deleteCartByAccountId(account_id);
+      createCartForAccountId(account_id);
+    }
+
     res.status(200).json({ message: "Menu supprimé du panier avec succès" });
     return;
   } catch (error) {
@@ -268,7 +301,9 @@ export const updateQuantityItemFromCart = async (
   try {
     const { account_id, item_id, quantity } = req.params;
 
-    const cart_item = await Cart_Item.findOne({ where: { account_id: account_id, item_id: item_id } });
+    const cart_item = await Cart_Item.findOne({
+      where: { account_id: account_id, item_id: item_id },
+    });
     if (!cart_item) {
       res.status(404).json({ message: "Le produit n'est pas dans le panier" });
       return;
@@ -280,11 +315,14 @@ export const updateQuantityItemFromCart = async (
         where: { account_id: account_id, item_id: item_id },
       }
     );
-    res.status(200).json({ message: "La quantité du produit a été mise à jour" });
+    res
+      .status(200)
+      .json({ message: "La quantité du produit a été mise à jour" });
     return;
   } catch (error) {
     res.status(500).json({
-      message: "Erreur lors de la mise à jour de la quantité du produit du panier de l'utilisateur",
+      message:
+        "Erreur lors de la mise à jour de la quantité du produit du panier de l'utilisateur",
       error,
     });
   }
@@ -297,7 +335,9 @@ export const updateQuantityMenuFromCart = async (
   try {
     const { account_id, menu_id, quantity } = req.params;
 
-    const cart_menu = await Cart_Menu.findOne({ where: { account_id: account_id, menu_id: menu_id } });
+    const cart_menu = await Cart_Menu.findOne({
+      where: { account_id: account_id, menu_id: menu_id },
+    });
     if (!cart_menu) {
       res.status(404).json({ message: "Le menu n'est pas dans le panier" });
       return;
@@ -313,7 +353,8 @@ export const updateQuantityMenuFromCart = async (
     return;
   } catch (error) {
     res.status(500).json({
-      message: "Erreur lors de la mise à jour de la quantité du menu du panier de l'utilisateur",
+      message:
+        "Erreur lors de la mise à jour de la quantité du menu du panier de l'utilisateur",
       error,
     });
   }

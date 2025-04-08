@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
   account_id: String,
+  restaurant_id: String,
   status: {
     type: String,
     enum: ["PENDING CONFIRMATION", "IN PREPARATION", "DELIVERY IN PROGRESS", "DONE"],

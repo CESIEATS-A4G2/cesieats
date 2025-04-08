@@ -5,6 +5,7 @@ import {
   deleteCartByAccountId,
   createCartForAccountId,
 } from "../controllers/cartController";
+import { Cart, CartWithAssociations } from "../models/cart";
 
 export const createOrder = async (
   req: Request,
@@ -19,30 +20,38 @@ export const createOrder = async (
       return;
     }
 
+    const restaurant_id = cart.restaurant_id;
+
     const items = cart.Items.map((ci) => ({
       name: ci.name,
-      quantity: ci.Cart_Item.quantity,
-      price: ci.price,
+      quantity: Number(ci.Cart_Item.quantity),
+      price: Number(ci.price),
     }));
-
+    
     const menus = cart.Menus.map((cm) => ({
       name: cm.name,
-      quantity: cm.Cart_Menu.quantity,
+      quantity: Number(cm.Cart_Menu.quantity),
       items: cm.Items.map((i) => ({
         name: i.name,
-        price: i.price,
+        price: Number(i.price),
       })),
     }));
 
-    const totalItems = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    const totalMenus = menus.reduce(
+    if(items.length === 0 || menus.length === 0){
+      res.status(500).json({ error: "Le panier est vide" });
+      return;
+    }
+
+    const totalItems : number = items.reduce((sum : number, i) => sum + i.price * i.quantity, 0);
+    const totalMenus : number = menus.reduce(
       (sum, m) => sum + m.items.reduce((s, i) => s + i.price, 0),
       0
     );
-    const totalPrice = totalItems + totalMenus;
+    const totalPrice : number = totalItems + totalMenus;
 
     const newOrder = new Order({
       account_id,
+      restaurant_id,
       items,
       menus,
       totalPrice,
@@ -58,6 +67,121 @@ export const createOrder = async (
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Erreur lors de la validation" });
+  }
+};
+
+
+export const createOrdersTest = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+
+    const orders = [
+      {
+        "account_id": "ACC000001",
+        "restaurant_id": "RES000001",
+        "status": "DONE",
+        "items": [
+          { "name": "Burger", "quantity": 2, "price": 7.5 },
+          { "name": "Fries", "quantity": 1, "price": 3.0 }
+        ],
+        "menus": [
+          {
+            "name": "Burger Combo",
+            "quantity": 1,
+            "items": [
+              { "name": "Burger", "price": 7.5 },
+              { "name": "Soda", "price": 2.0 }
+            ]
+          }
+        ],
+        "totalPrice": 27.5
+      },
+      {
+        "account_id": "ACC000002",
+        "restaurant_id": "RES000002",
+        "status": "DELIVERY IN PROGRESS",
+        "items": [
+          { "name": "Sushi Roll", "quantity": 3, "price": 5.5 }
+        ],
+        "menus": [
+          {
+            "name": "Sushi Menu",
+            "quantity": 2,
+            "items": [
+              { "name": "Sushi Roll", "price": 5.5 },
+              { "name": "Miso Soup", "price": 2.5 }
+            ]
+          }
+        ],
+        "totalPrice": 36.5
+      },
+      {
+        "account_id": "ACC000001",
+        "restaurant_id": "RES000002",
+        "status": "IN PREPARATION",
+        "items": [
+          { "name": "Tacos", "quantity": 4, "price": 4.0 }
+        ],
+        "menus": [],
+        "totalPrice": 16.0
+      },
+      {
+        "account_id": "ACC000002",
+        "restaurant_id": "RES000001",
+        "status": "PENDING CONFIRMATION",
+        "items": [],
+        "menus": [
+          {
+            "name": "Pasta Menu",
+            "quantity": 2,
+            "items": [
+              { "name": "Spaghetti", "price": 6.5 },
+              { "name": "Garlic Bread", "price": 2.0 }
+            ]
+          }
+        ],
+        "totalPrice": 17.0
+      },
+      {
+        "account_id": "ACC000001",
+        "restaurant_id": "RES000002",
+        "status": "DELIVERY IN PROGRESS",
+        "items": [
+          { "name": "Chicken Wings", "quantity": 6, "price": 1.2 }
+        ],
+        "menus": [
+          {
+            "name": "Wing Combo",
+            "quantity": 1,
+            "items": [
+              { "name": "Chicken Wings", "price": 7.0 },
+              { "name": "Coleslaw", "price": 2.0 }
+            ]
+          }
+        ],
+        "totalPrice": 16.2
+      },
+      {
+        "account_id": "ACC000002",
+        "restaurant_id": "RES000001",
+        "status": "IN PREPARATION",
+        "items": [
+          { "name": "Vegan Bowl", "quantity": 1, "price": 9.5 },
+          { "name": "Smoothie", "quantity": 1, "price": 4.5 }
+        ],
+        "menus": [],
+        "totalPrice": 14.0
+      }
+    ];
+
+    Order.insertMany(orders);
+    res.status(201).json({ message: "Commandes tests créées" });
+    return;
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur lors de la création de commandes tests" });
   }
 };
 

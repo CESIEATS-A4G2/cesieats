@@ -32,7 +32,7 @@ app.use('/api/accounts', cartRoutes);
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/restaurants', menuRoutes);
 app.use('/api/restaurants', itemRoutes);
-app.use('/api/accounts', orderRoutes);
+app.use('/api', orderRoutes);
 
 
 app.get('/', (req, res) => {

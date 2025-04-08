@@ -3,9 +3,11 @@ import { sequelize } from "../config/sequelize";
 import { Account } from "../models/account";
 import { Menu } from "../models/menu";
 import { Item } from "../models/item";
+import { Restaurant } from "./restaurant";
 
 interface CartAttributes {
   account_id: string;
+  restaurant_id?: string;
 }
 
 interface CartWithAssociations extends CartAttributes {
@@ -16,6 +18,7 @@ interface CartWithAssociations extends CartAttributes {
 // Modele Cart
 class Cart extends Model<CartAttributes> implements CartAttributes {
   public account_id!: string;
+  public restaurant_id?: string;
 
   public Items!: (Item & { Cart_Item: { quantity: number } })[];
   public Menus!: (Menu & { Cart_Menu: { quantity: number }; Items: Item[] })[];
@@ -117,5 +120,8 @@ Item.belongsToMany(Cart, {
 
 Account.hasMany(Cart, { foreignKey: "account_id", as: "carts" });
 Cart.belongsTo(Account, { foreignKey: "account_id", as: "account" });
+
+Restaurant.hasMany(Cart, { foreignKey: "restaurant_id", as: "carts" });
+Cart.belongsTo(Restaurant, { foreignKey: "restaurant_id", as: "restaurant" });
 
 export { Cart, Cart_Menu, Cart_Item, CartWithAssociations };

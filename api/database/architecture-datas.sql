@@ -57,7 +57,9 @@ CREATE TABLE Menu_Item (
 
 CREATE TABLE Carts (
     account_id VARCHAR(12) PRIMARY KEY,
-    FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE
+    restaurant_id VARCHAR(12),
+    FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE,
+    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Cart_Item (
@@ -175,17 +177,22 @@ INSERT INTO Menu_Item (menu_id, item_id) VALUES
 ('MEN000003', 'ITM000006');
 
 -- Création de paniers
-INSERT INTO Carts (account_id) VALUES
-('ACC000001'),
-('ACC000002');
+INSERT INTO Carts (account_id, restaurant_id) VALUES
+('ACC000001', 'RES000001'),
+('ACC000002', 'RES000002');
 
 -- Ajouter des items aux paniers
 INSERT INTO Cart_Item (account_id, item_id, quantity) VALUES
 ('ACC000001', 'ITM000001', 2),
-('ACC000001', 'ITM000003', 1),
+('ACC000001', 'ITM000002', 1),
 ('ACC000002', 'ITM000005', 3);
+
+-- Ajouter des menus aux paniers
+INSERT INTO Cart_Menu (account_id, menu_id, quantity) VALUES
+('ACC000001', 'MEN000001', 2);
 
 -- Ajouter des avis
 INSERT INTO Reviews (account_id, restaurant_id, rating) VALUES
 ('ACC000001', 'RES000001', 5),
 ('ACC000002', 'RES000003', 4);
+
