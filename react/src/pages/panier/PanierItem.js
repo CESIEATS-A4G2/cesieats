@@ -6,17 +6,16 @@ import api from '../../api';
 function PanierItem({ id, name, price, description, quantity, updateQuantity, removeItem }) {
   const handleIncrease = () => updateQuantity(id, quantity + 1);
   const handleDecrease = () => updateQuantity(id, Math.max(1, quantity - 1));
-  
 
-  const handleAddToCart = async () => {
+  const handleDelete = async () => {
     try {
-      console.log("Item ", id)
+      console.log("Item ", id);
       await api.deleteItemToCart("ACC000001", id);
       removeItem(id);
       alert("L'item a été supprimé du panier !");
     } catch (error1) {
       try {
-        console.log("Menu ", id)
+        console.log("Menu ", id);
         await api.deleteMenuToCart("ACC000001", id);
         removeItem(id);
         alert("Le menu a été supprimé du panier !");
@@ -27,7 +26,6 @@ function PanierItem({ id, name, price, description, quantity, updateQuantity, re
       }
     }
   };
-
 
   return (
     <div className="panier-item">
@@ -43,7 +41,7 @@ function PanierItem({ id, name, price, description, quantity, updateQuantity, re
       <div className="item-price">
         <p>{(price * quantity).toFixed(2)} $US</p>
       </div>
-      <div className="remove-icon" onClick={handleAddToCart}>
+      <div className="remove-icon" onClick={handleDelete}>
         <FiTrash2 />
       </div>
     </div>

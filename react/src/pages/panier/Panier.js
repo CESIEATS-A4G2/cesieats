@@ -60,8 +60,16 @@ function Panier({ isOpen, onClose, account_id }) {
     }
 };
 
+const handleClose = () => {
+  onClose(); // Fermer l'overlay normalement
+  window.location.reload();
+};
+const updateQuantity = async (id, quantity) => {
+  try {
+    // 🔥 Appel de ton API pour mettre à jour la quantité
+    await api.changeQuantityToCart(account_id, id, quantity);
 
-  const updateQuantity = (id, quantity) => {
+    // 🔥 Met à jour localement l'état des items après l'appel API réussi
     const updatedItems = items.map(item => 
       item.id === id ? { ...item, quantity } : item
     );
@@ -70,7 +78,14 @@ function Panier({ isOpen, onClose, account_id }) {
 
     const newTotal = updatedItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
     setTotal(newTotal.toFixed(2));
-  };
+
+    console.log(`La quantité de l'item ${id} a été changée à ${quantity}.`);
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour de la quantité :", error);
+    alert("Une erreur est survenue lors de la mise à jour de la quantité.");
+  }
+};
+
 
   const removeItem = (id) => {
     const updatedItems = items.filter(item => item.id !== id);
@@ -84,10 +99,10 @@ function Panier({ isOpen, onClose, account_id }) {
   if (!isOpen) return null;
 
   return (
-    <div className="panier-overlay" onClick={onClose}>
+    <div className="panier-overlay" onClick={handleClose}>
       <div className="panier-drawer" onClick={(e) => e.stopPropagation()}>
         
-        <button className="back-button" onClick={onClose}>
+        <button className="back-button" onClick={handleClose}>
           <FiArrowLeft /> Retour
         </button>
 

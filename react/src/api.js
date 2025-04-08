@@ -49,7 +49,9 @@ const api = {
     addMenuToCart: (account_id, item_id, quantity) => axios.post(`${API_URL}/accounts/${account_id}/cart/menus`, {
         menu_id: item_id,
         quantity: quantity
-    })
+    }),
+    changeQuantityToCart: (account_id, item_id, quantity) => axios.put(`${API_URL}/accounts/${account_id}/cart/items/${item_id}/${quantity}`), 
+
 
 };
 
