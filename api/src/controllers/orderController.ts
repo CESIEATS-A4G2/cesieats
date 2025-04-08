@@ -265,7 +265,7 @@ export const updateOrderStatus = async (
   const { order_id, status } = req.params;
 
   try {
-    await Order.findByIdAndUpdate({ order_id }, { status: status });
+    await Order.findByIdAndUpdate(order_id, { status: status });
     res.status(201).json({ message: "Commande mise à jour" });
     return;
   } catch (err) {
