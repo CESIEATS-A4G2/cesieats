@@ -11,7 +11,7 @@ const api = {
     deleteRestaurant: (restaurantId) => axios.delete(`${API_URL}/restaurants/${restaurantId}`),
 
     // Commande
-    getAllOrders:() => axios.get(`${API_URL}/accounts/orders/status`),
+    getOrderByStatus: (status) => axios.get(`${API_URL}/orders/status/${status}`),
 
     // Menus
     createMenu: (restaurantId, data) => axios.post(`${API_URL}/restaurants/${restaurantId}/menus`, data),
@@ -31,7 +31,7 @@ const api = {
     addItemToMenu: (restaurantId, menuId, data) => axios.post(`${API_URL}/restaurants/${restaurantId}/menus/${menuId}`, data),
 
     // Gestion du compte
-    getUser: (userId) => axios.get(`${API_URL}/users/${userId}`),
+    getUser: (userId) => axios.get(`${API_URL}/accounts/${userId}`),
     updateUser: (userId, data) => axios.put(`${API_URL}/users/${userId}`, data),
     deleteUser: (userId) => axios.delete(`${API_URL}/users/${userId}`),
     getAllUsers: () => axios.get(`${API_URL}/accounts`),
@@ -58,6 +58,7 @@ const api = {
 
 
     // Order
+    getOrderById:(order_id) => axios.get(`${API_URL}/orders/${order_id}`),
     createOrder: (account_id) => axios.post(`${API_URL}/accounts/${account_id}/orders`)
 
 };
