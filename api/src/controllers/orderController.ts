@@ -37,7 +37,7 @@ export const createOrder = async (
       })),
     }));
 
-    if(items.length === 0 || menus.length === 0){
+    if(items.length === 0 && menus.length === 0){
       res.status(500).json({ error: "Le panier est vide" });
       return;
     }
