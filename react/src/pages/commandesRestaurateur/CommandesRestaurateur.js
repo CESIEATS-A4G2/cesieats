@@ -1,11 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./CommandesRestaurateur.css";
-import TicketCommandeRestaurateur from "../../components/ticketCommandeRestaurateur/TicketCommandeRestaurateur";
 import TicketCommandePreteRestaurateur from "../../components/ticketCommandeRestaurateur/TicketCommandePreteRestaurateur";
 import BurgerMenuRestaurateur from "../../components/burgerMenuRestaurateur/BurgerMenuRestaurateur";
 import { FiAlignJustify } from "react-icons/fi";  // Import de l'icône
+import api from '../../api';
 
 function CommandesRestaurateur() {
+const [orders, setOrders] = useState([]);
+    useEffect(() => {
+        api.getAllOrders()
+          .then(res => {
+            setOrders(res.data);
+            console.log(res.data)
+          })
+          .catch(error => console.error("Erreur lors de la récupération des commandes :", error));
+      }, []);
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -20,6 +30,7 @@ function CommandesRestaurateur() {
                 <div className="column">
                     <h2>Préparation</h2>
                     <TicketCommandePreteRestaurateur nom="Dems" temps="25 min" type="preparation"/>
+                    
                 </div>
                 <div className="column">
                     <h2>Prête</h2>

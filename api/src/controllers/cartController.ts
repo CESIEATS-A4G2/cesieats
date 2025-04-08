@@ -8,7 +8,6 @@ import {
 import { Account } from "../models/account";
 import { Item } from "../models/item";
 import { Menu } from "../models/menu";
-import { INTEGER } from "sequelize";
 
 export const createCart = async (
   req: Request,

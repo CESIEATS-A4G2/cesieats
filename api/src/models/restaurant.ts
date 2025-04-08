@@ -9,6 +9,9 @@ interface RestaurantAttributes {
     name: string;
     description: string;
     address: string;
+    fees: number;
+    prep_time: number;
+    image: string;
     open_hour: string;
 }
 
@@ -18,6 +21,9 @@ class Restaurant extends Model<RestaurantAttributes, Optional<RestaurantAttribut
     public name!: string;
     public description!: string;
     public address!: string;
+    public fees!: number;
+    public prep_time!: number;
+    public image!: string;
     public open_hour!: string;
 }
 
@@ -26,6 +32,9 @@ Restaurant.init({
     name: { type: DataTypes.STRING, allowNull: false, unique: true },
     description: { type: DataTypes.STRING },
     address: { type: DataTypes.STRING, allowNull: false },
+    fees: { type: DataTypes.DECIMAL(10,2), allowNull: false },
+    prep_time: { type: DataTypes.DECIMAL(10), allowNull: false },
+    image: { type: DataTypes.STRING },
     open_hour: { type: DataTypes.STRING }
 }, { sequelize, modelName: 'Restaurant', timestamps: false});
 

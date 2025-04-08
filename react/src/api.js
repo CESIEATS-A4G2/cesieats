@@ -10,6 +10,9 @@ const api = {
     createRestaurant: (data) => axios.post(`${API_URL}/restaurants`, data),
     deleteRestaurant: (restaurantId) => axios.delete(`${API_URL}/restaurants/${restaurantId}`),
 
+    // Commande
+    getAllOrders:() => axios.get(`${API_URL}/accounts/orders/status`),
+
     // Menus
     createMenu: (restaurantId, data) => axios.post(`${API_URL}/restaurants/${restaurantId}/menus`, data),
     getAllMenus: (restaurantId) => axios.get(`${API_URL}/restaurants/${restaurantId}/menus`),
