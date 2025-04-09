@@ -3,6 +3,18 @@ import "./BurgerMenu.css";
 import pfp from "../../resources/images/noProfilPicture.png";
 import { FaUser, FaBoxOpen, FaGift } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+
+const fetchAuthenticatedUser = async () => {
+  try {
+    const res = await axios.get("http://localhost:8080/authenticate", {
+      withCredentials: true
+    });
+    console.log("Utilisateur :", res.data.user);
+  } catch (err) {
+    console.error("Erreur auth :", err);
+  }
+};
 
 function BurgerMenu({ isOpen, onClose }) {
   const menuRef = useRef();
@@ -23,6 +35,8 @@ function BurgerMenu({ isOpen, onClose }) {
   }, [onClose]);
 
   if (!isOpen) return null;
+
+  fetchAuthenticatedUser();
 
   return (
     <div className="burger-menu-overlay">

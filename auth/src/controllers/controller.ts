@@ -36,13 +36,13 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     const { data: accounts } = await axios.get(`${API_URL}`);
     const user = accounts.find((acc: any) => acc.email === email);
 
-    if(user.is_active === false){
-      res.status(401).json({ message: "Le compte est suspendu jusqu'à " + user.suspended_until });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      res.status(401).json({ message: 'Invalid credentials' });
       return;
     }
 
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      res.status(401).json({ message: 'Invalid credentials' });
+    if(user.is_active === false){
+      res.status(401).json({ message: "Le compte est suspendu jusqu'à " + user.suspended_until });
       return;
     }
 
