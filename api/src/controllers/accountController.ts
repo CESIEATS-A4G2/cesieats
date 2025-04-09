@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Account } from "../models/account";
+import { Op } from "sequelize";
 
 // Créer un compte utilisateur
 export const createAccount = async (
@@ -34,7 +35,9 @@ export const getAllAccounts = async (
   res: Response
 ): Promise<void> => {
   try {
-    const accounts = await Account.findAll();
+    const accounts = await Account.findAll({
+      where: { role: { [Op.not]: "Admin" } },
+    });
     res.status(200).json(accounts);
     return;
   } catch (error) {
@@ -123,11 +126,9 @@ export const updateAccount = async (
 
     const account_email = await Account.findOne({ where: { email: email } });
     if (account_email) {
-      res
-        .status(404)
-        .json({
-          message: "Cette adresse mail est déjà utilisée par un autre compte",
-        });
+      res.status(404).json({
+        message: "Cette adresse mail est déjà utilisée par un autre compte",
+      });
       return;
     }
 
@@ -157,11 +158,9 @@ export const suspendAccount = async (
     }
 
     if (!Number.isInteger(suspend_time)) {
-      res
-        .status(500)
-        .json({
-          message: "Le temps de suspension spécifié n'est pas un entier",
-        });
+      res.status(500).json({
+        message: "Le temps de suspension spécifié n'est pas un entier",
+      });
       return;
     }
 

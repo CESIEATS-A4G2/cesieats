@@ -5,7 +5,7 @@ CREATE TABLE Accounts (
     password VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
     address VARCHAR(255),
-    role ENUM('User', 'Delivery Man', 'Restaurateur') NOT NULL,
+    role ENUM('User', 'Delivery Man', 'Restaurateur', 'Admin') NOT NULL,
     is_active BOOLEAN DEFAULT TRUE,
     suspended_until DATETIME DEFAULT NULL,
     image VARCHAR(255),
@@ -148,7 +148,8 @@ INSERT INTO Accounts (name, email, password, phone, address, role) VALUES
 ('John Doe', 'john.doe@example.com', 'hashedpassword1', '1234567890', '123 Main St', 'User'),
 ('Jane Smith', 'jane.smith@example.com', 'hashedpassword2', '0987654321', '456 Oak St', 'User'),
 ('Mike Johnson', 'mike.johnson@example.com', 'hashedpassword3', '1122334455', '789 Pine St', 'Delivery Man'),
-('Restaurant Owner', 'owner@example.com', 'hashedpassword4', '2233445566', '321 Birch St', 'Restaurateur');
+('Restaurant Owner', 'owner@example.com', 'hashedpassword4', '2233445566', '321 Birch St', 'Restaurateur'),
+('Mr Admin', 'admin@example.com', 'admin', '', '', 'Admin');
 
 -- Insertion des restaurants
 INSERT INTO Restaurants (name, description, address,fees,prep_time,image, open_hour) VALUES
