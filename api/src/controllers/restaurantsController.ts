@@ -68,6 +68,28 @@ export const getRestaurantById = async (
   }
 };
 
+export const getRestaurantsByAccount = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { account_id } = req.params;
+
+    const account = await Account.findByPk(account_id, {
+      include: {
+        model: Restaurant,
+        through: { attributes: [] } // pour ne pas inclure les données de la table pivot
+      }
+    });
+
+    if (!account) {
+      res.status(404).json({ message: "Compte introuvable" });
+      return;
+    }
+
+    res.status(200).json(account.get("Restaurants"));
+  } catch (error) {
+    res.status(500).json({ message: "Erreur lors de la récupération des restaurants", error });
+  }
+};
+
 export const addRestaurantToRestaurateur = async (
   req: Request,
   res: Response

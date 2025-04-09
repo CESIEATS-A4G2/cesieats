@@ -1,6 +1,5 @@
 import express from 'express';
-import { createMenu, deleteMenu, getAllMenusFromRestaurant, getMenuByIdByRestaurant, addItemToMenu, removeItemFromMenu } from '../controllers/menuController';
-import { deleteRestaurant } from '../controllers/restaurantsController';
+import { createMenu, deleteMenu, getAllMenusFromRestaurant, getMenuByIdByRestaurant, addItemToMenu, removeItemFromMenu, updateMenu } from '../controllers/menuController';
 
 const router = express.Router();
 
@@ -10,5 +9,6 @@ router.delete('/:restaurant_id/menus/:menu_id/items/:item_id', removeItemFromMen
 router.get('/:restaurant_id/menus', getAllMenusFromRestaurant);
 router.get('/:restaurant_id/menus/:menu_id', getMenuByIdByRestaurant);
 router.delete('/:restaurant_id/menus/:menu_id', deleteMenu);
+router.put('/:restaurant_id/menus/:menu_id', updateMenu);
 
 export default router;
