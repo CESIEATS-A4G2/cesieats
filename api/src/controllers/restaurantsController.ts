@@ -68,15 +68,18 @@ export const getRestaurantById = async (
   }
 };
 
-export const getRestaurantsByAccount = async (req: Request, res: Response): Promise<void> => {
+export const getRestaurantsByAccount = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { account_id } = req.params;
 
     const account = await Account.findByPk(account_id, {
       include: {
         model: Restaurant,
-        through: { attributes: [] } // pour ne pas inclure les données de la table pivot
-      }
+        through: { attributes: [] }, // pour ne pas inclure les données de la table pivot
+      },
     });
 
     if (!account) {
@@ -86,7 +89,12 @@ export const getRestaurantsByAccount = async (req: Request, res: Response): Prom
 
     res.status(200).json(account.get("Restaurants"));
   } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la récupération des restaurants", error });
+    res
+      .status(500)
+      .json({
+        message: "Erreur lors de la récupération des restaurants",
+        error,
+      });
   }
 };
 
@@ -132,12 +140,10 @@ export const addRestaurantToRestaurateur = async (
     res.status(201).json(account_restaurant);
     return;
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Erreur lors de l'ajout d'un restaurant à un utilisateur",
-        error,
-      });
+    res.status(500).json({
+      message: "Erreur lors de l'ajout d'un restaurant à un utilisateur",
+      error,
+    });
   }
 };
 
@@ -186,12 +192,10 @@ export const removeRestaurantFromRestaurateur = async (
       .json({ message: "Le restaurant a bien été retiré de l'utilisateur" });
     return;
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Erreur lors du retirement d'un restaurant à un utilisateur",
-        error,
-      });
+    res.status(500).json({
+      message: "Erreur lors du retirement d'un restaurant à un utilisateur",
+      error,
+    });
   }
 };
 
@@ -214,5 +218,50 @@ export const deleteRestaurant = async (
     res
       .status(500)
       .json({ message: "Erreur lors de la suppression du restaurant", error });
+  }
+};
+
+export const updateRestaurant = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { restaurant_id } = req.params;
+    const { name, description, address, fees, prep_time, image, open_hour } =
+      req.body;
+
+    const restaurant = await Restaurant.findByPk(restaurant_id);
+    if (!restaurant) {
+      res.status(404).json({ message: "Restaurant non trouvé" });
+      return;
+    }
+
+    const restaurant_name = await Restaurant.findOne({ where: { name: name } });
+    if (restaurant_name) {
+      res
+        .status(404)
+        .json({
+          message:
+            "Ce nom de restaurant est déjà utilisé par un autre restaurant",
+        });
+      return;
+    }
+
+    await restaurant.update({
+      name,
+      description,
+      address,
+      fees,
+      prep_time,
+      image,
+      open_hour,
+    });
+
+    res.status(200).json(restaurant);
+    return;
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Erreur lors de la mise à jour du compte", error });
   }
 };
