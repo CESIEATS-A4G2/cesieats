@@ -1,7 +1,6 @@
 /* CSS - CommandesRestaurateur.css */
 
 .command-admin-page {
-  padding: 30px;
   font-family: Arial, sans-serif;
 }
 
@@ -10,6 +9,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 30px;
+  
 }
 
 .menu-icon {
@@ -29,6 +29,7 @@
   display: flex;
   justify-content: space-between;
   gap: 40px;
+  padding: 30px;
 }
 
 .column {
@@ -40,6 +41,7 @@
 h2 {
   font-size: 22px;
   font-weight: bold;
+
 }
 
 /* Augmentation de la taille des cartes pour une meilleure lisibilité et clicabilité */
