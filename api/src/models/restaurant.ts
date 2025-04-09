@@ -28,7 +28,7 @@ class Restaurant extends Model<RestaurantAttributes, Optional<RestaurantAttribut
 }
 
 Restaurant.init({
-    restaurant_id: { type: DataTypes.STRING, primaryKey: true, allowNull: false, defaultValue: () => UUIDV4() },
+    restaurant_id: { type: DataTypes.STRING, primaryKey: true, allowNull: true },
     name: { type: DataTypes.STRING, allowNull: false, unique: true },
     description: { type: DataTypes.STRING },
     address: { type: DataTypes.STRING, allowNull: false },
