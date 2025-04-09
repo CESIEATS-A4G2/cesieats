@@ -5,6 +5,7 @@ if (db.orders.countDocuments() === 0) {
     {
       "account_id": "ACC000001",
       "restaurant_id": "RES000001",
+      "restaurant_name": "Le resto de Jerome",
       "restaurant_address": "Allée du grand Ethan",
       "delivery_address": "Boulevard de CESI",
       "status": "DONE",
@@ -28,6 +29,7 @@ if (db.orders.countDocuments() === 0) {
     {
       "account_id": "ACC000002",
       "restaurant_id": "RES000002",
+      "restaurant_name": "Burger Heaven",
       "restaurant_address": "Rue de Ange",
       "delivery_address": "Impasse du Saugrenu",
       "status": "DELIVERY_IN_PROGRESS",
@@ -50,6 +52,7 @@ if (db.orders.countDocuments() === 0) {
     {
       "account_id": "ACC000001",
       "restaurant_id": "RES000002",
+      "restaurant_name": "Burger Heaven",
       "restaurant_address": "Montée de la montage",
       "delivery_address": "Rue de la choucroute",
       "status": "IN_PREPARATION",
@@ -62,6 +65,7 @@ if (db.orders.countDocuments() === 0) {
     {
       "account_id": "ACC000002",
       "restaurant_id": "RES000001",
+      "restaurant_name": "Pizza Palace",
       "status": "PENDING_CONFIRMATION",
       "items": [],
       "menus": [
@@ -80,6 +84,7 @@ if (db.orders.countDocuments() === 0) {
     {
       "account_id": "ACC000001",
       "restaurant_id": "RES000002",
+      "restaurant_name": "Burger Heaven",
       "restaurant_address": "Avenue du malvenu",
       "delivery_address": "chez moi svp",
       "status": "DELIVERY_IN_PROGRESS",
@@ -102,6 +107,7 @@ if (db.orders.countDocuments() === 0) {
     {
       "account_id": "ACC000002",
       "restaurant_id": "RES000001",
+      "restaurant_name": "Pizza Palace",
       "restaurant_address": "Rue des restos vegan",
       "delivery_address": "Rue du gars qui commande une salade et un smoothie",
       "status": "IN_PREPARATION",
