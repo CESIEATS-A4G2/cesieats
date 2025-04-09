@@ -102,7 +102,7 @@ function GestionCommandeRestaurateur() {
                 <button className="accepter2" onClick={handleClickInPrepa}>Prête</button>
               </>
             ) : (
-              <button className="accepter2" onClick={handleClickPendingCon}>Commande récupérée</button>
+              <div/>
             )}
           </div>
         </div>

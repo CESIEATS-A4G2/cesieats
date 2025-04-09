@@ -1,7 +1,7 @@
 import React from "react";
 import "./GestionUtilisateurAdmin.css";
 
-import Header from "../../components/header/TopNavBarAdmin";
+import Header from "../../components/header/Admin/HeaderAdmin";
 import Footer from "../../components/footer/SiteFooter";
 import GestionUtilisateur from "../../components/gestionUtilisateur/GestionUtilisateur";
 import noProfilPicture from "../../resources/images/noProfilPicture.png"
@@ -27,7 +27,7 @@ function GestionUtilisateurAdmin() {
  
   return (
     <div className="gestionutilisateur-container">
-      <Header />
+      <Header role="Admin"/>
       <div className="contenu-utilisateurs">
         <h1>Gestion des utilisateurs</h1>
         {accounts.map((account) => (

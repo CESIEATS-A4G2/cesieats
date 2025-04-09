@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import HeaderLivreurMobile from "../../components/header/headerLivreurMobile/HeaderLivreurMobile"
+import Header from "../../components/header/Header"
 import "./LivraisonCommande.css";
 import { useLocation, useNavigate } from "react-router-dom"; // Ajout de useNavigate
 import api from "../../api";
@@ -44,7 +44,7 @@ const LivraisonCommande = () => {
 
   return (
     <div className="livraison-command-page">
-      <HeaderLivreurMobile />
+      <Header role="DeliveryMan"/>
       
       <div className="livraison-card">
         

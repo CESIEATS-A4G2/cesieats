@@ -65,6 +65,8 @@ function CreationArticle() {
           };      
 
         navigate("/gestionarticle-restaurateur");
+        window.location.reload();
+
         try {
             if (isNew) {
                 await api.createItem("RES000001", dataCreate);

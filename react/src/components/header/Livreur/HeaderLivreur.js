@@ -1,5 +1,5 @@
 import React from "react";
-import "./HeaderLivreurMobile.css";
+import "./HeaderLivreur.css";
 import { FiBell, FiUser } from "react-icons/fi";
 import bannerLogo from "../../../resources/images/CESIEat_BannerLogo.png";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ function HeaderLivreurMobile() {
 
     return (
         <>
-            <div className="topNavBarMobileContainer">
+            <div className="topHeader MobileContainer">
                 {/* Logo */}
                 <div className="logoContainer" onClick={() => navigate("/liste-commandes-livreur")}>
                     <img src={bannerLogo} alt="CESIEATS" className="mobileLogo" />

@@ -50,7 +50,6 @@ function App() {
         <Route path="/liste-commandes-livreur" element={<ListeCommandesLivreur />} />
         <Route path="/livraison-livreur" element={<LivraisonLivreur />} />
 
-        <Route path="/compte-admin" element={<AdminCompte />} />
         <Route path="/gestion-compte-admin" element={<GestionUtilisateurAdmin />} />
         <Route path="/gestioncommand-admin" element={<GestionCommandeAdmin />} />
         <Route path="/commande-admin" element={<CommandeAdmin />} />
