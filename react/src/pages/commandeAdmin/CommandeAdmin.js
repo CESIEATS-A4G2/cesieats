@@ -30,6 +30,31 @@ function formatDate(dateString) {
   // Formater la date avec les options et la locale en français
   return new Intl.DateTimeFormat('fr-FR', options).format(date);
 }
+
+function textChangingStatus(type, textnumber){
+  const key = `${type}-${textnumber}`;
+  switch (key) {
+    case "PENDING_CONFIRMATION-1":
+      return "En attente de confirmation";
+    case "PENDING_CONFIRMATION-2":
+      return "L’établissement va confirmer votre commande.";
+    case "IN_PREPARATION-1":
+      return "En cours de préparation...";
+    case "IN_PREPARATION-2":
+      return "L’établissement a pris en charge votre commande et est en train de la préparer.";
+    case "DELIVERY_IN_PROGRESS-1":
+      return "Livraison en cours";
+    case "DELIVERY_IN_PROGRESS-2":
+      return "Le livreur est en chemin vers l'adresse de livraison.";
+    case "DONE-1":
+      return "Commande récupérée";
+    case "DONE-2":
+      return "La commande a bien été livrée à l'adresse de livraison.";
+    default:
+      return "Valeurs inconnues";
+  }
+}
+
 function CommandeAdmin() {
   const navigate = useNavigate();
   const location = useLocation(); // Récupérer l'état passé avec navigate
@@ -106,7 +131,7 @@ function CommandeAdmin() {
     <>
       <Header />
       <div className="suivi-commande-container">
-        <h2>Commande en cours</h2>
+        <h2>Commande de {nomClient}</h2>
 
         <div className="commande-info">
           <img src={mcdoImage} alt="McDonald's" className="commande-image" />
@@ -149,8 +174,8 @@ function CommandeAdmin() {
         </div>
 
         <div className="tracking-text">
-          <h3>En cours de préparation...</h3>
-          <p>L’établissement a pris en charge votre commande et est en train de la préparer.</p>
+          <h3>{textChangingStatus(type, "1")}</h3>
+          <p>{textChangingStatus(type, "2")}</p>
         </div>
       </div>
       <Footer />
