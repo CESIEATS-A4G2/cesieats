@@ -7,6 +7,8 @@ CREATE TABLE Accounts (
     address VARCHAR(255),
     role ENUM('User', 'Delivery Man', 'Restaurateur') NOT NULL,
     is_active BOOLEAN DEFAULT TRUE,
+    suspended_until DATE DEFAULT NULL,
+    image VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -16,6 +18,9 @@ CREATE TABLE Restaurants (
     name VARCHAR(150) NOT NULL,
     description VARCHAR(255),
     address VARCHAR(255) NOT NULL,
+    fees DECIMAL(10,2) NOT NULL,
+    prep_time INT,
+    image VARCHAR(255),
     open_hour VARCHAR(50)
 );
 
@@ -33,17 +38,19 @@ CREATE TABLE Menus (
     name VARCHAR(150) NOT NULL,
     description VARCHAR(255),
     price DECIMAL(10,2) NOT NULL,
-    image LONGBLOB,
+    image VARCHAR(255),
     FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Items (
     item_id VARCHAR(12) PRIMARY KEY,
     restaurant_id VARCHAR(12),
+    options_label VARCHAR(255),
+    options JSON,
     name VARCHAR(150) NOT NULL,
     description VARCHAR(255),
     price DECIMAL(10,2) NOT NULL,
-    image LONGBLOB,
+    image VARCHAR(255),
     FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
@@ -57,7 +64,9 @@ CREATE TABLE Menu_Item (
 
 CREATE TABLE Carts (
     account_id VARCHAR(12) PRIMARY KEY,
-    FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE
+    restaurant_id VARCHAR(12),
+    FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE,
+    FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Cart_Item (
@@ -131,3 +140,5 @@ FOR EACH ROW
 BEGIN
     SET NEW.log_id = CONCAT('REV', LPAD((SELECT COALESCE(MAX(SUBSTRING(log_id, 4)), 0) + 1 FROM Logs), 6, '0'));
 END$$
+
+DELIMITER $$
