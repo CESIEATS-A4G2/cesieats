@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import "./TopNavBar.css";
-import TopNavBarMobile from "./TopNavBarMobile";
+import "./HeaderUser.css";
+import HeaderUserMobile from "./HeaderUserMobile";
 import { FiAlignJustify } from "react-icons/fi";
 import { PiShoppingCartSimpleFill } from "react-icons/pi";
-import bannerLogo from "../../resources/images/CESIEat_BannerLogo.png";
-import BurgerMenu from "../burgerMenu/BurgerMenu";
-import Panier from "../../pages/panier/Panier";
+import bannerLogo from "../../../resources/images/CESIEat_BannerLogo.png";
+import BurgerMenu from "../../burgerMenu/BurgerMenu";
+import Panier from "../../../pages/panier/Panier";
 import { useNavigate } from "react-router-dom";
-import api from '../../api'; // 🔥 Importation de ton fichier API
+import api from '../../../api'; // 🔥 Importation de ton fichier API
 
-function TopNavBar() {
+function HeaderUser() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPanierOpen, setIsPanierOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -49,13 +49,13 @@ function TopNavBar() {
   };
 
   if (isMobile) {
-    return <TopNavBarMobile />;
+    return <HeaderUserMobile />;
   }
 
   return (
     <>
-      <div className="topNavBarContainer">
-        <div className="topNavBarLeft">
+      <div className="HeaderUserContainer">
+        <div className="HeaderUserLeft">
           <FiAlignJustify className="hambIcon" onClick={toggleMenu} />
           <img
             src={bannerLogo}
@@ -66,7 +66,7 @@ function TopNavBar() {
           />
         </div>
 
-        <div className="topNavBarCart" onClick={togglePanier}>
+        <div className="HeaderUserCart" onClick={togglePanier}>
           <PiShoppingCartSimpleFill className="cartIcon" />
           Panier • {itemCount} {/* 🔥 Affiche dynamiquement le nombre d’items */}
         </div>
@@ -78,4 +78,4 @@ function TopNavBar() {
   );
 }
 
-export default TopNavBar;
+export default HeaderUser;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./GestionCommandeAdmin.css";
 import TicketCommandePreteAdmin from "../../components/ticketCommandeAdmin/TicketCommandePreteAdmin";
-import Header from "../../components/header/TopNavBarAdmin";
+import Header from "../../components/header/Admin/HeaderAdmin";
 import Footer from "../../components/footer/SiteFooter";
 import api from "../../api";
 
@@ -88,7 +88,7 @@ function GestionCommandeAdmin() {
 
   return (
     <div className="command-admin-page">
-      <Header />
+      <Header role="Admin"/>
       <div className="header">
         <h1 className="title">Commandes</h1>
       </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import RestaurantHeader from "../../components/restaurantHeader/RestaurantHeader";
 import ProductSection from "../../components/productSection/ProductSection";
-import Header from "../../components/header/TopNavBar";
+import Header from "../../components/header/Header";
 import Footer from "../../components/footer/SiteFooter";
 import api from '../../api';
 import "./RestaurantPage.css";
@@ -21,7 +21,7 @@ function RestaurantPage() {
 
   return (
     <div className="restaurant-page">
-      <Header />
+      <Header role="User"/>
       <RestaurantHeader 
         name={restaurant.name} 
         description={restaurant.description} 

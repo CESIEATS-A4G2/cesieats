@@ -1,6 +1,6 @@
 import React from "react";
 import "./ItemPageMobile.css";
-import Header from "../../components/header/TopNavBar";
+import Header from "../../components/header/Header";
 import Footer from "../../components/footer/SiteFooter";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -19,7 +19,7 @@ function ItemPageMobile() {
 
   return (
     <div className="item-page-mobile">
-      <Header />
+      <Header role="User"/>
       <div className="item-content-mobile">
         <button className="back-btn-mobile" onClick={() => navigate(-1)}>← Retour</button>
         <div className="item-main-mobile">

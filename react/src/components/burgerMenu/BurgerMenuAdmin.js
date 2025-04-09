@@ -37,7 +37,7 @@ function BurgerMenuAdmin({ isOpen, onClose }) {
           className="burger-item"
           onClick={() => {
             onClose();
-            navigate("/compte-admin");
+            navigate("/mon-compte");
           }}
         >
           <FaUser className="burger-icon" />

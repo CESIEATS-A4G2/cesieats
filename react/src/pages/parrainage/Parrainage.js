@@ -1,11 +1,15 @@
 import React from "react";
 import "./Parrainage.css";
-import TopNavBar from "../../components/header/TopNavBar";
-import SiteFooter from "../../components/footer/SiteFooter";
+import { useLocation,useNavigate } from "react-router-dom";
+import Header from "../../components/header/Header";
+import Footer from "../../components/footer/SiteFooter";
 import { FaUsers, FaPaperPlane, FaEnvelope } from "react-icons/fa";
 import icecream from "../../resources/images/icecream-bowl.png";
 
 function Parrainage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const role = location.state?.role;
   const code = "cesieats-fdg12qsdkm";
 
   const copyToClipboard = () => {
@@ -13,12 +17,17 @@ function Parrainage() {
     alert("Code copié !");
   };
 
+  console.log("role", role);
+
   return (
     <>
-      <TopNavBar />
+      {role !== "Restaurateur" && <Header role={role} />}
       <div className="parrainage-container">
         <div className="parrainage-content">
           <div className="left-section">
+          {role === "Restaurateur" && (
+  <button className="back-button5" onClick={() => navigate(-1)}>← Retour</button>
+)}
             <h1>
               <FaUsers  /> À plusieurs, <span className="highlight">c’est toujours meilleur</span>
             </h1>
@@ -51,7 +60,7 @@ function Parrainage() {
           </div>
         </div>
       </div>
-      <SiteFooter />
+      {role !== "Restaurateur" && role !== "DeliveryMan" && <Footer />}
     </>
   );
 }
