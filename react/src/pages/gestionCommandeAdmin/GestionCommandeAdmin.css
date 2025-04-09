@@ -28,15 +28,17 @@
 .columns {
   display: flex;
   justify-content: space-between;
-  gap: 40px;
-  padding: 30px;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .column {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
+  flex: 1;
+  min-width: 220px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
 h2 {
   font-size: 22px;

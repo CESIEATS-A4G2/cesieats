@@ -39,16 +39,24 @@
   }
   
   .tracking-step {
-    font-size: 2rem;
-    position: relative;
+    color: #ccc;  /* Gris pour les icônes inactives */
   }
   
+  .tracking-step.active {
+    color: #4CAF50;  /* Vert pour les icônes actives */
+  }
   .tracking-line {
     flex-grow: 1;
     height: 4px;
     background-color: #ccc;
     margin: 0 0.5rem;
   }
+
+  .tracking-line.active {
+    background-color: #4CAF50;  /* Couleur verte pour la ligne active */
+  }
+
+  
   
   .preparing {
     color: green;
