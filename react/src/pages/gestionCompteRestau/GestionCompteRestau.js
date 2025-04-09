@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from "react";
-import "./GestionCompte.css";
+import "./GestionCompteRestau.css";
 import Header from "../../components/header/TopNavBar";
 import Footer from "../../components/footer/SiteFooter";
 import userImg from "../../resources/images/account-illustration.png";
 import { useNavigate } from "react-router-dom"; 
 import axios from "axios";
+import { FiAlignJustify } from "react-icons/fi";
+import BurgerMenuRestaurateur from "../../components/burgerMenuRestaurateur/BurgerMenuRestaurateur";
 
-function GestionCompte({ userType = "client" }) {  // Ajout du paramètre userType
+function GestionCompteRestaurant({ userType = "restaurant" }) {  // Ajout du paramètre userType
   const [isEditing, setIsEditing] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [name, setName] = useState("Aurélie Mami");
-  const [phone, setPhone] = useState("+33 6 12 34 56 78");
-  const [email, setEmail] = useState("aurelie.mamie@wanadoo.com");
-  const [password, setPassword] = useState("**********");
+  const [name, setName] = useState("A SYNCHRONISER AVEC LA BDD");
+  const [description, setDescription] = useState("A SYNCHRONISER AVEC LA BDD");
+  const [adresse, setAdresse] = useState("A SYNCHRONISER AVEC LA BDD");
+  const [frais, setFrais] = useState("A SYNCHRONISER AVEC LA BDD");
+  const [horaire, setHoraire] = useState("A SYNCHRONISER AVEC LA BDD");
   const preset_key = "cldinery";
   const cloud_name = "dzsnjlgc5";
   const [image, setImage] = useState();  
+
 
   const navigate = useNavigate(); 
 
@@ -32,7 +37,7 @@ function GestionCompte({ userType = "client" }) {  // Ajout du paramètre userTy
   };
 
   const handleChangePassword = () => setIsPasswordModalOpen(true);
-
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const handleCloseModal = () => setIsPasswordModalOpen(false);
 
   function handleFile(event){
@@ -47,7 +52,10 @@ function GestionCompte({ userType = "client" }) {  // Ajout du paramètre userTy
   }
   return (
     <div className="gestion-page">
-      <Header />
+      <div className="header">
+          <FiAlignJustify className="menu-icon" onClick={toggleMenu} />
+      </div>
+      <BurgerMenuRestaurateur isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)}/>
       <div className="gestion-container">
         <div className="infos">
           <h2>Informations personnelles ({userType})</h2>
@@ -78,34 +86,57 @@ function GestionCompte({ userType = "client" }) {  // Ajout du paramètre userTy
             )}
           </div>
           <div className="info-block">
-            <p className="label">Numéro de téléphone</p>
+            <p className="label">Description</p>
+            {isEditing ? (
+              <input
+              type="text"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="editable-input"
+            />
+            ) : (
+              <p className="value">{description}</p>
+            )}
+          </div>
+          <div className="info-block">
+            <p className="label">Adresse</p>
             {isEditing ? (
               <input
                 type="text"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                value={adresse}
+                onChange={(e) => setAdresse(e.target.value)}
                 className="editable-input"
               />
             ) : (
-              <p className="value">{phone}</p>
+              <p className="value">{adresse}</p>
             )}
           </div>
+          
           <div className="info-block">
-            <p className="label">E-mail</p>
+            <p className="label">Frais</p>
             {isEditing ? (
               <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                value={frais}
+                onChange={(e) => setFrais(e.target.value)}
                 className="editable-input"
               />
             ) : (
-              <p className="value">{email}</p>
+              <p className="value">{frais}</p>
             )}
           </div>
           <div className="info-block">
-            <p className="label">Mot de passe</p>
-            <p className="value">{password}</p>
+            <p className="label">Horaire d'ouverture</p>
+            {isEditing ? (
+              <input
+                type="text"
+                value={horaire}
+                onChange={(e) => setHoraire(e.target.value)}
+                className="editable-input"
+              />
+            ) : (
+              <p className="value">{horaire}</p>
+            )}
           </div>
           {isEditing && (
             <button className="change-password-button" onClick={handleChangePassword}>
@@ -158,9 +189,9 @@ function GestionCompte({ userType = "client" }) {  // Ajout du paramètre userTy
           </div>
         </div>
       )}
-      <Footer />
     </div>
+    
   );
 }
 
-export default GestionCompte;
+export default GestionCompteRestaurant;

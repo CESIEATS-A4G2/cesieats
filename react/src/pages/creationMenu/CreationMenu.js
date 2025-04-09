@@ -9,6 +9,7 @@ import doubleCheeseImage from "../../resources/images/doubleCheese.png";
 import frites from "../../resources/images/frites.png";
 import glace from "../../resources/images/icecream-bowl.png";
 import nuggets from "../../resources/images/nuggets.png";
+import axios from "axios";
 
 function CreationMenu() {
   const location = useLocation();
@@ -27,6 +28,8 @@ function CreationMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [items, setItems] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const preset_key = "cldinery";
+  const cloud_name = "dzsnjlgc5";
 
   useEffect(() => {
     if (!isNew) {
@@ -63,6 +66,17 @@ function CreationMenu() {
     const newItems = items.filter((_, i) => i !== index);
     setItems(newItems);
   };
+
+  function handleFile(event){
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", preset_key); // Remplace par ton upload preset
+    axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, formData)
+    .then(res => setImage(res.data.secure_url))
+    .catch(err => console.error(err));
+    
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -143,7 +157,11 @@ function CreationMenu() {
 
         <div className="form-group">
           <label htmlFor="image">Choisir une image</label>
-          <input type="file" id="image" accept="image/*" onChange={handleImageChange} />
+          <input
+          type="file"
+          onChange={handleFile}
+          className="form-group"
+          />
           {image && <img src={image} alt="Preview" className="image-preview" />}
         </div>
 
