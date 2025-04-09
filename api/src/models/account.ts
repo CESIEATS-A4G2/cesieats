@@ -14,6 +14,7 @@ interface AccountAttributes {
   created_at?: Date;
   updated_at?: Date;
   is_active?: boolean;
+  suspended_until?: Date | null;
 }
 
 // Modele de base Account
@@ -32,6 +33,7 @@ class Account
   public created_at?: Date;
   public updated_at?: Date;
   public is_active?: boolean;
+  public suspended_until?: Date | null;
 }
 
 Account.init(
@@ -67,7 +69,8 @@ Account.init(
     },
     image: {
       type: DataTypes.STRING,
-      defaultValue: "https://res.cloudinary.com/dzsnjlgc5/image/upload/v1744120309/thumb_15951118880user_ffpe0r.png",
+      defaultValue:
+        "https://res.cloudinary.com/dzsnjlgc5/image/upload/v1744120309/thumb_15951118880user_ffpe0r.png",
     },
     created_at: {
       type: DataTypes.DATE,
@@ -80,6 +83,10 @@ Account.init(
     is_active: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
+    },
+    suspended_until: {
+      type: DataTypes.DATE,
+      defaultValue: null,
     },
   },
   { sequelize, modelName: "Account", timestamps: false }

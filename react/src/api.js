@@ -73,6 +73,7 @@ const api = {
     deleteOrderById:(order_id) => axios.delete(`${API_URL}/orders/${order_id}`),
     createOrder: (account_id) => axios.post(`${API_URL}/accounts/${account_id}/orders`),
     getOrderByStatus: (status) => axios.get(`${API_URL}/orders/status/${status}`),
+    getOrderByAccountAndStatus:(account_id, status) => axios.get(`${API_URL}/accounts/${account_id}/orders/status/${status}`),
     changeStatusByOrder: (order_id, status) => axios.put(`${API_URL}/orders/${order_id}/${status}`),
 
 

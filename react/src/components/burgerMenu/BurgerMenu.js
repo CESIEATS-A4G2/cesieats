@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import "./BurgerMenu.css";
-import pfp from "../../resources/images/pfp.png";
+import pfp from "../../resources/images/noProfilPicture.png";
 import { FaUser, FaBoxOpen, FaGift } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 

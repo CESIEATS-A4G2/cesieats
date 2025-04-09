@@ -16,13 +16,14 @@ if (db.orders.countDocuments() === 0) {
         {
           "name": "Burger Combo",
           "quantity": 1,
+          "price": 9.0,
           "items": [
             { "name": "Burger", "price": 7.5 },
             { "name": "Soda", "price": 2.0 }
           ]
         }
       ],
-      "totalPrice": 27.5
+      "totalPrice": 27
     },
     {
       "account_id": "ACC000002",
@@ -37,13 +38,14 @@ if (db.orders.countDocuments() === 0) {
         {
           "name": "Sushi Menu",
           "quantity": 2,
+          "price": 6.7,
           "items": [
-            { "name": "Sushi Roll", "price": 5.5 },
-            { "name": "Miso Soup", "price": 2.5 }
+            { "name": "Sushi Roll" },
+            { "name": "Miso Soup" }
           ]
         }
       ],
-      "totalPrice": 36.5
+      "totalPrice": 29.9
     },
     {
       "account_id": "ACC000001",
@@ -66,13 +68,14 @@ if (db.orders.countDocuments() === 0) {
         {
           "name": "Pasta Menu",
           "quantity": 2,
+          "price": 8,
           "items": [
-            { "name": "Spaghetti", "price": 6.5 },
-            { "name": "Garlic Bread", "price": 2.0 }
+            { "name": "Spaghetti" },
+            { "name": "Garlic Bread" }
           ]
         }
       ],
-      "totalPrice": 17.0
+      "totalPrice": 16.0
     },
     {
       "account_id": "ACC000001",
@@ -87,13 +90,14 @@ if (db.orders.countDocuments() === 0) {
         {
           "name": "Wing Combo",
           "quantity": 1,
+          "price": 8.6,
           "items": [
-            { "name": "Chicken Wings", "price": 7.0 },
-            { "name": "Coleslaw", "price": 2.0 }
+            { "name": "Chicken Wings" },
+            { "name": "Coleslaw" }
           ]
         }
       ],
-      "totalPrice": 16.2
+      "totalPrice": 15.8
     },
     {
       "account_id": "ACC000002",

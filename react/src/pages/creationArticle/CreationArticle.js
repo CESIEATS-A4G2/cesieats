@@ -3,7 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "./CreationArticle.css";
 import BurgerMenuRestaurateur from "../../components/burgerMenuRestaurateur/BurgerMenuRestaurateur";
 import { FiAlignJustify } from "react-icons/fi";
-import api from "../../api"; // Assure-toi que c'est bien importé
+import api from "../../api"; 
+import axios from "axios";
 
 function CreationArticle() {
     const location = useLocation();
@@ -17,6 +18,8 @@ function CreationArticle() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [articleName, setArticleName] = useState(articleData.name || "");
     const [articleId, setArticleId] = useState(articleData.id || "");
+    const preset_key = "cldinery";
+    const cloud_name = "dzsnjlgc5";    
 
     useEffect(() => {
         if (!isNew) {
@@ -30,9 +33,19 @@ function CreationArticle() {
     
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-    const handleImageChange = (event) => {
-        setImage(URL.createObjectURL(event.target.files[0]));
-    };
+
+        function handleFile(event){
+            const file = event.target.files[0];
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", preset_key); // Remplace par ton upload preset
+            axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, formData)
+            .then(res => setImage(res.data.secure_url))
+            .catch(err => console.error(err));
+            
+          }
+        
+
     const handleSubmit = async (event) => {
         event.preventDefault();
       
@@ -113,7 +126,11 @@ function CreationArticle() {
 
                 <div className="form-group">
                     <label htmlFor="image">Choisir une image</label>
-                    <input type="file" id="image" accept="image/*" onChange={handleImageChange} />
+                    <input
+                    type="file"
+                    onChange={handleFile}
+                    className="form-group"
+                    />
                     {image && <img src={image} alt="Preview" className="image-preview" />}
                 </div>
 

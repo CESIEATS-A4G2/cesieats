@@ -7,6 +7,7 @@ CREATE TABLE Accounts (
     address VARCHAR(255),
     role ENUM('User', 'Delivery Man', 'Restaurateur') NOT NULL,
     is_active BOOLEAN DEFAULT TRUE,
+    suspended_until DATETIME DEFAULT NULL,
     image VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
