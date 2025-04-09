@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom"; // 👈
 import "./CreationMenu.css";
 import BurgerMenuRestaurateur from "../../components/burgerMenuRestaurateur/BurgerMenuRestaurateur";
 import { FiAlignJustify } from "react-icons/fi";
+import { useLocation, useNavigate } from "react-router-dom";
+import api from "../../api";
 
 import doubleCheeseImage from "../../resources/images/doubleCheese.png";
 import frites from "../../resources/images/frites.png";
@@ -10,16 +11,31 @@ import glace from "../../resources/images/icecream-bowl.png";
 import nuggets from "../../resources/images/nuggets.png";
 
 function CreationMenu() {
-  const location = useLocation(); // 👈 Récupération des données
+  const location = useLocation();
+  const navigate = useNavigate();
+  const restaurantId = location.state?.restaurantId || "RES000001";
+  const isNew = location.state?.mode === "new";
+
   const menuData = location.state || {};
 
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [image, setImage] = useState(null);
+  const [menuName, setMenuName] = useState("");
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [menuName, setMenuName] = useState(menuData.name || "");
-  const [description, setDescription] = useState(menuData.description || "");
-  const [price, setPrice] = useState(menuData.price || "");
-  const [image, setImage] = useState(menuData.image || null);
-  const [items, setItems] = useState(menuData.items || []);
+  const [items, setItems] = useState([]);
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    if (!isNew) {
+      setMenuName(menuData.name || "");
+      setDescription(menuData.description || "");
+      setPrice(menuData.price || "");
+      setImage(menuData.image || null);
+      setItems(menuData.items || []);
+    }
+  }, []);
 
   const [availableItems] = useState([
     { name: "CheeseBurger", image: doubleCheeseImage },
@@ -46,9 +62,25 @@ function CreationMenu() {
     setItems(newItems);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log({ menuName, description, price, image, items });
+
+    const data = {
+      restaurant_id: restaurantId,
+      name: menuName,
+      description,
+      price,
+      image,
+    };
+
+    try {
+      await api.createMenu(restaurantId, data);
+      alert("✅ Menu créé avec succès !");
+      navigate("/gestionmenu-restaurateur");
+    } catch (error) {
+      console.error("Erreur lors de la création du menu :", error);
+      alert("❌ Une erreur est survenue lors de l'ajout du menu.");
+    }
   };
 
   return (

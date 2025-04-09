@@ -1,21 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./GestionArticle.css";
 import ArticleRestaurateur from "../../components/articleRestaurateur/ArticleRestaurateur";
 import BurgerMenuRestaurateur from "../../components/burgerMenuRestaurateur/BurgerMenuRestaurateur";
 import { FiAlignJustify } from "react-icons/fi";
-import doubleCheeseImage from "../../resources/images/doubleCheese.png";
+import api from "../../api";
 
 function GestionArticle() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [items, setItems] = useState([]);
     const navigate = useNavigate();
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     
     const handleCreateArticle = (e) => {
         e.preventDefault(); 
-        navigate("/creationarticle-restaurateur");
-    };
+        navigate("/creationarticle-restaurateur", {
+            state: {
+              name : "new",
+              description : "new",
+              price : "new",
+              image : "new",
+              items : "new",
+            },
+          });    };
+
+    useEffect(() => {
+        api.getAllItemsByRestaurant("RES000001")
+          .then(res => {
+            console.log("Item récupérés :", res.data);
+            setItems(res.data);
+          })
+          .catch(err => console.error("Erreur lors de la récupération des menus :", err));
+    }, []);
 
     return (
         <div className="command-restaurateur-page">
@@ -26,24 +43,15 @@ function GestionArticle() {
             </div>
 
             <div className="columns">
-                <ArticleRestaurateur
-                    name="Cheeseburger"
-                    description="Un délicieux cheeseburger avec fromage fondu"
-                    price={5.99}
-                    image={doubleCheeseImage}
-                />
-                <ArticleRestaurateur
-                    name="Double Cheese"
-                    description="Deux fois plus de fromage, deux fois plus de plaisir"
-                    price={7.49}
-                    image={doubleCheeseImage}
-                />
-                <ArticleRestaurateur
-                    name="Double Cheese"
-                    description="Deux fois plus de fromage, deux fois plus de plaisir"
-                    price={7.49}
-                    image={doubleCheeseImage}
-                />
+                {items.map((item, index) => (
+                    <ArticleRestaurateur
+                        key={index}
+                        name={item.name}
+                        description={item.description}
+                        price={item.price}
+                        image={item.image}
+                    />
+                 ))}
             </div>
 
             <BurgerMenuRestaurateur isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />

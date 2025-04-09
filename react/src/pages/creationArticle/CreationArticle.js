@@ -1,29 +1,56 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./CreationArticle.css";
 import BurgerMenuRestaurateur from "../../components/burgerMenuRestaurateur/BurgerMenuRestaurateur";
 import { FiAlignJustify } from "react-icons/fi";
+import api from "../../api"; // Assure-toi que c'est bien importé
 
 function CreationArticle() {
     const location = useLocation();
     const articleData = location.state || {};
-
+    const [description, setDescription] = useState(false);
+    const [price, setPrice] = useState(false);
+    const [image, setImage] = useState(false);
+    const navigate = useNavigate();
+    
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [articleName, setArticleName] = useState(articleData.name || "");
-    const [description, setDescription] = useState(articleData.description || "");
-    const [price, setPrice] = useState(articleData.price || "");
-    const [image, setImage] = useState(articleData.image || null);
 
+    useEffect(() => {
+        if (articleData.name !== "new") {
+          setDescription(articleData.description || "");
+          setPrice(articleData.price || "");
+          setImage(articleData.image || null);
+        }
+      }, []); // [] = une seule fois au chargement
+      
+
+    
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+    console.log("articleName : ", articleName);
 
     const handleImageChange = (event) => {
         setImage(URL.createObjectURL(event.target.files[0]));
     };
-
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log({ articleName, description, price, image });
-    };
+      
+        const data = {
+          name: articleName,
+          description,
+          price,
+          image, // si tu veux envoyer une image en URL ou en base64 sinon tu devras gérer un upload
+        };
+        navigate("/gestionarticle-restaurateur");
+        try {
+          await api.createItem("RES000001", data);
+          alert("✅ Article créé avec succès !");
+          setIsMenuOpen(false)        } catch (error) {
+          console.error("Erreur lors de la création de l'article :", error);
+          alert("❌ Une erreur est survenue lors de l'ajout de l'article.");
+        }
+      };
 
     return (
         <div className="command-restaurateur-page">

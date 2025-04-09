@@ -1,60 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./GestionMenu.css";
 import MenuRestaurateur from "../../components/menuRestaurateur/MenuRestaurateur";
 import BurgerMenuRestaurateur from "../../components/burgerMenuRestaurateur/BurgerMenuRestaurateur";
 import { FiAlignJustify } from "react-icons/fi";
-
-// Images des articles
-import doubleCheeseImage from "../../resources/images/doubleCheese.png";
-import frites from "../../resources/images/frites.png";
-import glace from "../../resources/images/icecream-bowl.png";
-import nuggets from "../../resources/images/nuggets.png";
+import api from "../../api";
 
 function GestionMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate();
+  const [menus, setMenus] = useState([]);
 
+  const navigate = useNavigate();
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  // Exemple de menus existants
-  const menus = [
-    {
-      name: "Best Of",
-      description: "Menu classique avec burger, frites et boisson",
-      price: "9.99",
-      image: doubleCheeseImage,
-      items: [
-        { name: "CheeseBurger", image: doubleCheeseImage },
-        { name: "Frites", image: frites },
-      ],
-    },
-    {
-      name: "Menu Enfant",
-      description: "Un menu adapté aux enfants",
-      price: "6.50",
-      image: nuggets,
-      items: [
-        { name: "Nuggets", image: nuggets },
-        { name: "Glace", image: glace },
-      ],
-    },
-    {
-      name: "Double Burger",
-      description: "Pour les gros appétits",
-      price: "11.50",
-      image: doubleCheeseImage,
-      items: [
-        { name: "Double CheeseBurger", image: doubleCheeseImage },
-        { name: "Frites", image: frites },
-        { name: "Glace", image: glace },
-      ],
-    },
-  ];
+  useEffect(() => {
+      api.getAllMenus("RES000001")
+        .then(res => {
+          console.log("Menus récupérés :", res.data);
+          setMenus(res.data);
+        })
+        .catch(err => console.error("Erreur lors de la récupération des menus :", err));
+  }, []);
 
   const handleCreateMenu = () => {
-    navigate("/creationmenu-restaurateur"); // Nouvelle création
-  };
+    navigate("/creationmenu-restaurateur", {
+      state: {
+        name : "new",
+        description : "new",
+        price : "new",
+        image : "new",
+        items : "new",
+      },
+    });
+  }
+
+  
 
   return (
     <div className="command-restaurateur-page">
