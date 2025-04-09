@@ -294,3 +294,22 @@ export const getOrderById = async (
     });
   }
 };
+
+export const deleteOrder = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { order_id } = req.params;
+    const deletedOrder = await Order.findByIdAndDelete(order_id);
+    if (!deletedOrder) {
+      res.status(404).json({ message: "Commande non trouvée" });
+      return;
+    }
+    res.status(200).json({ message: "Commande supprimée avec succès" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Erreur lors de la suppression de la commande", error });
+  }
+};

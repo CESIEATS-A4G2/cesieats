@@ -213,3 +213,27 @@ export const deleteMenu = async (
       .json({ message: "Erreur lors de la suppression du menu", error });
   }
 };
+
+export const updateMenu = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { restaurant_id, menu_id } = req.params;
+    const { name, description, price, image } = req.body;
+
+    const menu = await Menu.findByPk(menu_id);
+    if (!menu) {
+      res.status(404).json({ message: "Menu non trouvé" });
+      return;
+    }
+
+    if (menu.restaurant_id !== restaurant_id) {
+      res.status(404).json({ message: "Ce menu n'appartient pas à ce restaurant" });
+      return;
+    }
+
+    await menu.update({ name, description, price, image });
+
+    res.status(200).json(menu);
+  } catch (error) {
+    res.status(500).json({ message: "Erreur lors de la mise à jour du menu", error });
+  }
+};
