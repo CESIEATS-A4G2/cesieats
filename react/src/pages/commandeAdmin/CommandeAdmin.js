@@ -96,6 +96,7 @@ function CommandeAdmin() {
       fetchOrder();
     }
   }, [idCommande]);
+  
   // Récupérer le restaurant avec son id
   const [restaurant, setRestaurant] = useState([]);
   useEffect(() => {
