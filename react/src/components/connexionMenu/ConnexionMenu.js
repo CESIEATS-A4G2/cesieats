@@ -1,14 +1,38 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; 
-import "./ConnexionMenu.css";  // Assurez-vous que le bon fichier CSS est importé
+import "./ConnexionMenu.css";
 import { Link } from "react-router-dom"; 
 
 function ConnexionMenu() {
   const navigate = useNavigate(); 
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault(); 
-    navigate("/home");  
+  
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+  
+    try {
+      const response = await fetch("/login", {
+        method: "POST",
+        credentials: "include", // pour gérer les cookies
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+      });
+  
+      if (!response.ok) {
+        throw new Error("Erreur d'identifiants");
+      }
+  
+      // Ici, tu peux faire une vérif avec /authenticate si tu veux
+      console.log(response);
+      navigate("/home");  
+    } catch (err) {
+      console.error("Erreur de connexion:", err);
+      alert("Échec de la connexion");
+    }
   };
 
   return (
