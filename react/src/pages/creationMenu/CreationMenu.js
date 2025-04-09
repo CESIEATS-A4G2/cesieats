@@ -46,10 +46,12 @@ function CreationMenu() {
       console.log(res.data)
         setItemsResto(res.data); 
     })
-    .catch(error => console.error("Erreur lors de la récupération des commandes :", error));
+    .catch(error => console.log("Erreur lors de la récupération des commandes :", error));
   }, []);
 
-  console.log("les items du menus : ", itemsResto)
+  console.log("menuData : ", menuData)
+  console.log("les items du items : ", items)
+  console.log("les items du itemsResto : ", itemsResto)
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -70,7 +72,6 @@ function CreationMenu() {
     setItems([...items, { name: item.name, image: item.image }]);
     setShowModal(false);
   };
-
   const handleRemoveItem = (index) => {
     const newItems = items.filter((_, i) => i !== index);
     setItems(newItems);
@@ -96,6 +97,7 @@ function CreationMenu() {
       description,
       price,
       image,
+      items,
     };
     const dataUp = {
       menu_id: menuId,
@@ -104,6 +106,7 @@ function CreationMenu() {
       description,
       price,
       image,
+      items,
     };
 
     try {

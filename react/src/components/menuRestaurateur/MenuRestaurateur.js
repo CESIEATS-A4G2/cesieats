@@ -5,7 +5,7 @@ import "./MenuRestaurateur.css";
 function MenuRestaurateur({ id, name, image, description, price, items }) {
   const navigate = useNavigate();
 
-  console.log("id, ", id)
+  console.log("itemsCIUCOUOU, ", items)
 
   const handleClick = () => {
     navigate("/creationmenu-restaurateur", {
