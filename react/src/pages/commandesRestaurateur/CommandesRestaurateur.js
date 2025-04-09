@@ -7,14 +7,14 @@ import api from '../../api';
 
 function CommandesRestaurateur() {
 const [orders, setOrders] = useState([]);
-    useEffect(() => {
-        api.getAllOrders()
-          .then(res => {
-            setOrders(res.data);
-            console.log(res.data)
-          })
-          .catch(error => console.error("Erreur lors de la récupération des commandes :", error));
-      }, []);
+    // useEffect(() => {
+    //     api.getAllOrders()
+    //       .then(res => {
+    //         setOrders(res.data);
+    //         console.log(res.data)
+    //       })
+    //       .catch(error => console.error("Erreur lors de la récupération des commandes :", error));
+    //   }, []);
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);

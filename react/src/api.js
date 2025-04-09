@@ -18,6 +18,12 @@ const api = {
     getAllMenus: (restaurantId) => axios.get(`${API_URL}/restaurants/${restaurantId}/menus`),
     getMenu: (restaurantId, menuId) => axios.get(`${API_URL}/restaurants/${restaurantId}/menus/${menuId}`),
     deleteMenu: (restaurantId, menuId) => axios.delete(`${API_URL}/restaurants/${restaurantId}/menus/${menuId}`),
+    updateMenuMajUser: (restoId, data) => axios.put(`${API_URL}/restaurants/${restoId}/menus/${data.menu_id}`, {
+        name: data.name,
+        description: data.description,
+        price: data.price,
+        image: data.image,
+    }),
 
     // Items
     createItem: (restaurantId, data) => axios.post(`${API_URL}/restaurants/${restaurantId}/items`, data),
@@ -26,6 +32,12 @@ const api = {
     getItem: (restaurantId, itemId) => axios.get(`${API_URL}/restaurants/${restaurantId}/items/${itemId}`),
     deleteItemFromRestaurant: (restaurantId, itemId) => axios.delete(`${API_URL}/restaurants/${restaurantId}/items/${itemId}`),
     deleteItemFromMenu: (restaurantId, menuId, itemId) => axios.delete(`${API_URL}/restaurants/${restaurantId}/menus/${menuId}/items/${itemId}`),
+    updateitemMajUser: (restoId, data) => axios.put(`${API_URL}/restaurants/${restoId}/items/${data.item_id}`, {
+        name: data.name,
+        description: data.description,
+        price: data.price,
+        image: data.image,
+    }),
 
     // Ajouter un item à un menu
     addItemToMenu: (restaurantId, menuId, data) => axios.post(`${API_URL}/restaurants/${restaurantId}/menus/${menuId}`, data),
@@ -61,6 +73,7 @@ const api = {
     deleteOrderById:(order_id) => axios.delete(`${API_URL}/orders/${order_id}`),
     createOrder: (account_id) => axios.post(`${API_URL}/accounts/${account_id}/orders`),
     getOrderByStatus: (status) => axios.get(`${API_URL}/orders/status/${status}`),
+    getOrderByAccountAndStatus:(account_id, status) => axios.get(`${API_URL}/accounts/${account_id}/orders/status/${status}`),
     changeStatusByOrder: (order_id, status) => axios.put(`${API_URL}/orders/${order_id}/${status}`),
 
 

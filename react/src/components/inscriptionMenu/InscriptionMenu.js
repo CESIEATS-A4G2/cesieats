@@ -6,14 +6,61 @@ import { Link } from "react-router-dom";
 function InscriptionMenu() {
   const navigate = useNavigate(); 
 
-  const handleLogin = (e) => {
-    e.preventDefault(); 
-    navigate("/home");  
-  };
+  const handleRegister = async (e) => {
+    e.preventDefault();
+  
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    const confirmPassword = form.querySelector('.inscription-password2').value;
+    const role = form.role.value;
+  
+    if (password !== confirmPassword) {
+      alert("Les mots de passe ne correspondent pas !");
+      return;
+    }
 
+    console.log({
+      email,
+      password,
+      role,
+      name: email
+    });
+  
+    try {
+      const response = await fetch("/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          role,
+          name: email // si nom non renseigné, envoie le mail (atm pas de champ existant)
+        })
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {      
+        console.log(response);
+        alert(data.msg || "Inscription réussie !");
+        navigate("/");
+      } else {
+        alert(data.msg || "Erreur lors de l'inscription.");
+      }
+  
+    } catch (err) {
+      console.error("Erreur d'inscription :", err);
+      alert("Erreur lors de l'inscription.");
+    }
+  };
+  
+  
   return (
     <div className="inscription-menu">
-  <form className="inscription-form" onSubmit={handleLogin}>
+  <form className="inscription-form" onSubmit={handleRegister}>
     <h1>Enregistrement</h1>
 
     {/* Choix du rôle */}
@@ -22,7 +69,7 @@ function InscriptionMenu() {
         <input
           type="radio"
           name="role"
-          value="client"
+          value="User"
           required
         />
         Client
@@ -31,7 +78,7 @@ function InscriptionMenu() {
         <input
           type="radio"
           name="role"
-          value="livreur"
+          value="Delivery Man"
         />
         Livreur
       </label>
@@ -39,7 +86,7 @@ function InscriptionMenu() {
         <input
           type="radio"
           name="role"
-          value="restaurateur"
+          value="Restaurateur"
         />
         Restaurateur
       </label>

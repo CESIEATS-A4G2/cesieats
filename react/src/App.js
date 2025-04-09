@@ -45,11 +45,10 @@ function App() {
         <Route path="suivi-commande" element={<SuiviCommande />} />
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/" element={<Connexion />} />
-        
+
         <Route path="/liste-commandes-livreur" element={<ListeCommandesLivreur />} />
         <Route path="/livraison-livreur" element={<LivraisonLivreur />} />
 
-        
         <Route path="/compte-admin" element={<AdminCompte />} />
         <Route path="/gestion-compte-admin" element={<GestionUtilisateurAdmin />} />
         <Route path="/gestioncommand-admin" element={<GestionCommandeAdmin />} />
