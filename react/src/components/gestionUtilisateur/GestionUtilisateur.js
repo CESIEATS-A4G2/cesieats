@@ -1,14 +1,30 @@
 import React, { useState } from 'react';
 import "./GestionUtilisateur.css";
-
-const GestionUtilisateur = ({ name,role,user, onSuspend, onDelete,avatar }) => {
+import api from "../../api";  
+const GestionUtilisateur = ({ name,role,user, onSuspend, onDelete,avatar,key }) => {
   const [modalType, setModalType] = useState(null); // "suspendre" ou "supprimer"
   const [showModal, setShowModal] = useState(false);
   const [suspensionDays, setSuspensionDays] = useState(7); // Valeur par défaut
 
+
+  const handleDelete = async () => {
+    try {
+      console.log("User ", user.account_id);
+      await api.deleteUser(user.account_id);
+      alert("L'utilisateur a été supprimé !");
+    } 
+
+       catch (error2) {
+        const errorMessage = error2.response?.data?.message || "Une erreur est survenue lors de la requête.";
+        const errorDetails = error2.response?.data?.error?.message || "Pas de détails supplémentaires.";
+        alert(`Erreur : ${errorMessage}\nDétails : ${errorDetails}`);
+      }
+    }
+
   const handleConfirm = () => {
     if (modalType === "supprimer") {
-      onDelete(user.id);
+      handleDelete(user.id);
+      window.location.reload();
     } else if (modalType === "suspendre") {
       onSuspend(user.id, suspensionDays);
     }

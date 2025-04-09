@@ -32,8 +32,8 @@ const api = {
 
     // Gestion du compte
     getUser: (userId) => axios.get(`${API_URL}/accounts/${userId}`),
-    updateUser: (userId, data) => axios.put(`${API_URL}/users/${userId}`, data),
-    deleteUser: (userId) => axios.delete(`${API_URL}/users/${userId}`),
+    updateUser: (userId, data) => axios.put(`${API_URL}/accounts/${userId}`, data),
+    deleteUser: (userId) => axios.delete(`${API_URL}/accounts/${userId}`),
     getAllUsers: () => axios.get(`${API_URL}/accounts`),
     
     // Carts
