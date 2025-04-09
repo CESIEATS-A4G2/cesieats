@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./SuiviCommande.css";
-import Header from "../../components/header/TopNavBar";
+import Header from "../../components/header/Header";
 import Footer from "../../components/footer/SiteFooter";
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
@@ -11,7 +11,7 @@ function SuiviCommande() {
   const navigate = useNavigate();
   return (
     <>
-      <Header />
+      <Header role="User"/>
       <div className="suivi-commande-container">
         <h2>Commande en cours</h2>
         

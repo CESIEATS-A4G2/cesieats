@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./GestionCompteRestau.css";
-import Header from "../../components/header/TopNavBar";
 import Footer from "../../components/footer/SiteFooter";
 import userImg from "../../resources/images/account-illustration.png";
 import { useNavigate } from "react-router-dom"; 
@@ -8,7 +7,7 @@ import axios from "axios";
 import { FiAlignJustify } from "react-icons/fi";
 import BurgerMenuRestaurateur from "../../components/burgerMenuRestaurateur/BurgerMenuRestaurateur";
 
-function GestionCompteRestaurant({ userType = "restaurant" }) {  // Ajout du paramètre userType
+function GestionCompteRestaurant({ userType = "User" }) {  // Ajout du paramètre userType
   const [isEditing, setIsEditing] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -149,7 +148,7 @@ function GestionCompteRestaurant({ userType = "restaurant" }) {  // Ajout du par
             ) : (
               <button onClick={() => setIsEditing(true)} className="edit-button">Modifier</button>
             )}
-            {userType === "client" && (
+            {userType === "User" && (
               <button className="parrainage-button" onClick={() => navigate("/parrainage")}>
                 Parrainer un ami
               </button>
@@ -159,7 +158,7 @@ function GestionCompteRestaurant({ userType = "restaurant" }) {  // Ajout du par
                 Accéder au dashboard admin
               </button>
             )}
-            {userType === "livreur" && (
+            {userType === "Delivery Man" && (
               <button className="livreur-button" onClick={() => navigate("/livreur/commandes")}>
                 Voir les commandes à livrer
               </button>

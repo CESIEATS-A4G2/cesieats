@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import "./TopNavBarMobile.css";
+import "./HeaderUserMobile.css";
 import { FiBell, FiShoppingCart } from "react-icons/fi";
-import bannerLogo from "../../resources/images/CESIEat_BannerLogo.png";
-import Panier from "../../pages/panier/Panier";
+import Panier from "../../../pages/panier/Panier";
 import { useNavigate } from "react-router-dom";
+import bannerLogo from "../../../resources/images/CESIEat_BannerLogo.png";
 
-function TopNavBarMobile() {
+function HeaderUserMobile() {
     const [isPanierOpen, setIsPanierOpen] = useState(false); // État pour le panier
 
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ function TopNavBarMobile() {
 
     return (
         <>
-            <div className="topNavBarMobileContainer">
+            <div className="HeaderUserMobileContainer">
                 {/* Logo */}
                 <div className="logoContainer" onClick={() => navigate("/home")}>
                     <img src={bannerLogo} alt="CESIEATS" className="mobileLogo" />
@@ -33,4 +33,4 @@ function TopNavBarMobile() {
     );
 }
 
-export default TopNavBarMobile;
+export default HeaderUserMobile;

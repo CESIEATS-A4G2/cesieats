@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./ListeCommandesLivreur.css";
-import HeaderLivreurMobile from "../../components/header/headerLivreurMobile/HeaderLivreurMobile";
+import Header from "../../components/header/Header"
 import CommandToDeliver from "../../components/commandToDeliver/CommandToDeliver";
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
@@ -11,7 +11,7 @@ function ListeCommandesLivreur() {
     
     // 🔥 Récupération des commandes via l'API
     useEffect(() => {
-        api.getOrderByStatus("PENDING_CONFIRMATION")
+        api.getOrderByStatus("IN_PREPARATION")
             .then(res => {
                 setCommands(res.data); 
             })
@@ -28,7 +28,7 @@ function ListeCommandesLivreur() {
 
     return (
       <div className="liste-command-page">
-        <HeaderLivreurMobile />
+      <Header role="DeliveryMan"/>
         <div className="liste-command-content">
           {commands.map((command) => (
             <CommandToDeliver 

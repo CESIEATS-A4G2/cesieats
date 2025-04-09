@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./CommandeAdmin.css";
-import Header from "../../components/header/TopNavBarAdmin";
+import Header from "../../components/header/Admin/HeaderAdmin";
 import Footer from "../../components/footer/SiteFooter";
 import { useNavigate, useLocation } from "react-router-dom";
 import mcdoImage from "../../resources/images/mcdo.png";
@@ -149,7 +149,7 @@ function CommandeAdmin() {
 
   return (
     <>
-      <Header />
+      <Header role="Admin"/>
       <div className="suivi-commande-container">
         <h2>Commande de {nomClient}</h2>
 
