@@ -49,6 +49,9 @@ const api = {
     updateUser: (userId, data) => axios.put(`${API_URL}/accounts/${userId}`, data),
     deleteUser: (userId) => axios.delete(`${API_URL}/accounts/${userId}`),
     getAllUsers: () => axios.get(`${API_URL}/accounts`),
+    suspendUser: (userId,suspend) => axios.put(`${API_URL}/accounts/${userId}/actions/suspend`,{
+        suspend_time:suspend,
+    }),
     
     // Carts
     createCart: (account_id, data) => axios.post(`${API_URL}/accounts/${account_id}/cart`, data),
