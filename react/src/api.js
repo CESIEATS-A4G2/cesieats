@@ -40,7 +40,9 @@ const api = {
     }),
 
     // Ajouter un item à un menu
-    addItemToMenu: (restaurantId, menuId, data) => axios.post(`${API_URL}/restaurants/${restaurantId}/menus/${menuId}`, data),
+    addItemToMenu: (restaurantId, menuId, itemId) => axios.post(`${API_URL}/restaurants/${restaurantId}/menus/${menuId}`, {
+        item_id: itemId 
+    }),
 
     // Gestion du compte
     getUser: (userId) => axios.get(`${API_URL}/accounts/${userId}`),

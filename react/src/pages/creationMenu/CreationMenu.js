@@ -27,6 +27,7 @@ function CreationMenu() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [items, setItems] = useState([]);
+  const [itemsResto, setItemsResto] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const preset_key = "cldinery";
   const cloud_name = "dzsnjlgc5";
@@ -40,14 +41,15 @@ function CreationMenu() {
       setImage(menuData.image || null);
       setItems(Array.isArray(menuData.items) ? menuData.items : []);
     }
+    api.getAllItemsByRestaurant(restaurantId)
+    .then(res => {
+      console.log(res.data)
+        setItemsResto(res.data); 
+    })
+    .catch(error => console.error("Erreur lors de la récupération des commandes :", error));
   }, []);
 
-  const [availableItems] = useState([
-    { name: "CheeseBurger", image: doubleCheeseImage },
-    { name: "Frites", image: frites },
-    { name: "Glace", image: glace },
-    { name: "Nuggets", image: nuggets },
-  ]);
+  console.log("les items du menus : ", itemsResto)
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -55,9 +57,16 @@ function CreationMenu() {
     setImage(URL.createObjectURL(event.target.files[0]));
   };
 
-  const handleAddItem = () => setShowModal(true);
+  const handleAddItem = () => {
+    setShowModal(true)
+  };
 
   const handleSelectItem = (item) => {
+      api.addItemToMenu(restaurantId, menuId, item)
+      .then(res => {
+        console.log(res.data)
+      })
+      .catch(error => console.error("Erreur lors de la récupération des commandes :", error));
     setItems([...items, { name: item.name, image: item.image }]);
     setShowModal(false);
   };
@@ -202,7 +211,7 @@ function CreationMenu() {
           <div className="modal">
             <h2>Choisissez un article</h2>
             <div className="modal-items">
-              {availableItems.map((item, index) => (
+              {itemsResto.map((item, index) => (
                 <div key={index} className="modal-item" onClick={() => handleSelectItem(item)}>
                   <img src={item.image} alt={item.name} className="modal-item-image" />
                   <span>{item.name}</span>
