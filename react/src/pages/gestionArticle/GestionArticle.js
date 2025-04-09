@@ -17,6 +17,7 @@ function GestionArticle() {
         e.preventDefault(); 
         navigate("/creationarticle-restaurateur", {
             state: {
+              id : "new",
               name : "new",
               description : "new",
               price : "new",
@@ -28,7 +29,6 @@ function GestionArticle() {
     useEffect(() => {
         api.getAllItemsByRestaurant("RES000001")
           .then(res => {
-            console.log("Item récupérés :", res.data);
             setItems(res.data);
           })
           .catch(err => console.error("Erreur lors de la récupération des menus :", err));
@@ -46,6 +46,7 @@ function GestionArticle() {
                 {items.map((item, index) => (
                     <ArticleRestaurateur
                         key={index}
+                        id={item.item_id}
                         name={item.name}
                         description={item.description}
                         price={item.price}
