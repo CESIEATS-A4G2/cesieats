@@ -106,3 +106,33 @@ export const deleteAccount = async (
       .json({ message: "Erreur lors de la suppression du compte", error });
   }
 };
+
+export const updateAccount = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { account_id } = req.params;
+    const { name, phone, email, password, image } = req.body;
+
+    const account = await Account.findByPk(account_id);
+    if (!account) {
+      res.status(404).json({ message: "Compte non trouvé" });
+      return;
+    }
+
+    const account_email = await Account.findOne({where: {email: email}});
+    if(account_email){
+      res.status(404).json({ message: "Cette adresse mail est déjà utilisée par un autre compte" });
+      return;
+    }
+
+    await account.update({ name, phone, email, password, image });
+
+    res.status(200).json(account);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Erreur lors de la mise à jour du compte", error });
+  }
+};
