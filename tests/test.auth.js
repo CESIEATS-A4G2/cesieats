@@ -9,7 +9,7 @@ const axios = require("axios").default;
 */
 
 const testAuth = async () => {
-  const Authroute = "http://localhost:5000"; //Exposition direct au service (éviter les blocages routes privées NGINX)
+  const Authroute = "http://localhost:4500"; //Exposition direct au service (éviter les blocages routes privées NGINX)
 
   const rand = Math.floor(Math.random() * 100000);
 
