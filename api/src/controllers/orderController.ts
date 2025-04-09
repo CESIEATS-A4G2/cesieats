@@ -49,11 +49,13 @@ export const createOrder = async (
     const restaurant_id = cart.restaurant_id;
     
     const restaurant = await Restaurant.findByPk(restaurant_id);
+    const restaurant_name = restaurant?.name;
     const restaurant_address = restaurant?.address;
 
     const newOrder = new Order({
       account_id,
       restaurant_id,
+      restaurant_name,
       restaurant_address,
       delivery_address,
       items,
