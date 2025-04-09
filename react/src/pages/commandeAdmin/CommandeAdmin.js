@@ -55,11 +55,30 @@ function textChangingStatus(type, textnumber){
   }
 }
 
+
+
 function CommandeAdmin() {
   const navigate = useNavigate();
   const location = useLocation(); // Récupérer l'état passé avec navigate
   const { idCommande, nomClient, duree, type } = location.state || {}; // Déstructuration de l'état
   console.log(idCommande, nomClient, duree, type)
+
+  const handleDelete = async () => {
+    console.log("IdCommande à suppr : ", idCommande)
+    if (!idCommande) return;
+  
+    const confirm = window.confirm("Es-tu sûr de vouloir supprimer cette commande ?");
+    if (!confirm) return;
+  
+    try {
+      await api.deleteOrderById(idCommande); // Assure-toi que cette méthode existe dans ton fichier api
+      alert("Commande supprimée avec succès !");
+      navigate("/gestioncommand-admin"); // Redirige vers la liste des commandes
+    } catch (error) {
+      console.error("Erreur lors de la suppression :", error);
+      alert("Erreur lors de la suppression de la commande.");
+    }
+  };
 
   // Récupérer la commande avec son id
   const [order, setOrder] = useState([]);
@@ -151,25 +170,25 @@ function CommandeAdmin() {
         <div className="tracking-icons">
 
           <div className={getActiveStepClass("preparing")}>
-            <div className="tracking-step">🍲</div> {/* Marmite */}
+            <div className="tracking-step">🔍</div>
           </div>
 
           <div className="tracking-line" />
 
           <div className={getActiveStepClass("searching")}>
-            <div className="tracking-step">🔍</div> {/* Loupe */}
+            <div className="tracking-step">🍲</div>
           </div>
 
           <div className="tracking-line" />
 
           <div className={getActiveStepClass("delivering")}>
-            <div className="tracking-step">🛵</div> {/* Scooter */}
+            <div className="tracking-step">🛵</div>
           </div>
 
           <div className="tracking-line" />
 
           <div className={getActiveStepClass("delivered")}>
-            <div className="tracking-step">🏠</div> {/* Maison */}
+            <div className="tracking-step">🏠</div>
           </div>
         </div>
 
@@ -178,6 +197,11 @@ function CommandeAdmin() {
           <p>{textChangingStatus(type, "2")}</p>
         </div>
       </div>
+      <div className="delete-button-container">
+  <button className="btn-supprimer" onClick={handleDelete}>
+    Supprimer la commande
+  </button>
+</div>
       <Footer />
     </>
   );
