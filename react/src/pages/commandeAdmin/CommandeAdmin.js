@@ -73,7 +73,7 @@ function CommandeAdmin() {
     try {
       await api.deleteOrderById(idCommande); // Assure-toi que cette méthode existe dans ton fichier api
       alert("Commande supprimée avec succès !");
-      navigate("/gestion-commandes"); // Redirige vers la liste des commandes
+      navigate("/gestioncommand-admin"); // Redirige vers la liste des commandes
     } catch (error) {
       console.error("Erreur lors de la suppression :", error);
       alert("Erreur lors de la suppression de la commande.");
