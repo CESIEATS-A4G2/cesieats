@@ -14,10 +14,11 @@ function CreationMenu() {
   const location = useLocation();
   const navigate = useNavigate();
   const restaurantId = location.state?.restaurantId || "RES000001";
-  const isNew = location.state?.mode === "new";
+  const isNew = location.state?.id === "new";
 
   const menuData = location.state || {};
 
+  const [menuId, setMenuId] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
@@ -29,11 +30,12 @@ function CreationMenu() {
 
   useEffect(() => {
     if (!isNew) {
+      setMenuId(menuData.id || ""); // ou menuData.menu_id selon ta structure
       setMenuName(menuData.name || "");
       setDescription(menuData.description || "");
       setPrice(menuData.price || "");
       setImage(menuData.image || null);
-      setItems(menuData.items || []);
+      setItems(Array.isArray(menuData.items) ? menuData.items : []);
     }
   }, []);
 
@@ -65,7 +67,15 @@ function CreationMenu() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const data = {
+    const dataCre = {
+      restaurant_id: restaurantId,
+      name: menuName,
+      description,
+      price,
+      image,
+    };
+    const dataUp = {
+      menu_id: menuId,
       restaurant_id: restaurantId,
       name: menuName,
       description,
@@ -74,12 +84,17 @@ function CreationMenu() {
     };
 
     try {
-      await api.createMenu(restaurantId, data);
-      alert("✅ Menu créé avec succès !");
+      if (isNew) {
+        await api.createMenu(restaurantId, dataCre);
+        alert("✅ Menu créé avec succès !");
+      } else {
+        await api.updateMenuMajUser(restaurantId, dataUp);
+        alert("✅ Menu modifié avec succès !");
+      }
       navigate("/gestionmenu-restaurateur");
     } catch (error) {
-      console.error("Erreur lors de la création du menu :", error);
-      alert("❌ Une erreur est survenue lors de l'ajout du menu.");
+      console.error("Erreur lors de l'enregistrement du menu :", error);
+      alert("❌ Une erreur est survenue lors de l'enregistrement du menu.");
     }
   };
 
@@ -157,7 +172,9 @@ function CreationMenu() {
           </ul>
         </div>
 
-        <button type="submit" className="submit-btn">Ajouter le menu</button>
+        <button type="submit" className="submit-btn">
+          {isNew ? "Ajouter le menu" : "Modifier le menu"}
+        </button>
       </form>
 
       <BurgerMenuRestaurateur isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />

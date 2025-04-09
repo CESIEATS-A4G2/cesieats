@@ -12,23 +12,23 @@ function CreationArticle() {
     const [price, setPrice] = useState(false);
     const [image, setImage] = useState(false);
     const navigate = useNavigate();
-    
+    const isNew = articleData.name === "new";
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [articleName, setArticleName] = useState(articleData.name || "");
+    const [articleId, setArticleId] = useState(articleData.id || "");
 
     useEffect(() => {
-        if (articleData.name !== "new") {
-          setDescription(articleData.description || "");
-          setPrice(articleData.price || "");
-          setImage(articleData.image || null);
+        if (!isNew) {
+            setArticleId(articleData.id || "");
+            setArticleName(articleData.name || "");
+            setDescription(articleData.description || "");
+            setPrice(articleData.price || "");
+            setImage(articleData.image || null);
         }
-      }, []); // [] = une seule fois au chargement
-      
-
+    }, []);
     
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
-    console.log("articleName : ", articleName);
 
     const handleImageChange = (event) => {
         setImage(URL.createObjectURL(event.target.files[0]));
@@ -36,17 +36,33 @@ function CreationArticle() {
     const handleSubmit = async (event) => {
         event.preventDefault();
       
-        const data = {
-          name: articleName,
-          description,
-          price,
-          image, // si tu veux envoyer une image en URL ou en base64 sinon tu devras gérer un upload
-        };
+        const dataUpdate = {
+            item_id: articleId, 
+            name: articleName,
+            description,
+            price,
+            image,
+          };          
+        
+          const dataCreate = {
+            name: articleName,
+            description,
+            price,
+            image,
+          };      
+
         navigate("/gestionarticle-restaurateur");
         try {
-          await api.createItem("RES000001", data);
-          alert("✅ Article créé avec succès !");
-          setIsMenuOpen(false)        } catch (error) {
+            if (isNew) {
+                await api.createItem("RES000001", dataCreate);
+                alert("✅ Article créé avec succès !");
+            } else {
+                await api.updateitemMajUser("RES000001", dataUpdate);
+                alert("✅ Article modifié avec succès !");
+            }
+            
+          setIsMenuOpen(false)        
+        } catch (error) {
           console.error("Erreur lors de la création de l'article :", error);
           alert("❌ Une erreur est survenue lors de l'ajout de l'article.");
         }
@@ -102,7 +118,7 @@ function CreationArticle() {
                 </div>
 
                 <button type="submit" className="submit-btn">
-                    Ajouter l'article
+                {isNew ? "Ajouter l'article" : "Modifier l'article"}
                 </button>
             </form>
 

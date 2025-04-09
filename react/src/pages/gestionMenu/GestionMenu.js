@@ -25,6 +25,7 @@ function GestionMenu() {
   const handleCreateMenu = () => {
     navigate("/creationmenu-restaurateur", {
       state: {
+        id : "new",
         name : "new",
         description : "new",
         price : "new",
@@ -36,6 +37,7 @@ function GestionMenu() {
 
   
 
+  console.log("menus, ", menus)
   return (
     <div className="command-restaurateur-page">
       <div className="header">
@@ -50,6 +52,7 @@ function GestionMenu() {
         {menus.map((menu, index) => (
           <MenuRestaurateur
             key={index}
+            id={menu.menu_id}
             name={menu.name}
             description={menu.description}
             price={menu.price}
