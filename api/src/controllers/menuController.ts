@@ -64,13 +64,13 @@ export const addItemToMenu = async (
     const menu_item_link = await Menu_Item.findOne({
       where: { menu_id: menu_id, item_id: item_id },
     });
-    if (!menu_item_link) {
+    if (menu_item_link) {
       res.status(404).json({ message: "L'item est déjà ajouté à ce menu" });
       return;
     }
 
     const menu_item = await Menu_Item.create({ menu_id, item_id });
-    res.status(201).json(menu_item);
+    res.status(200).json({ message: "Item ajouté au menu avec succès" });
     return;
   } catch (error) {
     res
@@ -84,8 +84,7 @@ export const removeItemFromMenu = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { restaurant_id, menu_id } = req.params;
-    const { item_id } = req.body;
+    const { restaurant_id, menu_id, item_id } = req.params;
 
     const restaurant = await Restaurant.findByPk(restaurant_id);
     if (!restaurant) {
@@ -114,7 +113,7 @@ export const removeItemFromMenu = async (
     }
 
     const menu_item = await Menu_Item.destroy({ where: { menu_id, item_id } });
-    res.status(201).json(menu_item);
+    res.status(200).json({ message: "Item supprimé du menu avec succès" });
     return;
   } catch (error) {
     res
