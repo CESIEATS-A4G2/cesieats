@@ -6,12 +6,14 @@ import {
   createCartForAccountId,
 } from "../controllers/cartController";
 import { Cart, CartWithAssociations } from "../models/cart";
+import { Restaurant } from "../models/restaurant";
 
 export const createOrder = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   const { account_id } = req.params;
+  const { delivery_address } = req.body;
 
   try {
     const cart = await getFullCartByAccountId(account_id);
@@ -19,8 +21,6 @@ export const createOrder = async (
       res.status(404).json({ error: "Panier non trouvé" });
       return;
     }
-
-    const restaurant_id = cart.restaurant_id;
 
     const items = cart.Items.map((ci) => ({
       name: ci.name,
@@ -49,9 +49,16 @@ export const createOrder = async (
     );
     const totalPrice : number = totalItems + totalMenus;
 
+    const restaurant_id = cart.restaurant_id;
+    
+    const restaurant = await Restaurant.findByPk(restaurant_id);
+    const restaurant_address = restaurant?.address;
+
     const newOrder = new Order({
       account_id,
       restaurant_id,
+      restaurant_address,
+      delivery_address,
       items,
       menus,
       totalPrice,
@@ -81,6 +88,8 @@ export const createOrdersTest = async (
       {
         "account_id": "ACC000001",
         "restaurant_id": "RES000001",
+        "restaurant_address": "Allée du grand Ethan",
+        "delivery_address": "Boulevard de CESI",
         "status": "DONE",
         "items": [
           { "name": "Burger", "quantity": 2, "price": 7.5 },
@@ -101,6 +110,8 @@ export const createOrdersTest = async (
       {
         "account_id": "ACC000002",
         "restaurant_id": "RES000002",
+        "restaurant_address": "Rue de Ange",
+        "delivery_address": "Impasse du Saugrenu",
         "status": "DELIVERY_IN_PROGRESS",
         "items": [
           { "name": "Sushi Roll", "quantity": 3, "price": 5.5 }
@@ -120,6 +131,8 @@ export const createOrdersTest = async (
       {
         "account_id": "ACC000001",
         "restaurant_id": "RES000002",
+        "restaurant_address": "Montée de la montage",
+        "delivery_address": "Rue de la choucroute",
         "status": "IN_PREPARATION",
         "items": [
           { "name": "Tacos", "quantity": 4, "price": 4.0 }
@@ -147,6 +160,8 @@ export const createOrdersTest = async (
       {
         "account_id": "ACC000001",
         "restaurant_id": "RES000002",
+        "restaurant_address": "Avenue du malvenu",
+        "delivery_address": "chez moi svp",
         "status": "DELIVERY_IN_PROGRESS",
         "items": [
           { "name": "Chicken Wings", "quantity": 6, "price": 1.2 }
@@ -166,6 +181,8 @@ export const createOrdersTest = async (
       {
         "account_id": "ACC000002",
         "restaurant_id": "RES000001",
+        "restaurant_address": "Rue des restos vegan",
+        "delivery_address": "Rue du gars qui commande une salade et un smoothie",
         "status": "IN_PREPARATION",
         "items": [
           { "name": "Vegan Bowl", "quantity": 1, "price": 9.5 },
@@ -248,7 +265,7 @@ export const updateOrderStatus = async (
   const { order_id, status } = req.params;
 
   try {
-    await Order.findByIdAndUpdate({ order_id }, { status: status });
+    await Order.findByIdAndUpdate(order_id, { status: status });
     res.status(201).json({ message: "Commande mise à jour" });
     return;
   } catch (err) {

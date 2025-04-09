@@ -1,22 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HeaderLivreurMobile from "../../components/header/headerLivreurMobile/HeaderLivreurMobile"
 import "./LivraisonCommande.css";
 import { useLocation, useNavigate } from "react-router-dom"; // Ajout de useNavigate
+import api from "../../api";
 
 const LivraisonCommande = () => {
   const location = useLocation();
   const navigate = useNavigate(); // Initialisation de useNavigate
   const command = location.state?.command || {}; // Récupère la commande envoyée via navigate()
+    const [client, setClient] = useState([]);
 
   const [isRecupere, setIsRecupere] = useState(false);
 
+
+  useEffect(() => {
+    api.getUser(command.account_id)
+        .then(res => {
+          setClient(res.data); 
+        })
+        .catch(error => console.log("Erreur lors de la récupération des commandes :", error));
+  }, []);
+
+
   const handleRecupereClick = () => {
-    setIsRecupere(true);
+    api.changeStatusByOrder(command._id, "DELIVERY_IN_PROGRESS")
+        .then(res => {
+            console.log(res); 
+            setIsRecupere(true);
+        })
+        .catch(error => console.log("Erreur lors de la mise à jour du statut :", error));
+  };
+  
+  const handleLivreeClick = () => {
+    api.changeStatusByOrder(command._id, "DONE")
+        .then(res => {
+            console.log(res); 
+            navigate("/liste-commandes-livreur");
+        })
+        .catch(error => console.log("Erreur lors de la mise à jour du statut :", error));
   };
 
-  const handleLivreeClick = () => {
-    navigate("/liste-commandes-livreur"); // Redirige vers la page de la liste des commandes
-  };
+
 
   return (
     <div className="livraison-command-page">
@@ -25,7 +49,7 @@ const LivraisonCommande = () => {
       <div className="livraison-card">
         
         <div className="price-section">
-          <p className="price">{command.price} €</p>
+          <p className="price">{command.totalPrice} €</p>
           <p className="details">⏱️ {command.deliveryTime} min | {command.distance} Km</p>
         </div>
         
@@ -34,8 +58,8 @@ const LivraisonCommande = () => {
         </div>
         
         <div className="contact-info">
-          <p>AurélienM</p>
-          <p>06 12 34 56 78</p>
+          <p>{client.name}</p>
+          <p>{client.phone}</p>
         </div>
         
         <div className="address-section">
