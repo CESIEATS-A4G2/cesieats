@@ -1,7 +1,6 @@
 /* CSS - CommandesRestaurateur.css */
 
 .command-admin-page {
-  padding: 30px;
   font-family: Arial, sans-serif;
 }
 
@@ -10,6 +9,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 30px;
+  
 }
 
 .menu-icon {
@@ -28,18 +28,23 @@
 .columns {
   display: flex;
   justify-content: space-between;
-  gap: 40px;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .column {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+  flex: 1;
+  min-width: 220px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
   font-size: 22px;
   font-weight: bold;
+
 }
 
 /* Augmentation de la taille des cartes pour une meilleure lisibilité et clicabilité */

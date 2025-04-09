@@ -2,12 +2,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./TicketCommandeAdmin.css";
 
-function TicketCommandePreteAdmin({ nom, temps, type = "prete" }) {
+function TicketCommandePreteAdmin({id, nom, temps, type = "DONE" }) {
     const navigate = useNavigate();
-
     const handleClick = () => {
         navigate("/commande-admin", {
             state: {
+                idCommande: id,
                 nomClient: nom,
                 duree: temps,
                 type: type
@@ -22,7 +22,7 @@ function TicketCommandePreteAdmin({ nom, temps, type = "prete" }) {
                     <span className="order-name">{nom}</span>
                 </div>
                 <div className="order-time-label">
-                    {type === "prete" ? "Prête depuis" : "Temps de préparation :"}
+                    {type === "DONE" ? "Prête depuis" : "Préparation :"}
                 </div>
                 <div className="order-time">{temps}</div>
             </div>

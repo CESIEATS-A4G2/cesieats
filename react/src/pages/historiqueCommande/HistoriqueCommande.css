@@ -1,10 +1,8 @@
 /* Styles de base */
-.historique-container {
-  padding: 1rem;
-}
 
 .historique-section {
   margin-bottom: 2rem;
+  padding: 10px;
 }
 
 /* Responsive */
