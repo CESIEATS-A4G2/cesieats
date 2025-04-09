@@ -9,7 +9,7 @@ interface AccountAttributes {
   password: string;
   phone?: string;
   address?: string;
-  role: "User" | "Delivery Man" | "Restaurateur" | "Admin";
+  role: "User" | "DeliveryMan" | "Restaurateur" | "Admin";
   image?: string;
   created_at?: Date;
   updated_at?: Date;
@@ -28,7 +28,7 @@ class Account
   public password!: string;
   public phone?: string;
   public address?: string;
-  public role!: "User" | "Delivery Man" | "Restaurateur" | "Admin";
+  public role!: "User" | "DeliveryMan" | "Restaurateur" | "Admin";
   public image?: string;
   public created_at?: Date;
   public updated_at?: Date;
@@ -64,7 +64,7 @@ Account.init(
       type: DataTypes.STRING,
     },
     role: {
-      type: DataTypes.ENUM("User", "Delivery Man", "Restaurateur", "Admin"),
+      type: DataTypes.ENUM("User", "DeliveryMan", "Restaurateur", "Admin"),
       allowNull: false,
     },
     image: {

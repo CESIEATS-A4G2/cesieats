@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./HistoriqueCommande.css";
 import CommandeItem from "./CommandeItem";
-import Header from "../../components/header/TopNavBar";
+import Header from "../../components/header/Header";
 import Footer from "../../components/footer/SiteFooter";
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
@@ -117,7 +117,7 @@ function HistoriqueCommande() {
 
   return (
     <div className="historique-container">
-      <Header />
+      <Header role="User"/>
 
       <div className="historique-section">
         <h2>Commandes en cours</h2>

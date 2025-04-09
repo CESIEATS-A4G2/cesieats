@@ -168,9 +168,7 @@ export const suspendAccount = async (
     const suspend_date = new Date();
     suspend_date.setDate(now.getDate() + suspend_time);
 
-    const inMinutes = new Date(now.getTime() + suspend_time * 60 * 1000); // test
-
-    await account.update({ is_active: false, suspended_until: inMinutes });
+    await account.update({ is_active: false, suspended_until: suspend_date });
 
     res.status(200).json(account);
     return;

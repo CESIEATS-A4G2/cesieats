@@ -1,77 +1,118 @@
-
 .item-page {
-    background-color: #fff;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .item-content {
-    padding: 20px;
-    flex: 1;
-  }
-  
-  .back-btn {
-    background: none;
-    border: none;
-    color: #000;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-bottom: 20px;
-  }
-  
-  .item-main {
-    display: flex;
-    gap: 40px;
-    align-items: flex-start;
-  }
-  
-  .item-image {
-    max-width: 400px;
-    border-radius: 10px;
-  }
-  
-  .item-details {
-    flex: 1;
-  }
-  
-  .price {
-    font-weight: bold;
-    font-size: 1.2rem;
-  }
-  
-  .option-block {
-    margin: 20px 0;
-  }
-  
-  .option-title {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-  }
-  
-  .mandatory {
-    background-color: #eee;
-    padding: 3px 8px;
-    border-radius: 10px;
-    font-size: 0.8rem;
-  }
-  
-  .option-line {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 10px 0;
-  }
-  
-  .add-btn {
-    background-color: #000;
-    color: white;
-    padding: 15px;
-    width: 100%;
-    font-size: 1rem;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-  }
-  
+  background-color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-content {
+  padding: 20px;
+  flex: 1;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #000;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.item-main {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.item-image {
+  max-width: 400px;
+  border-radius: 10px;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.price {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.option-block {
+  margin: 20px 0;
+}
+
+.option-title {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.mandatory {
+  background-color: #eee;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+}
+
+.option-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.add-btn {
+  background-color: #000;
+  color: white;
+  padding: 15px;
+  width: 100%;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 1rem 0;
+}
+
+.quantity-selector button {
+  background-color: #f0f0f0;
+  border: none;
+  font-size: 1.2rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.quantity-selector button:hover {
+  background-color: #dcdcdc;
+}
+
+.quantity-selector span {
+  font-size: 1.2rem;
+  min-width: 24px;
+  text-align: center;
+  font-weight: bold;
+}
+.item-main.vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.item-image.full-width {
+  width: 100%;
+  height: auto; /* 🔥 Permet de ne pas cropper l'image */
+  max-height: none; /* Assure qu'elle ne soit pas limitée en hauteur */
+  object-fit: cover; /* Si jamais tu veux qu'elle remplisse un cadre sans étirement */
+  border-radius: 10px;
+}

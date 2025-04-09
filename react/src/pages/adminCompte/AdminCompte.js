@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./AdminCompte.css";
-import Header from "../../components/header/TopNavBarAdmin";
+import Header from "../../components/header/Admin/HeaderAdmin";
 import Footer from "../../components/footer/SiteFooter";
 import userImg from "../../resources/images/account-illustration.png";
 import { useNavigate } from "react-router-dom"; 
@@ -52,7 +52,7 @@ function handleFile(event){
 
   return (
     <div className="gestion-page">
-      <Header />
+      <Header role="Admin"/>
       <div className="gestion-container">
         <div className="infos">
           

@@ -1,4 +1,4 @@
-.topNavBarContainer {
+.HeaderUserContainer {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -11,7 +11,7 @@
     z-index: 100;
   }
   
-  .topNavBarLeft {
+  .HeaderUserLeft {
     display: flex;
     align-items: center;
   }
@@ -27,7 +27,7 @@
     margin-left: 0.5rem;
   }
   
-  .topNavBarSearch {
+  .HeaderUserSearch {
     flex: 1;
     display: flex;
     align-items: center;
@@ -51,7 +51,7 @@
     font-size: 1rem;
   }
   
-  .topNavBarCart {
+  .HeaderUserCart {
     background-color: #000;
     color: #fff;
     padding: 0.5rem 1rem;

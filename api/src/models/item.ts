@@ -30,7 +30,7 @@ Item.init({
     restaurant_id: { type: DataTypes.STRING, allowNull: false },
     options_label: { type: DataTypes.STRING, allowNull: true },
     options: { type: DataTypes.JSON, allowNull: true },
-    name: { type: DataTypes.STRING, allowNull: false, unique: true },
+    name: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.STRING },
     price: { type: DataTypes.DECIMAL(10,2), allowNull: false },
     image: { type: DataTypes.STRING }

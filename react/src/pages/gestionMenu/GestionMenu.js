@@ -35,9 +35,10 @@ function GestionMenu() {
     });
   }
 
-  
+  {menus.map((menu, index) => (
+    console.log("menus, ", menu)
+  ))}
 
-  console.log("menus, ", menus)
   return (
     <div className="command-restaurateur-page">
       <div className="header">
@@ -57,7 +58,7 @@ function GestionMenu() {
             description={menu.description}
             price={menu.price}
             image={menu.image}
-            items={menu.items}
+            items={menu.Items}
           />
         ))}
       </div>
