@@ -20,9 +20,11 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     res.status(201).json({
       msg: 'New User created !',
     });
-  } catch (err) {
-    res.status(500).json({ msg: "Server error", error: err })
+  } catch (err: any) {
+    console.error("Register error:", err?.response?.data || err.message);
+    res.status(500).json({ msg: "Server error", error: err?.response?.data || err.message });
   }
+  
 };
 
 
@@ -42,7 +44,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     const token = jwt.sign(
       { id: user.account_id, name: user.name, role: user.role },
       process.env.JWT_SECRET as string,
-      { expiresIn: '2m' }
+      { expiresIn: '5m' }
     );
     res
       .cookie('token', token, {
@@ -62,7 +64,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
 
 export const authenticate = async (req: Request, res: Response): Promise<void> => {
-  const token = req.cookies.token;
+  const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
 
   if (!token) {
     res.status(403).json({ message: 'No token provided in cookie.' });
@@ -80,8 +82,7 @@ export const authenticate = async (req: Request, res: Response): Promise<void> =
       const { data: user } = await axios.get(`${API_URL}/${id}`);
       res.status(200).json({
         message: 'User authenticated',
-        user: user.name,
-        id: id
+        user
       });
     } catch (err: any) {
       res.status(err.response?.status || 500).json({ message: 'Error retrieving user', error: err.message });
