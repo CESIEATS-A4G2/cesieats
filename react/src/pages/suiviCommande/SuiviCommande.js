@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./SuiviCommande.css";
 import Header from "../../components/header/TopNavBar";
 import Footer from "../../components/footer/SiteFooter";
 import { useNavigate } from "react-router-dom";
+import api from "../../api";
 
 import mcdoImage from "../../resources/images/mcdo.png";
 
 function SuiviCommande() {
   const navigate = useNavigate();
-
   return (
     <>
       <Header />

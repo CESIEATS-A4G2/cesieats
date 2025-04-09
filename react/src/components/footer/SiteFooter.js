@@ -22,7 +22,7 @@ function SiteFooter() {
         <>
             {isMobile ? (
                 <div className="footerMobile">
-                    <div className="mobileIcon" onClick={() => navigate("/")}>
+                    <div className="mobileIcon" onClick={() => navigate("/home")}>
                         <FaHome />
                         <p>Home</p>
                     </div>
