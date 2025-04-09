@@ -2,8 +2,8 @@ import cron from "node-cron";
 import { Account } from "../models/account";
 import { Op } from "sequelize";
 
-// Planifie la tache toutes les 1 minutes
-cron.schedule("*/1 * * * *", async () => {
+// Planifie la tache toutes les 10 minutes
+cron.schedule("*/10 * * * *", async () => {
   console.log("Vérification des comptes suspendus...");
 
   try {

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Menu, Menu_Item } from "../models/menu";
+import { Menu, Menu_Item, MenuWithAssociation } from "../models/menu";
 import { Restaurant } from "../models/restaurant";
 import { Item } from "../models/item";
 
@@ -136,9 +136,21 @@ export const getAllMenusFromRestaurant = async (
       res.status(404).json({ message: "Restaurant non trouvé" });
       return;
     }
+    /*const menus = await Menu.findAll({
+      where: { restaurant_id: restaurant_id },
+    });*/
+
     const menus = await Menu.findAll({
       where: { restaurant_id: restaurant_id },
-    });
+      include: [
+        {
+          model: Item,
+          as: "Items",
+          through: { attributes: [] },
+        },
+      ],
+    }) as MenuWithAssociation[];
+
     res.status(200).json(menus);
     return;
   } catch (error) {
@@ -156,6 +168,7 @@ export const getMenuByIdByRestaurant = async (
     const { restaurant_id, menu_id } = req.params;
 
     const restaurant = await Restaurant.findByPk(restaurant_id);
+    
     if (!restaurant) {
       6;
       res.status(404).json({ message: "Restaurant non trouvé" });
@@ -163,8 +176,15 @@ export const getMenuByIdByRestaurant = async (
     }
 
     const menu = await Menu.findOne({
-      where: { restaurant_id, menu_id }, // Vérifie que le menu appartient bien au restaurant
-    });
+      where: { menu_id: menu_id, restaurant_id: restaurant_id },
+      include: [
+        {
+          model: Item,
+          as: "Items",
+          through: { attributes: [] },
+        },
+      ],
+    }) as MenuWithAssociation;
 
     if (!menu) {
       res.status(404).json({ message: "Menu non trouvé pour ce restaurant" });

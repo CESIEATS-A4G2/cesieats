@@ -13,6 +13,9 @@ interface MenuAttributes {
     image: string;
 }
 
+interface MenuWithAssociation extends MenuAttributes {
+  Items: Item[];
+}
 // Modele Menu
 class Menu extends Model<MenuAttributes, Optional<MenuAttributes, 'menu_id'>> implements MenuAttributes {
     public menu_id!: string;
@@ -21,6 +24,8 @@ class Menu extends Model<MenuAttributes, Optional<MenuAttributes, 'menu_id'>> im
     public description!: string;
     public price!: number;
     public image!: string;
+
+    public Items!: Item[];
 }
 
 Menu.init({
@@ -48,10 +53,10 @@ Menu_Item.init({
 }, { sequelize, modelName: 'Menu_Item', timestamps: false, tableName: 'Menu_Item'});
 
 // Relations
-Menu.belongsToMany(Item, { through: Menu_Item, foreignKey: 'menu_id' });
-Item.belongsToMany(Menu, { through: Menu_Item, foreignKey: 'item_id' });
+Menu.belongsToMany(Item, { through: Menu_Item, foreignKey: 'menu_id', as: "Items" });
+Item.belongsToMany(Menu, { through: Menu_Item, foreignKey: 'item_id', as: "Menus" });
 
 Menu.belongsTo(Restaurant, { foreignKey: "restaurant_id", as: "restaurant" });
 Restaurant.hasMany(Menu, { foreignKey: "restaurant_id", as: "menus" });
 
-export { Menu, Menu_Item };
+export { Menu, Menu_Item, MenuWithAssociation };
