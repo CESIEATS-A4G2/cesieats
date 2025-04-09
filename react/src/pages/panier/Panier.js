@@ -20,10 +20,7 @@ function Panier({ isOpen, onClose, account_id }) {
 
   const fetchCart = async () => {
     try {
-      console.log("try");
       const response = await api.getCart(account_id); 
-      console.log("La réponse pour ", account_id, " : ", response.data);
-
       const cartData = response.data;
 
       const formattedItems = cartData.Items.map(item => ({
@@ -53,7 +50,6 @@ function Panier({ isOpen, onClose, account_id }) {
       const totalValue = allItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
       setTotal(totalValue.toFixed(2));
     } catch (error) {
-      console.log("catch");
       const errorMessage = error.response?.data?.message || "Une erreur est survenue lors de la requête.";
       const errorDetails = error.response?.data?.error?.message || "Pas de détails supplémentaires.";
       console.log("message erreur : ", error);

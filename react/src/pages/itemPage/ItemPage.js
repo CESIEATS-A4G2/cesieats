@@ -10,13 +10,12 @@ function ItemPage() {
   const location = useLocation();
   const item_id = location.pathname.split('/').pop();
   const segments = location.pathname.split('/');
+  const restaurantId = segments[segments.length - 3];
+
   const type = segments[segments.length - 2];
   const navigate = useNavigate();
-
   const isMobile = window.innerWidth <= 768;
   const account_id = "ACC000001";
-  const restaurantId = "RES000001"; // À adapter si besoin
-
   const [itemData, setItemData] = useState({});
   const [quantity, setQuantity] = useState(1);
 
@@ -91,8 +90,8 @@ function ItemPage() {
       <Header />
       <div className="item-content">
         <button className="back-btn" onClick={() => navigate(-1)}>← Retour</button>
-        <div className="item-main">
-          <img src={image} alt={name} className="item-image" />
+        <div className="item-main vertical">
+          <img src={image} alt={name} className="item-image full-width" />
           <div className="item-details">
             <h1>{name}</h1>
             <p className="price">{price}</p>

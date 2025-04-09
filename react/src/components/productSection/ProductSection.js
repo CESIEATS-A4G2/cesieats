@@ -10,7 +10,6 @@ function ProductSection({ restaurant_id, titre, type }) {
     if (type === "items") {
       api.getAllItemsByRestaurant(restaurant_id)
         .then(res => {
-          console.log("Produits récupérés :", res.data);
           setProducts(res.data);
         })
         .catch(err => console.error("Erreur lors de la récupération des produits :", err));
@@ -19,7 +18,6 @@ function ProductSection({ restaurant_id, titre, type }) {
     if (type === "menus") {
       api.getAllMenus(restaurant_id)
         .then(res => {
-          console.log("Menus récupérés :", res.data);
           setProducts(res.data);
         })
         .catch(err => console.error("Erreur lors de la récupération des menus :", err));

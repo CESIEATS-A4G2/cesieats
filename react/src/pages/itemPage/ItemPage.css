@@ -80,7 +80,23 @@
     gap: 10px;
     margin: 1rem 0;
   }
+  .item-main.vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+  }
   
+  .item-image.full-width {
+    width: 100%;
+    height: auto; /* 🔥 Permet de ne pas cropper l'image */
+    max-height: none; /* Assure qu'elle ne soit pas limitée en hauteur */
+    object-fit: cover; /* Si jamais tu veux qu'elle remplisse un cadre sans étirement */
+    border-radius: 10px;
+  }
+  
+
   .quantity-selector button {
     background-color: #f0f0f0;
     border: none;

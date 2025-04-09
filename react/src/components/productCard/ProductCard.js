@@ -3,12 +3,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "./ProductCard.css";
 
 function ProductCard({id, name, price, type, image, description, optionsLabel, options}) {
-  console.log("id", id);
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleClick = () => {
-    console.log(id)
     const currentUrl = location.pathname; // Par exemple : "/restaurant/1/menu"
     navigate(`${currentUrl}/${type}/${id}`); // On redirige vers la page du restaurant par son ID
   };

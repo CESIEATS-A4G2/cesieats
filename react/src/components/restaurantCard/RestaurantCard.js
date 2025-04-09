@@ -7,7 +7,6 @@ function RestaurantCard({ restaurant_id, name, image, description, address, open
   const navigate = useNavigate();
 
   const handleClick = () => {
-    console.log(restaurant_id)
     navigate(`/restaurant/${restaurant_id}`); // On redirige vers la page du restaurant par son ID
   };
 
