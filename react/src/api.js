@@ -58,7 +58,7 @@ const api = {
 
     // Order
     getOrderById:(order_id) => axios.get(`${API_URL}/orders/${order_id}`),
-    createOrder: (account_id) => axios.post(`${API_URL}/accounts/${account_id}/orders`)
+    createOrder: (account_id) => axios.post(`${API_URL}/accounts/${account_id}/orders`),
     getOrderByStatus: (status) => axios.get(`${API_URL}/orders/status/${status}`),
     changeStatusByOrder: (order_id, status) => axios.put(`${API_URL}/orders/${order_id}/${status}`),
 
