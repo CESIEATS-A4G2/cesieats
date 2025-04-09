@@ -201,8 +201,9 @@ export const deleteRestaurant = async (
   res: Response
 ): Promise<void> => {
   try {
+    const { restaurant_id } = req.params;
     const deletedRestaurant = await Restaurant.destroy({
-      where: { restaurant_id: req.params.id },
+      where: { restaurant_id: restaurant_id },
     });
     if (!deletedRestaurant) {
       res.status(404).json({ message: "Restaurant non trouvé" });
