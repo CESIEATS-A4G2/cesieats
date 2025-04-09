@@ -28,6 +28,7 @@ import { useState, useEffect } from 'react';
 import api from './api';  // 💡 Importation de ton fichier API
 import GestionCommandeAdmin from "./pages/gestionCommandeAdmin/GestionCommandeAdmin";
 import CommandeAdmin from "./pages/commandeAdmin/CommandeAdmin";
+import GestionCompteRestaurant from "./pages/gestionCompteRestau/GestionCompteRestau";
 
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
 
 
         <Route path="/commandes-restaurateur" element={<CommandesRestaurateur />} />
+        <Route path="/gestion-compte-restaurant" element={<GestionCompteRestaurant/>} />
         <Route path="/gestioncommande-restaurateur" element={<GestionCommandeRestaurateur />} />
         <Route path="/gestionmenu-restaurateur" element={<GestionMenuRestaurateur />} />
         <Route path="/creationmenu-restaurateur" element={<CreationMenuRestaurateur />} />
