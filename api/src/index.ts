@@ -9,6 +9,7 @@ import itemRoutes from './routes/itemRoutes';
 import cartRoutes from './routes/cartRoutes';
 import {connectMongoose} from './config/mongoose';
 import {connectSequelize} from './config/sequelize';
+import "./cron/suspensionJob";
 
 dotenv.config();
 
