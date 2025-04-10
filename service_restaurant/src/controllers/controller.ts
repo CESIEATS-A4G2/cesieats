@@ -1,9 +1,11 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
+import { Account } from "../models/account";
+import { Op } from "sequelize";
 import axios from 'axios';
 
 const API_URL = 'http://api:3000/api/accounts';
 
-// Créer un compte utilisateur
+
 export const createAccount = async (
   req: Request,
   res: Response
@@ -11,16 +13,17 @@ export const createAccount = async (
   try {
     const { name, email, password, phone, address, role } = req.body;
 
-    const user = await axios.post(API_URL, {
-      name: name,
-      email: email,
-      password: password,
-      phone: phone,
-      address: address,
-      role: role
+    // Créer un compte utilisateur avec Sequelize
+    const newAccount = await Account.create({
+      name,
+      email,
+      password,
+      phone,
+      address,
+      role,
     });
 
-    res.status(201).json({msg: 'New account created !',});
+    res.status(201).json(newAccount);
     return;
   } catch (error) {
     res
@@ -29,14 +32,14 @@ export const createAccount = async (
   }
 };
 
-// Obtenir tous les comptes
 export const getAllAccounts = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const response = await axios.get(API_URL);
-    const accounts = response.data;
+    const accounts = await Account.findAll({
+      where: { role: { [Op.not]: "Admin" } },
+    });
     res.status(200).json(accounts);
     return;
   } catch (error) {
@@ -85,7 +88,6 @@ export const getAccountById = async (
   }
 };
 
-// Supprimer un compte par ID
 export const deleteAccount = async (
   req: Request,
   res: Response
