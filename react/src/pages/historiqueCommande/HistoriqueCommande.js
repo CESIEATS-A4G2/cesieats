@@ -84,7 +84,6 @@ function HistoriqueCommande() {
         setOrdersAccDone(commandesPassees);
 
         const allOrders = [...commandesEnCours, ...commandesPassees];
-        console.log(allOrders);
         const uniqueRestaurantIds = [
           ...new Set(allOrders.map((o) => o.restaurant_id)),
         ];

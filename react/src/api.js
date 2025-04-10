@@ -6,9 +6,11 @@ const api = {
 
     // Restaurants
     getAllRestaurants: () => axios.get(`${API_URL}/restaurants`),
+    getRestaurantByAccountId: (accountId) => axios.get(`${API_URL}/accounts/${accountId}/restaurants/`),
     getRestaurant: (restaurantId) => axios.get(`${API_URL}/restaurants/${restaurantId}`),
     createRestaurant: (data) => axios.post(`${API_URL}/restaurants`, data),
     deleteRestaurant: (restaurantId) => axios.delete(`${API_URL}/restaurants/${restaurantId}`),
+    modifyOwnerRestaurant: (restaurantId, data) => axios.post(`${API_URL}/restaurants/${restaurantId}/users`, data),
 
     // Commande
     getOrderByStatus: (status) => axios.get(`${API_URL}/orders/status/${status}`),

@@ -5,24 +5,72 @@ import Footer from "../../components/footer/SiteFooter";
 import userImg from "../../resources/images/account-illustration.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-// User, DeliveryMan, Restaurateur, Admin
+import api from "../../api";
+
 function GestionCompte({ userType = "User" }) {
+  const [userData, setUserData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [name, setName] = useState("Aurélie Mami");
-  const [phone, setPhone] = useState("+33 6 12 34 56 78");
-  const [email, setEmail] = useState("aurelie.mamie@wanadoo.com");
+
+  const [idAccount, setIdAccount] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
   const [password, setPassword] = useState("**********");
+  const [image, setImage] = useState(null);
+
   const [description, setDescription] = useState("Description du restaurant");
   const [adresse, setAdresse] = useState("Adresse du restaurant");
   const [frais, setFrais] = useState("Frais de livraison");
   const [horaire, setHoraire] = useState("Horaires d'ouverture");
+
+  const [resto, setResto] = useState([]);
+  const navigate = useNavigate();
+
   const preset_key = "cldinery";
   const cloud_name = "dzsnjlgc5";
-  const [image, setImage] = useState();
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/authenticate", { withCredentials: true });
+        const user = res.data.user;
+        setUserData(user);
+
+        const roleCleaned = user.role?.replace(/\s+/g, "") || "";
+        const accountId = user.account_id || "no ID";
+
+        setIdAccount(accountId);
+        setName(user.name.split("@")[0]);
+        setPhone(user.phone || "Aucun numéro");
+        setEmail(user.email);
+        setRole(roleCleaned);
+        setImage(user.image || null);
+        setPassword(user.password);
+
+        if (roleCleaned === "Restaurateur" && accountId) {
+          try {
+            const restoRes = await api.getRestaurantByAccountId(accountId);
+            setResto(restoRes.data);
+
+            if (restoRes.data.length === 0) {
+              await api.modifyOwnerRestaurant("RES000001", { account_id: accountId });
+              const updatedResto = await api.getRestaurant("RES000001");
+              setResto(updatedResto.data);
+            }
+          } catch (err) {
+            console.error("Erreur lors de la récupération du restaurant :", err);
+          }
+        }
+      } catch (err) {
+        console.log("Erreur lors de l'authentification :", err);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -38,16 +86,17 @@ function GestionCompte({ userType = "User" }) {
   const handleChangePassword = () => setIsPasswordModalOpen(true);
   const handleCloseModal = () => setIsPasswordModalOpen(false);
 
-  function handleFile(event) {
+  let fileInput = null;
+  const handleFile = (event) => {
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", preset_key);
-    axios
-      .post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, formData)
+
+    axios.post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, formData)
       .then((res) => setImage(res.data.secure_url))
       .catch((err) => console.error(err));
-  }
+  };
 
   const roleActions = {
     User: { label: "Parrainer un ami", path: "/parrainage", role: "User" },
@@ -55,26 +104,35 @@ function GestionCompte({ userType = "User" }) {
     DeliveryMan: { label: "Parrainer un ami", path: "/parrainage", role: "DeliveryMan" },
     Restaurateur: { label: "Parrainer un ami", path: "/parrainage", role: "Restaurateur" },
   };
-  const action = roleActions[userType];
-console.log("action, ", action.role)
+
+  const action = roleActions[role];
+
   return (
     <div className="gestion-page5">
-      {userType !== "Restaurateur" && <Header role={userType} />}
+      {role !== "Restaurateur" && <Header role={role} />}
+
       <div className="gestion-container5">
         <div className="infos5">
-        {userType === "Restaurateur" && (
-  <button className="back-button5" onClick={() => navigate(-1)}>← Retour</button>
-)}
-          <h2>Informations personnelles ({userType})</h2>
+          {role === "Restaurateur" && (
+            <button className="back-button5" onClick={() => navigate(-1)}>← Retour</button>
+          )}
+
+          <h2>Informations personnelles ({role})</h2>
+
           <div className="info-block5">
             <p className="label5">Image de profil</p>
-            {isEditing ? (
-              <input type="file" onChange={handleFile} className="editable-input5" />
+            {image ? (
+              <img src={image} alt="profil" className="profile-pic5" height="200" width="200" />
             ) : (
-              <p className="value5">{name}</p>
+              <p className="value5">Aucune image</p>
+            )}
+            {isEditing && (
+              <>
+                <input type="file" ref={(input) => (fileInput = input)} onChange={handleFile} style={{ display: "none" }} />
+                <button onClick={() => fileInput && fileInput.click()} className="edit-button5">Modifier l’image</button>
+              </>
             )}
           </div>
-          {image && <img src={image} alt="pic" height="200" width="200" />}
 
           <div className="info-block5">
             <p className="label5">Nom</p>
@@ -84,73 +142,23 @@ console.log("action, ", action.role)
               <p className="value5">{name}</p>
             )}
           </div>
-
-          {userType === "restaurateur" && (
+          {role === "Restaurateur" ? (
             <>
-              <div className="info-block5">
-                <p className="label5">Description</p>
-                {isEditing ? (
-                  <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} className="editable-input5" />
-                ) : (
-                  <p className="value5">{description}</p>
-                )}
-              </div>
-              <div className="info-block5">
-                <p className="label5">Adresse</p>
-                {isEditing ? (
-                  <input type="text" value={adresse} onChange={(e) => setAdresse(e.target.value)} className="editable-input5" />
-                ) : (
-                  <p className="value5">{adresse}</p>
-                )}
-              </div>
-              <div className="info-block5">
-                <p className="label5">Frais</p>
-                {isEditing ? (
-                  <input type="text" value={frais} onChange={(e) => setFrais(e.target.value)} className="editable-input5" />
-                ) : (
-                  <p className="value5">{frais}</p>
-                )}
-              </div>
-              <div className="info-block5">
-                <p className="label5">Horaires</p>
-                {isEditing ? (
-                  <input type="text" value={horaire} onChange={(e) => setHoraire(e.target.value)} className="editable-input5" />
-                ) : (
-                  <p className="value5">{horaire}</p>
-                )}
-              </div>
+              <div className="info-block5"><p className="label5">Description</p>{isEditing ? <input type="text" value={resto.description} onChange={(e) => setDescription(e.target.value)} className="editable-input5" /> : <p className="value5">{resto.description}</p>}</div>
+              <div className="info-block5"><p className="label5">Adresse</p>{isEditing ? <input type="text" value={resto.address} onChange={(e) => setAdresse(e.target.value)} className="editable-input5" /> : <p className="value5">{resto.address}</p>}</div>
+              <div className="info-block5"><p className="label5">Frais</p>{isEditing ? <input type="text" value={resto.fees} onChange={(e) => setFrais(e.target.value)} className="editable-input5" /> : <p className="value5">{resto.fees}</p>}</div>
+              <div className="info-block5"><p className="label5">Horaires</p>{isEditing ? <input type="text" value={resto.open_hour} onChange={(e) => setHoraire(e.target.value)} className="editable-input5" /> : <p className="value5">{resto.open_hour}</p>}</div>
+            </>
+          ) : (
+            <>
+              <div className="info-block5"><p className="label5">Numéro de téléphone</p>{isEditing ? <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} className="editable-input5" /> : <p className="value5">{phone}</p>}</div>
+              <div className="info-block5"><p className="label5">E-mail</p>{isEditing ? <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="editable-input5" /> : <p className="value5">{email}</p>}</div>
             </>
           )}
 
-          {userType !== "restaurateur" && (
-            <>
-              <div className="info-block5">
-                <p className="label5">Numéro de téléphone</p>
-                {isEditing ? (
-                  <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} className="editable-input5" />
-                ) : (
-                  <p className="value5">{phone}</p>
-                )}
-              </div>
-              <div className="info-block5">
-                <p className="label5">E-mail</p>
-                {isEditing ? (
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="editable-input5" />
-                ) : (
-                  <p className="value5">{email}</p>
-                )}
-              </div>
-            </>
-          )}
+          <div className="info-block5"><p className="label5">Mot de passe</p><p className="value5">*****</p></div>
 
-          <div className="info-block5">
-            <p className="label5">Mot de passe</p>
-            <p className="value5">{password}</p>
-          </div>
-
-          {isEditing && (
-            <button className="change-password-button5" onClick={handleChangePassword}>Changer le mot de passe</button>
-          )}
+          {isEditing && <button className="change-password-button5" onClick={handleChangePassword}>Changer le mot de passe</button>}
 
           <div className="edit-save-buttons5">
             {isEditing ? (
@@ -158,19 +166,17 @@ console.log("action, ", action.role)
             ) : (
               <button onClick={() => setIsEditing(true)} className="edit-button5">Modifier</button>
             )}
-            {action && (
-              <button className="parrainage-button5" onClick={() => navigate(action.path,  { state: { role: action.role } })}>
-                {action.label}
-              </button>
-            )}
+            {action && <button className="parrainage-button5" onClick={() => navigate(action.path, { state: { role: action.role } })}>{action.label}</button>}
           </div>
         </div>
+
         {!isMobile && (
           <div className="illustration5">
             <img src={userImg} alt="illustration" />
           </div>
         )}
       </div>
+
       {isPasswordModalOpen && (
         <div className="modal-overlay5">
           <div className="modal5">
@@ -183,7 +189,8 @@ console.log("action, ", action.role)
           </div>
         </div>
       )}
-      {userType !== "Restaurateur" && userType !== "DeliveryMan" && <Footer />}
+
+      {role !== "Restaurateur" && role !== "DeliveryMan" && <Footer />}
     </div>
   );
 }

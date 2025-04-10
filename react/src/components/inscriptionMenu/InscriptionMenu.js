@@ -78,7 +78,7 @@ function InscriptionMenu() {
         <input
           type="radio"
           name="role"
-          value="Delivery Man"
+          value="DeliveryMan"
         />
         Livreur
       </label>
