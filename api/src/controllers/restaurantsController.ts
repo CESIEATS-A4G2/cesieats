@@ -25,10 +25,11 @@ export const createRestaurant = async (
     });
     res.status(201).json(newRestaurant);
     return;
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Erreur lors de la création du restaurant", error });
+  } catch (error: any) {
+    res.status(500).json({
+      message: "Erreur lors de la création du restaurant",
+      error: error.message,
+    });
   }
 };
 
@@ -41,10 +42,10 @@ export const getAllRestaurants = async (
     const restaurants = await Restaurant.findAll();
     res.status(200).json(restaurants);
     return;
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       message: "Erreur lors de la récupération des restaurants",
-      error,
+      error: error.message,
     });
   }
 };
@@ -62,10 +63,11 @@ export const getRestaurantById = async (
     }
     res.status(200).json(restaurant);
     return;
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Erreur lors de la récupération du restaurant", error });
+  } catch (error: any) {
+    res.status(500).json({
+      message: "Erreur lors de la récupération du restaurant",
+      error: error.message,
+    });
   }
 };
 
@@ -89,10 +91,10 @@ export const getRestaurantsByAccount = async (
     }
 
     res.status(200).json(account.get("Restaurants"));
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       message: "Erreur lors de la récupération des restaurants",
-      error,
+      error: error.message,
     });
   }
 };
@@ -138,10 +140,10 @@ export const addRestaurantToRestaurateur = async (
     });
     res.status(201).json(account_restaurant);
     return;
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       message: "Erreur lors de l'ajout d'un restaurant à un utilisateur",
-      error,
+      error: error.message,
     });
   }
 };
@@ -190,10 +192,10 @@ export const removeRestaurantFromRestaurateur = async (
       .status(200)
       .json({ message: "Le restaurant a bien été retiré de l'utilisateur" });
     return;
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       message: "Erreur lors du retirement d'un restaurant à un utilisateur",
-      error,
+      error: error.message,
     });
   }
 };
@@ -213,10 +215,11 @@ export const deleteRestaurant = async (
       return;
     }
     res.status(200).json({ message: "Restaurant supprimé avec succès" });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Erreur lors de la suppression du restaurant", error });
+  } catch (error: any) {
+    res.status(500).json({
+      message: "Erreur lors de la suppression du restaurant",
+      error: error.message,
+    });
   }
 };
 
@@ -240,8 +243,7 @@ export const updateRestaurant = async (
     });
     if (restaurant_name) {
       res.status(404).json({
-        message:
-          "Ce nom de restaurant est déjà utilisé par un autre restaurant",
+        message: "Ce nom est déjà utilisé par un autre restaurant",
       });
       return;
     }
@@ -258,9 +260,12 @@ export const updateRestaurant = async (
 
     res.status(200).json(restaurant);
     return;
-  } catch (error) {
+  } catch (error: any) {
     res
       .status(500)
-      .json({ message: "Erreur lors de la mise à jour du compte", error });
+      .json({
+        message: "Erreur lors de la mise à jour du compte",
+        error: error.message,
+      });
   }
 };

@@ -27,7 +27,7 @@ export const createOrder = async (
       quantity: Number(ci.Cart_Item.quantity),
       price: Number(ci.price),
     }));
-    
+
     const menus = cart.Menus.map((cm) => ({
       name: cm.name,
       quantity: Number(cm.Cart_Menu.quantity),
@@ -37,17 +37,23 @@ export const createOrder = async (
       })),
     }));
 
-    if(items.length === 0 && menus.length === 0){
+    if (items.length === 0 && menus.length === 0) {
       res.status(500).json({ error: "Le panier est vide" });
       return;
     }
 
-    const totalItems : number = items.reduce((sum : number, i) => sum + i.price * i.quantity, 0);
-    const totalMenus : number = menus.reduce((sum : number, m) => sum + m.price * m.quantity, 0);
-    const totalPrice : number = totalItems + totalMenus;
+    const totalItems: number = items.reduce(
+      (sum: number, i) => sum + i.price * i.quantity,
+      0
+    );
+    const totalMenus: number = menus.reduce(
+      (sum: number, m) => sum + m.price * m.quantity,
+      0
+    );
+    const totalPrice: number = totalItems + totalMenus;
 
     const restaurant_id = cart.restaurant_id;
-    
+
     const restaurant = await Restaurant.findByPk(restaurant_id);
     const restaurant_name = restaurant?.name;
     const restaurant_address = restaurant?.address;
@@ -70,9 +76,11 @@ export const createOrder = async (
 
     res.status(201).json({ message: "Commande créée", order: newOrder });
     return;
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Erreur lors de la validation" });
+  } catch (error: any) {
+    res.status(500).json({
+      message: "Erreur lors de la validation",
+      error: error.message,
+    });
   }
 };
 
@@ -86,10 +94,10 @@ export const getOrdersByAccountId = async (
     const orders = await Order.find({ account_id });
     res.status(201).json(orders);
     return;
-  } catch (err) {
-    console.error(err);
+  } catch (error: any) {
     res.status(500).json({
-      error: "Erreur lors de la récupération des commandes d'un compte",
+      message: "Erreur lors de la récupération des commandes d'un compte",
+      error: error.message,
     });
   }
 };
@@ -104,11 +112,11 @@ export const getOrdersByStatus = async (
     const orders = await Order.find({ status: status });
     res.status(201).json(orders);
     return;
-  } catch (err) {
-    console.error(err);
+  } catch (error: any) {
     res.status(500).json({
-      error:
+      message:
         "Erreur lors de la récupération des commandes par état de commande",
+      error: error.message,
     });
   }
 };
@@ -123,11 +131,11 @@ export const getOrdersByAccountIdByStatus = async (
     const orders = await Order.find({ account_id: account_id, status: status });
     res.status(201).json(orders);
     return;
-  } catch (err) {
-    console.error(err);
+  } catch (error: any) {
     res.status(500).json({
-      error:
+      message:
         "Erreur lors de la récupération des commandes d'un compte par état de commande",
+      error: error.message,
     });
   }
 };
@@ -142,11 +150,11 @@ export const updateOrderStatus = async (
     await Order.findByIdAndUpdate(order_id, { status: status });
     res.status(201).json({ message: "Commande mise à jour" });
     return;
-  } catch (err) {
-    console.error(err);
+  } catch (error: any) {
     res.status(500).json({
-      error:
+      message:
         "Erreur lors de la mise à jour du statut de la commande d'un compte",
+      error: error.message,
     });
   }
 };
@@ -161,10 +169,10 @@ export const getOrderById = async (
     const order = await Order.findById(order_id);
     res.status(201).json(order);
     return;
-  } catch (err) {
-    console.error(err);
+  } catch (error: any) {
     res.status(500).json({
-      error: "Erreur lors de la récupération d'une commande d'un compte",
+      message: "Erreur lors de la récupération d'une commande d'un compte",
+      error: error.message,
     });
   }
 };
@@ -181,9 +189,12 @@ export const deleteOrder = async (
       return;
     }
     res.status(200).json({ message: "Commande supprimée avec succès" });
-  } catch (error) {
+  } catch (error: any) {
     res
       .status(500)
-      .json({ message: "Erreur lors de la suppression de la commande", error });
+      .json({
+        message: "Erreur lors de la suppression de la commande",
+        error: error.message,
+      });
   }
 };

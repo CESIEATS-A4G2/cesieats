@@ -22,10 +22,11 @@ export const createAccount = async (
 
     res.status(201).json(newAccount);
     return;
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Erreur lors de la création du compte", error });
+  } catch (error: any) {
+    res.status(500).json({
+      message: "Erreur lors de la création du compte",
+      error: error.message,
+    });
   }
 };
 
@@ -40,10 +41,11 @@ export const getAllAccounts = async (
     });
     res.status(200).json(accounts);
     return;
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Erreur lors de la récupération des comptes", error });
+  } catch (error: any) {
+    res.status(500).json({
+      message: "Erreur lors de la récupération des comptes",
+      error: error.message,
+    });
   }
 };
 
@@ -58,10 +60,11 @@ export const getAllAccountsByRole = async (
     });
     res.status(200).json(accounts);
     return;
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Erreur lors de la récupération des comptes", error });
+  } catch (error: any) {
+    res.status(500).json({
+      message: "Erreur lors de la récupération des comptes",
+      error: error.message,
+    });
   }
 };
 
@@ -79,10 +82,11 @@ export const getAccountById = async (
     }
     res.status(200).json(user);
     return;
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Erreur lors de la récupération du compte", error });
+  } catch (error: any) {
+    res.status(500).json({
+      message: "Erreur lors de la récupération du compte",
+      error: error.message,
+    });
   }
 };
 
@@ -103,10 +107,13 @@ export const deleteAccount = async (
 
     res.status(200).json({ message: "Compte supprimé avec succès" });
     return;
-  } catch (error) {
+  } catch (error: any) {
     res
       .status(500)
-      .json({ message: "Erreur lors de la suppression du compte", error });
+      .json({
+        message: "Erreur lors de la suppression du compte",
+        error: error.message,
+      });
   }
 };
 
@@ -182,9 +189,10 @@ export const suspendAccount = async (
 
     res.status(200).json(account);
     return;
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Erreur lors de la suspension du compte", error });
+  } catch (error: any) {
+    res.status(500).json({
+      message: "Erreur lors de la suspension du compte",
+      error: error.message,
+    });
   }
 };
