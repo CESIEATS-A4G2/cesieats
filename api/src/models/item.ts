@@ -1,3 +1,4 @@
+/*
 import { DataTypes, Model, Optional, UUIDV4 } from 'sequelize';
 import {sequelize} from '../config/sequelize';
 
@@ -37,3 +38,4 @@ Item.init({
 }, { sequelize, modelName: 'Item', timestamps: false});
 
 export { Item };
+*/

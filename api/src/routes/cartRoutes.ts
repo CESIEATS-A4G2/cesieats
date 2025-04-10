@@ -1,3 +1,4 @@
+/*
 import express from 'express';
 import {createCart, deleteCart, addItemToCart, addMenuToCart, removeItemFromCart, removeMenuFromCart, getAllCartContentAccount, updateQuantityMenuFromCart, updateQuantityItemFromCart } from '../controllers/cartController';
 
@@ -14,3 +15,4 @@ router.delete('/:account_id/cart/items', removeItemFromCart);
 router.delete('/:account_id/cart/menus', removeMenuFromCart);
 
 export default router;
+*/

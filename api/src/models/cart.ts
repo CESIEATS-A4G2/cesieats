@@ -1,3 +1,4 @@
+/*
 import { DataTypes, Model, Optional, UUIDV4 } from "sequelize";
 import { sequelize } from "../config/sequelize";
 import { Account } from "../models/account";
@@ -125,3 +126,4 @@ Restaurant.hasMany(Cart, { foreignKey: "restaurant_id", as: "carts" });
 Cart.belongsTo(Restaurant, { foreignKey: "restaurant_id", as: "restaurant" });
 
 export { Cart, Cart_Menu, Cart_Item, CartWithAssociations };
+*/

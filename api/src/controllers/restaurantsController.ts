@@ -1,3 +1,4 @@
+/*
 import { Request, Response } from "express";
 import { Restaurant, Account_Restaurant } from "../models/restaurant";
 import { Account } from "../models/account";
@@ -265,3 +266,4 @@ export const updateRestaurant = async (
       .json({ message: "Erreur lors de la mise à jour du compte", error });
   }
 };
+*/

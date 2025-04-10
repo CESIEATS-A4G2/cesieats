@@ -11,6 +11,7 @@ services:
       - app-network
     depends_on: #Do not allow nginx to go up before auth
       - auth
+      - user-service
       - react
       - api
 
@@ -21,7 +22,29 @@ services:
       - "4500:3000"
     networks:
       - app-network
-
+  
+  user-service:  #user service
+    build: ./service_user
+    container_name: user-service
+    ports:
+      - "3010:3000"
+    environment:
+      MONGO_URI: mongodb://mongo:27017/cesieatsdb
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: cesieats_db
+    env_file:
+      - ./service_user/.env
+    depends_on:
+      mongo:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    networks:
+      - app-network
+      - db-network
 
   react:  #Access React front-end
     build: ./react
@@ -38,13 +61,6 @@ services:
     container_name: api
     ports:
       - "3000:3000"
-    environment:
-      MONGO_URI: mongodb://mongo:27017/cesieatsdb
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_USER: root
-      DB_PASSWORD: root
-      DB_NAME: cesieats_db
     env_file:
       - ./api/.env
     depends_on:
@@ -62,12 +78,12 @@ services:
     container_name: mongo
     volumes:
       - mongo-data:/data/db
-      - ./api/database/init-mongodb.js:/docker-entrypoint-initdb.d/init.js
+      - ./database/init-mongodb.js:/docker-entrypoint-initdb.d/init.js
     ports:
       - "27017:27017"
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-      interval: 5s
+      interval: 60s
       timeout: 5s
       retries: 3
       start_period: 5s
@@ -83,12 +99,12 @@ services:
       MYSQL_PASSWORD: 1234
     volumes:
       - sql-data:/var/lib/mysql
-      - ./api/database/architecture-datas.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database/architecture-datas.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
+      interval: 60s
       retries: 5
     networks:
       - db-network

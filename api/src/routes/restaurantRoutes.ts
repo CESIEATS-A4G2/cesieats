@@ -1,3 +1,4 @@
+/*
 import express from 'express';
 import { createRestaurant, deleteRestaurant, getAllRestaurants, getRestaurantById, addRestaurantToRestaurateur as addUserToRestaurant, removeRestaurantFromRestaurateur as removeUserFromRestaurant, updateRestaurant } from '../controllers/restaurantsController';
 
@@ -12,3 +13,4 @@ router.delete('/:restaurant_id/users/:account_id', removeUserFromRestaurant);
 router.put('/:restaurant_id', updateRestaurant)
 
 export default router;
+*/

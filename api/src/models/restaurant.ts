@@ -1,3 +1,4 @@
+/*
 import { DataTypes, Model, Optional, UUIDV4 } from 'sequelize';
 import {sequelize} from '../config/sequelize';
 import { Item } from '../models/item';
@@ -61,3 +62,4 @@ Restaurant.hasMany(Item, { foreignKey: "restaurant_id", as: "items" });
 Item.belongsTo(Restaurant, { foreignKey: "restaurant_id", as: "restaurant" });
 
 export { Restaurant, Account_Restaurant };
+*/

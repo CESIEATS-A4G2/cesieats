@@ -1,3 +1,4 @@
+/*
 import { Request, Response } from "express";
 import { Item } from "../models/item";
 import { Menu, Menu_Item } from "../models/menu";
@@ -263,3 +264,4 @@ export const updateItem = async (
       .json({ message: "Erreur lors de la mise à jour de l'item", error });
   }
 };
+*/

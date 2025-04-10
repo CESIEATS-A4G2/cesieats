@@ -1,3 +1,4 @@
+/*
 import express from 'express';
 import { createMenu, deleteMenu, getAllMenusFromRestaurant, getMenuByIdByRestaurant, addItemToMenu, removeItemFromMenu, updateMenu } from '../controllers/menuController';
 
@@ -12,3 +13,4 @@ router.delete('/:restaurant_id/menus/:menu_id', deleteMenu);
 router.put('/:restaurant_id/menus/:menu_id', updateMenu);
 
 export default router;
+*/

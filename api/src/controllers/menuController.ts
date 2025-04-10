@@ -1,3 +1,4 @@
+/*
 import { Request, Response } from "express";
 import { Menu, Menu_Item, MenuWithAssociation } from "../models/menu";
 import { Restaurant } from "../models/restaurant";
@@ -135,9 +136,6 @@ export const getAllMenusFromRestaurant = async (
       res.status(404).json({ message: "Restaurant non trouvé" });
       return;
     }
-    /*const menus = await Menu.findAll({
-      where: { restaurant_id: restaurant_id },
-    });*/
 
     const menus = await Menu.findAll({
       where: { restaurant_id: restaurant_id },
@@ -256,3 +254,4 @@ export const updateMenu = async (req: Request, res: Response): Promise<void> => 
     res.status(500).json({ message: "Erreur lors de la mise à jour du menu", error });
   }
 };
+*/

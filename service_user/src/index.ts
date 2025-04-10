@@ -4,10 +4,17 @@ import dotenv from 'dotenv';
 import accountRoutes from './routes/account.routes';
 import "./cron/suspensionJob";
 
+import {connectMongoose} from './config/mongoose';
+import {connectSequelize} from './config/sequelize';
+
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Connexion à MongoDB/MySQL
+connectMongoose();
+connectSequelize();
 
 app.use(cors({
   origin: 'http://localhost:3000',

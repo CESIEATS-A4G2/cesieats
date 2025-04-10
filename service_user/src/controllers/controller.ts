@@ -1,10 +1,6 @@
 import { Request, Response } from 'express';
 import { Account } from "../models/account";
 import { Op } from "sequelize";
-import axios from 'axios';
-
-const API_URL = 'http://api:3000/api/accounts';
-
 
 export const createAccount = async (
   req: Request,
@@ -127,7 +123,7 @@ export const updateAccount = async (
 
     const account_email = await Account.findOne({ where: { email: email } });
     if (account_email) {
-      res.status(404).json({
+      res.status(409).json({
         message: "Cette adresse mail est déjà utilisée par un autre compte",
       });
       return;

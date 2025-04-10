@@ -1,3 +1,4 @@
+/*
 import express from 'express';
 import { createItem, getAllItemsFromMenuFromRestaurant, getAllItemsFromRestaurant, getItemByIdFromRestaurant, deleteItemFromRestaurant, deleteItemFromMenuFromRestaurant, updateItem } from '../controllers/itemController';
 
@@ -12,3 +13,4 @@ router.delete('/:restaurant_id/menus/:menu_id/items/:item_id', deleteItemFromMen
 router.put('/:restaurant_id/items/:item_id', updateItem);
 
 export default router;
+*/

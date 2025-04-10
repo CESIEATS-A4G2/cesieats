@@ -1,3 +1,4 @@
+/*
 import { Request, Response } from "express";
 import { Order } from "../models/order";
 import {
@@ -187,3 +188,4 @@ export const deleteOrder = async (
       .json({ message: "Erreur lors de la suppression de la commande", error });
   }
 };
+*/
