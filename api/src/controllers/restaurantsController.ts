@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Restaurant, Account_Restaurant } from "../models/restaurant";
 import { Account } from "../models/account";
+import { Op } from "sequelize";
 
 // Creer un restaurant
 export const createRestaurant = async (
@@ -89,12 +90,10 @@ export const getRestaurantsByAccount = async (
 
     res.status(200).json(account.get("Restaurants"));
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Erreur lors de la récupération des restaurants",
-        error,
-      });
+    res.status(500).json({
+      message: "Erreur lors de la récupération des restaurants",
+      error,
+    });
   }
 };
 
@@ -236,26 +235,26 @@ export const updateRestaurant = async (
       return;
     }
 
-    const restaurant_name = await Restaurant.findOne({ where: { name: name } });
+    const restaurant_name = await Restaurant.findOne({
+      where: { restaurant_id: { [Op.not]: restaurant_id }, name: name },
+    });
     if (restaurant_name) {
-      res
-        .status(404)
-        .json({
-          message:
-            "Ce nom de restaurant est déjà utilisé par un autre restaurant",
-        });
+      res.status(404).json({
+        message:
+          "Ce nom de restaurant est déjà utilisé par un autre restaurant",
+      });
       return;
     }
 
-    await restaurant.update({
-      name,
-      description,
-      address,
-      fees,
-      prep_time,
-      image,
-      open_hour,
-    });
+    const updatedFields: any = {};
+    if (name) updatedFields.name = name;
+    if (description) updatedFields.description = description;
+    if (address) updatedFields.address = address;
+    if (fees) updatedFields.fees = fees;
+    if (prep_time) updatedFields.prep_time = prep_time;
+    if (image) updatedFields.image = image;
+    if (open_hour) updatedFields.open_hour = open_hour;
+    await restaurant.update(updatedFields);
 
     res.status(200).json(restaurant);
     return;

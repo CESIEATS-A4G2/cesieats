@@ -59,12 +59,10 @@ export const getAllItemsFromRestaurant = async (
     res.status(200).json(items);
     return;
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Erreur lors de la récupération des items d'un restaurant",
-        error,
-      });
+    res.status(500).json({
+      message: "Erreur lors de la récupération des items d'un restaurant",
+      error,
+    });
   }
 };
 
@@ -109,12 +107,10 @@ export const getAllItemsFromMenuFromRestaurant = async (
 
     res.status(200).json(items);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Erreur lors de la récupération des items d'un menu",
-        error,
-      });
+    res.status(500).json({
+      message: "Erreur lors de la récupération des items d'un menu",
+      error,
+    });
   }
 };
 
@@ -131,7 +127,6 @@ export const getItemByIdFromRestaurant = async (
       return;
     }
 
-    // Rechercher l’item dans ce menu
     const item = await Item.findOne({
       where: { item_id: item_id, restaurant_id: restaurant_id },
     });
@@ -145,12 +140,10 @@ export const getItemByIdFromRestaurant = async (
     return;
   } catch (error) {
     console.error("Erreur Sequelize:", error);
-    res
-      .status(500)
-      .json({
-        message: "Erreur lors de la récupération de l'item dans un restaurant",
-        error,
-      });
+    res.status(500).json({
+      message: "Erreur lors de la récupération de l'item dans un restaurant",
+      error,
+    });
   }
 };
 
@@ -168,9 +161,11 @@ export const deleteItemFromRestaurant = async (
     }
 
     // Vérifier si l’item existe
-    const item = await Item.findByPk(item_id);
+    const item = await Item.findOne({
+      where: { item_id: item_id, restaurant_id: restaurant_id },
+    });
     if (!item) {
-      res.status(404).json({ message: "Item non trouvé" });
+      res.status(404).json({ message: "Item non trouvé dans ce restaurant" });
       return;
     }
 
@@ -200,38 +195,40 @@ export const deleteItemFromMenuFromRestaurant = async (
       return;
     }
 
-    const menu = await Menu.findByPk(menu_id);
+    const menu = await Menu.findOne({
+      where: { menu_id: menu_id, restaurant_id: restaurant_id },
+    });
     if (!menu) {
-      res.status(404).json({ message: "Menu non trouvé" });
+      res.status(404).json({ message: "Menu non trouvé pour ce restaurant" });
       return;
     }
 
     // Vérifier si l’item existe
-    const item = await Item.findByPk(item_id);
+    const item = await Item.findOne({
+      where: { item_id: item_id, restaurant_id: restaurant_id },
+    });
     if (!item) {
       res.status(404).json({ message: "Item non trouvé dans le restaurant" });
       return;
     }
 
-    // Verifier si l'item existe dans la table intermediaire (dans le menu)
-    const menuItem = await Menu_Item.findOne({
+    const deletedMenuItem = await Menu_Item.destroy({
       where: { menu_id: menu_id, item_id: item_id },
     });
-    if (!menuItem) {
+    if (!deletedMenuItem) {
       res.status(404).json({ message: "Item non trouvé dans le menu" });
       return;
     }
 
-    // Suppression de l’item
-    await item.destroy();
-
-    res.status(200).json({ message: "Item supprimé avec succès" });
+    res.status(200).json({ message: "Item supprimé du menu avec succès" });
     return;
   } catch (error) {
-    console.error("Erreur Sequelize:", error);
     res
       .status(500)
-      .json({ message: "Erreur lors de la suppression de l'item", error });
+      .json({
+        message: "Erreur lors de la suppression de l'item du menu",
+        error,
+      });
   }
 };
 
@@ -250,12 +247,19 @@ export const updateItem = async (
     }
 
     if (item.restaurant_id !== restaurant_id) {
-      res.status(404).json({ message: "Cet item n'appartient pas à ce restaurant" });
+      res
+        .status(404)
+        .json({ message: "Ce restaurant ne contient pas cet item" });
       return;
     }
 
-    await item.update({ name, description, price, image });
+    const updatedFields: any = {};
+    if (name) updatedFields.name = name;
+    if (description) updatedFields.description = description;
+    if (price) updatedFields.price = price;
+    if (image) updatedFields.image = image;
 
+    await item.update(updatedFields);
     res.status(200).json(item);
   } catch (error) {
     res
