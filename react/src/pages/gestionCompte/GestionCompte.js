@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import api from "../../api";
 
+const API_URL = "http://localhost:8080/api";
+
 function GestionCompte({ userType = "User" }) {
   const [userData, setUserData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -31,6 +33,22 @@ function GestionCompte({ userType = "User" }) {
 
   const preset_key = "cldinery";
   const cloud_name = "dzsnjlgc5";
+
+  const updateUser = (userId, data) => {
+    console.log("ID et data", userId, data)
+    console.log(data.name, data.phone, data.email)
+    return api.updateUser(userId, { name: data.name, phone: data.phone, email: data.email, password: data.password });
+  };
+
+  const updateResto = (restoId, data) => {
+    console.log("RESTO ID et data", restoId, data)
+    return api.updateUser(userId, {
+      name: data.name,
+      phone: data.phone,
+      email: data.email,
+      password: data.password
+    });
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,9 +96,48 @@ function GestionCompte({ userType = "User" }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsEditing(false);
-    alert("Modifications sauvegardées !");
+
+    if(role === "Restaurateur"){
+      const updatedData = {
+        restaurant_id : resto.restaurant_id,
+        name: resto.name,
+        description: resto.description,
+        address: resto.address,
+        fees: resto.fees,
+        prep_time: resto.prep_time,
+        image: resto.image,
+        open_hour: resto.open_hour
+      };
+      try {
+          await updateResto(resto.restaurant_id, updatedData);
+          alert("Modifications sauvegardées !");
+        }
+       catch (err) {
+        alert("Erreur lors de la sauvegarde des modifications.", err);
+      }
+    }
+    else {
+
+      try {
+        if (userData) {
+          const updatedData = {
+            name: name,
+            phone: phone,
+            email: email,
+            password: password
+          };
+  
+          await updateUser(idAccount, updatedData);
+        }
+        alert("Modifications sauvegardées !");
+      } catch (err) {
+        console.error("Erreur lors de la mise à jour :", err);
+        alert("Erreur lors de la sauvegarde des modifications.");
+      }
+    }
+
   };
 
   const handleChangePassword = () => setIsPasswordModalOpen(true);
@@ -142,12 +199,35 @@ function GestionCompte({ userType = "User" }) {
               <p className="value5">{name}</p>
             )}
           </div>
+          
           {role === "Restaurateur" ? (
             <>
-              <div className="info-block5"><p className="label5">Description</p>{isEditing ? <input type="text" value={resto.description} onChange={(e) => setDescription(e.target.value)} className="editable-input5" /> : <p className="value5">{resto.description}</p>}</div>
-              <div className="info-block5"><p className="label5">Adresse</p>{isEditing ? <input type="text" value={resto.address} onChange={(e) => setAdresse(e.target.value)} className="editable-input5" /> : <p className="value5">{resto.address}</p>}</div>
-              <div className="info-block5"><p className="label5">Frais</p>{isEditing ? <input type="text" value={resto.fees} onChange={(e) => setFrais(e.target.value)} className="editable-input5" /> : <p className="value5">{resto.fees}</p>}</div>
-              <div className="info-block5"><p className="label5">Horaires</p>{isEditing ? <input type="text" value={resto.open_hour} onChange={(e) => setHoraire(e.target.value)} className="editable-input5" /> : <p className="value5">{resto.open_hour}</p>}</div>
+            
+              <div className="info-block5"><p className="label5">Nom Restaurants</p>
+                {isEditing ?
+                  <input type="text" value={resto.name} onChange={(e) => setDescription(e.target.value)} className="editable-input5" /> : <p className="value5">{resto.name}</p>
+                }
+              </div>
+              <div className="info-block5"><p className="label5">Description</p>
+                {isEditing ?
+                  <input type="text" value={resto.description} onChange={(e) => setDescription(e.target.value)} className="editable-input5" /> : <p className="value5">{resto.description}</p>
+                }
+              </div>
+              <div className="info-block5"><p className="label5">Adresse</p>
+                {isEditing ? 
+                <input type="text" value={resto.address} onChange={(e) => setAdresse(e.target.value)} className="editable-input5" /> : <p className="value5">{resto.address}</p>
+                }
+              </div>
+              <div className="info-block5"><p className="label5">Frais</p>
+                {isEditing ? 
+                <input type="text" value={resto.fees} onChange={(e) => setFrais(e.target.value)} className="editable-input5" /> : <p className="value5">{resto.fees}</p>
+                }
+              </div>
+              <div className="info-block5"><p className="label5">Horaires</p>
+                {isEditing ? 
+                <input type="text" value={resto.open_hour} onChange={(e) => setHoraire(e.target.value)} className="editable-input5" /> : <p className="value5">{resto.open_hour}</p>
+                }
+              </div>
             </>
           ) : (
             <>
