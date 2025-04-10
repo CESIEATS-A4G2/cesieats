@@ -58,7 +58,12 @@ export const getFullCartByAccountId = async (account_id: string) => {
         through: {
           attributes: ["quantity"],
         },
-        include: [Item],
+        include: [
+          {
+            model: Item,
+            as: "Items",
+          },
+        ],
       },
     ],
   })) as CartWithAssociations;
@@ -76,10 +81,10 @@ export const getAllCartContentAccount = async (
     const cart = await getFullCartByAccountId(account_id);
     res.status(200).json(cart);
     return;
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
-      message: "Erreur lors de la récupération des paniers de l'utilisateur",
-      error,
+      message: "Erreur lors de la récupération du paniers de l'utilisateur",
+      error: error.message,
     });
   }
 };
