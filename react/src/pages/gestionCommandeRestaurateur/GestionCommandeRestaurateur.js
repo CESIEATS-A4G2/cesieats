@@ -1,13 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./GestionCommandeRestaurateur.css";
 import BurgerMenuRestaurateur from "../../components/burgerMenuRestaurateur/BurgerMenuRestaurateur";
 import { FiAlignJustify } from "react-icons/fi";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from "../../api";
+import axios from "axios";
+
 
 function GestionCommandeRestaurateur() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    useEffect(() => {
+        const checkRoleAndRedirect = async () => {
+            try {
+                const res = await axios.get("http://localhost:8080/authenticate", { withCredentials: true });
+                const role = res.data.user.role;
+
+                console.log(role);
+                switch (role) {
+                    case "DeliveryMan":
+                        navigate("/liste-commandes-livreur");
+                        break;
+                    case "Restaurateur":
+                        break;
+                    case "Admin":
+                        break;
+                    default:
+                        navigate("/home");
+                }
+            } catch (error) {
+                console.error("Erreur d'authentification :", error);
+            }
+        };
+        checkRoleAndRedirect();
+    }, [navigate]);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const location = useLocation();

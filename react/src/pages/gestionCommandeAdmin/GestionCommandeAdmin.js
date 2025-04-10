@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./GestionCommandeAdmin.css";
 import TicketCommandePreteAdmin from "../../components/ticketCommandeAdmin/TicketCommandePreteAdmin";
 import Header from "../../components/header/Admin/HeaderAdmin";
@@ -6,6 +7,45 @@ import Footer from "../../components/footer/SiteFooter";
 import api from "../../api";
 
 function GestionCommandeAdmin() {
+
+  
+    const navigate = useNavigate();
+    useEffect(() => {
+      const checkRoleAndRedirect = async () => {
+        try {
+          const response = await fetch("/authenticate", {
+            method: "GET",
+            credentials: "include",
+          });
+  
+          if (!response.ok) {
+            throw new Error("Non authentifié");
+          }
+  
+          const data = await response.json();
+          const role = data.role;
+  
+          switch (role) {
+            case "Admin":
+              break;
+            case "DeliveryMan":
+              navigate("/liste-commandes-livreur");
+              break;
+            case "Restaurateur":
+              navigate("/commandes-restaurateur");
+              break;
+            default:
+              navigate("/home");
+              break;
+          }
+        } catch (error) {
+          console.error("Erreur d'authentification :", error);
+        }
+      };
+  
+      checkRoleAndRedirect();
+    }, [navigate]);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 

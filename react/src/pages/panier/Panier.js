@@ -21,8 +21,9 @@ function Panier({ isOpen, onClose, account_id }) {
   const fetchCart = async () => {
     try {
       console.log("try");
-      const response = await api.getCart(account_id); 
-      console.log("La réponse pour ", account_id, " : ", response.data);
+    console.log("Appel API getCart...");
+    const response = await api.getCart(account_id);
+    console.log("Réponse API :", response);      console.log("La réponse pour ", account_id, " : ", response.data);
 
       const cartData = response.data;
 

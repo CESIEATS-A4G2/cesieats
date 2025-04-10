@@ -5,11 +5,36 @@ import ArticleRestaurateur from "../../components/articleRestaurateur/ArticleRes
 import BurgerMenuRestaurateur from "../../components/burgerMenuRestaurateur/BurgerMenuRestaurateur";
 import { FiAlignJustify } from "react-icons/fi";
 import api from "../../api";
+import axios from "axios";
 
 function GestionArticle() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [items, setItems] = useState([]);
     const navigate = useNavigate();
+    useEffect(() => {
+        const checkRoleAndRedirect = async () => {
+            try {
+                const res = await axios.get("http://localhost:8080/authenticate", { withCredentials: true });
+                const role = res.data.user.role;
+
+                console.log(role);
+                switch (role) {
+                    case "DeliveryMan":
+                        navigate("/liste-commandes-livreur");
+                        break;
+                    case "Restaurateur":
+                        break;
+                    case "Admin":
+                        break;
+                    default:
+                        navigate("/home");
+                }
+            } catch (error) {
+                console.error("Erreur d'authentification :", error);
+            }
+        };
+        checkRoleAndRedirect();
+    }, [navigate]);
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     

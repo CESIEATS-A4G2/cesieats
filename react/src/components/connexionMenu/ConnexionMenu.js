@@ -26,7 +26,6 @@ function ConnexionMenu() {
         throw new Error("Erreur d'identifiants");
       }
   
-      // Ici, tu peux faire une vérif avec /authenticate si tu veux
       console.log(response);
       navigate("/home");  
     } catch (err) {

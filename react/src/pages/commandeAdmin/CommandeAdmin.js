@@ -31,7 +31,7 @@ function formatDate(dateString) {
   return new Intl.DateTimeFormat('fr-FR', options).format(date);
 }
 
-function textChangingStatus(type, textnumber){
+function textChangingStatus(type, textnumber) {
   const key = `${type}-${textnumber}`;
   switch (key) {
     case "PENDING_CONFIRMATION-1":
@@ -60,16 +60,53 @@ function textChangingStatus(type, textnumber){
 function CommandeAdmin() {
   const navigate = useNavigate();
   const location = useLocation(); // Récupérer l'état passé avec navigate
+
+  useEffect(() => {
+    const checkRoleAndRedirect = async () => {
+      try {
+        const response = await fetch("/authenticate", {
+          method: "GET",
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          throw new Error("Non authentifié");
+        }
+
+        const data = await response.json();
+        const role = data.role;
+
+        switch (role) {
+          case "Admin":
+            break;
+          case "DeliveryMan":
+            navigate("/liste-commandes-livreur");
+            break;
+          case "Restaurateur":
+            navigate("/commandes-restaurateur");
+            break;
+          default:
+            navigate("/home");
+            break;
+        }
+      } catch (error) {
+        console.error("Erreur d'authentification :", error);
+      }
+    };
+
+    checkRoleAndRedirect();
+  }, [navigate]);
+
   const { idCommande, nomClient, duree, type } = location.state || {}; // Déstructuration de l'état
   console.log(idCommande, nomClient, duree, type)
 
   const handleDelete = async () => {
     console.log("IdCommande à suppr : ", idCommande)
     if (!idCommande) return;
-  
+
     const confirm = window.confirm("Es-tu sûr de vouloir supprimer cette commande ?");
     if (!confirm) return;
-  
+
     try {
       await api.deleteOrderById(idCommande); // Assure-toi que cette méthode existe dans ton fichier api
       alert("Commande supprimée avec succès !");
@@ -96,7 +133,7 @@ function CommandeAdmin() {
       fetchOrder();
     }
   }, [idCommande]);
-  
+
   // Récupérer le restaurant avec son id
   const [restaurant, setRestaurant] = useState([]);
   useEffect(() => {
@@ -149,7 +186,7 @@ function CommandeAdmin() {
 
   return (
     <>
-      <Header role="Admin"/>
+      <Header role="Admin" />
       <div className="suivi-commande-container">
         <h2>Commande de {nomClient}</h2>
 
@@ -160,8 +197,8 @@ function CommandeAdmin() {
             <p>{order.totalPrice}€ • {formatDate(order.createdAt)}</p>
             <p>{menuItemsList}</p>
           </div>
-          <button 
-            className="btn-etablissement" 
+          <button
+            className="btn-etablissement"
             onClick={() => navigate("/restaurant/mcdonalds")}
           >
             Afficher l'établissement
@@ -199,10 +236,10 @@ function CommandeAdmin() {
         </div>
       </div>
       <div className="delete-button-container">
-  <button className="btn-supprimer" onClick={handleDelete}>
-    Supprimer la commande
-  </button>
-</div>
+        <button className="btn-supprimer" onClick={handleDelete}>
+          Supprimer la commande
+        </button>
+      </div>
       <Footer />
     </>
   );
