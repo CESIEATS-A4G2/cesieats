@@ -1,10 +1,34 @@
-import React, { useRef, useEffect } from "react";
+import React, {  useState,useRef, useEffect } from "react";
 import "./BurgerMenuRestaurateur.css";
 import pfp from "../../resources/images/pfp.png";
 import { FaUser, FaSuitcase, FaClipboardList, FaHamburger, FaChartLine} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 function BurgerMenuRestaurateur({ isOpen, onClose }) {
+
+  const [nameUser, setNameUser] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/authenticate", { withCredentials: true });
+        const user = res.data.user;
+        setNameUser(user.name)
+        console.log(res)
+        console.log(user)
+        console.log(user.name)
+        console.log(nameUser)
+
+      } catch (err) {
+        console.log("Erreur lors de l'authentification :", err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const menuRef = useRef();
   const navigate = useNavigate(); // 💡 à mettre AVANT le return conditionnel
 
@@ -29,7 +53,7 @@ function BurgerMenuRestaurateur({ isOpen, onClose }) {
       <div className="burger-menuresto" ref={menuRef}>
         <div className="burger-headerresto">
           <img src={pfp} alt="Profil" className="burger-avatarresto" />
-          <h2>Aurélien</h2>
+          <h2>{nameUser.split("@")[0]}</h2>
         </div>
 
         <div

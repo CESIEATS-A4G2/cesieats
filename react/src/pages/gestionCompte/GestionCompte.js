@@ -7,8 +7,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import api from "../../api";
 
-const API_URL = "http://localhost:8080/api";
-
 function GestionCompte({ userType = "User" }) {
   const [userData, setUserData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
