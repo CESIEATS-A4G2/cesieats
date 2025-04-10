@@ -124,22 +124,32 @@ export const updateAccount = async (
       return;
     }
 
-    const account_email = await Account.findOne({ where: { email: email } });
-    if (account_email) {
-      res.status(404).json({
-        message: "Cette adresse mail est déjà utilisée par un autre compte",
+    const updatedFields: any = {};
+    if (name) updatedFields.name = name;
+    if (phone) updatedFields.phone = phone;
+    if (email) {
+      const account_email = await Account.findOne({
+        where: { account_id: { [Op.not]: account_id }, email: email },
       });
-      return;
+      if (account_email) {
+        res.status(404).json({
+          message: "Cette adresse mail est déjà utilisée par un autre compte",
+        });
+        return;
+      }
+      updatedFields.email = email;
     }
+    if (password) updatedFields.password = password;
+    if (image) updatedFields.image = image;
 
-    await account.update({ name, phone, email, password, image });
-
+    await account.update(updatedFields);
     res.status(200).json(account);
     return;
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Erreur lors de la mise à jour du compte", error });
+  } catch (error: any) {
+    res.status(500).json({
+      message: "Erreur lors de la mise à jour du compte",
+      error: error.message,
+    });
   }
 };
 
