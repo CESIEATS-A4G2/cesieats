@@ -14,20 +14,13 @@ const testAuth = async () => {
   const rand = Math.floor(Math.random() * 100000);
 
   try {
-    console.log(" -  [1]  Login existant...");
-    const login = await axios.post(`${Authroute}/login`, {
-      name: "JohnDoe",
-      email: "john.d@example.com",
-      password: "hashed1",
-    });
-    console.log("✅ OK : ", login.data);
 
     console.log(" -  [2] Register...");
     const register = await axios.post(`${Authroute}/register`, {
       name: `testUser${rand}`,
       email: `test${rand}@test.tst`,
       password: "123456",
-      role: "User",
+      role: "DeliveryMan",
     });
     console.log("✅ OK : ", register.data);
 
@@ -48,14 +41,33 @@ const testAuth = async () => {
     console.log("✅ OK : ", login2.data);
 
     console.log(" -  [4] Vérification authenticate (cookie)...");
-
     const auth = await axios.get(`${Authroute}/authenticate`, {
       headers: {
         Cookie: cookie.join(";"),
       },
       withCredentials: true,
     });
+    const userID = auth.data.user.account_id;
     console.log("✅ OK : ", auth.data);
+
+    console.log(" -  [5] Vérification authenticateToID...");
+    console.log(userID);
+    const authToID = await axios.get(`${Authroute}/authenticate/${userID}`, {
+      headers: {
+        Cookie: cookie.join(";"),
+      },
+      withCredentials: true,
+    });
+    console.log("✅ OK : ", authToID.data);
+
+    console.log(" -  [6] Vérification authenticateRole...");
+    const authRole = await axios.get(`${Authroute}/authenticate/role/DeliveryMan`, {
+      headers: {
+        Cookie: cookie.join(";"),
+      },
+      withCredentials: true,
+    });
+    console.log("✅ OK : ", authRole.data);
 
     try {
       console.log(` - Nettoyage user test (ID: testUser${rand})...`);

@@ -96,13 +96,128 @@ export const authenticate = async (req: Request, res: Response): Promise<void> =
 };
 
 
-export const deleteUser = async (req: Request, res: Response): Promise<void> => {
-  const { id } = req.params;
 
-  try {
-    await axios.delete(`${API_URL}/${id}`);
-    res.status(200).json({ message: `User with id ${id} deleted.` });
-  } catch (err: any) {
-    res.status(err.response?.status || 500).json({ message: 'Error deleting user', error: err.message });
+export const authenticateDeliveryMan = async (req: Request, res: Response): Promise<void> => {
+  const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    res.status(403).json({ message: 'No token provided.' });
+    return;
   }
+
+  jwt.verify(token, process.env.JWT_SECRET as string, async (err: any, decoded: any) => {
+    if (err || !decoded) {
+      res.status(401).json({ message: 'Invalid or expired token.' });
+      return;
+    }
+
+    const { id, role } = decoded as { id: string; role: string };
+
+    if (role !== 'DeliveryMan') {
+      res.status(403).json({ message: `Access denied to deliveries, current role is : ${role}` });
+      return;
+    }
+
+    try {
+      const { data: user } = await axios.get(`${API_URL}/${id}`);
+      res.status(200).json({ message: 'Access granted as Delivery Man', user });
+    } catch (err: any) {
+      res.status(err.response?.status || 500).json({ message: 'Error retrieving user', error: err.message });
+    }
+  });
 };
+
+
+export const authenticateRestaurateur = async (req: Request, res: Response): Promise<void> => {
+  const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    res.status(403).json({ message: 'No token provided.' });
+    return;
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET as string, async (err: any, decoded: any) => {
+    if (err || !decoded) {
+      res.status(401).json({ message: 'Invalid or expired token.' });
+      return;
+    }
+
+    const { id, role } = decoded as { id: string; role: string };
+
+    if (role !== 'Restaurateur') {
+      res.status(403).json({ message: `Access denied to restaurants, current role is : ${role}` });
+      return;
+    }
+
+    try {
+      const { data: user } = await axios.get(`${API_URL}/${id}`);
+      res.status(200).json({ message: 'Delivery man authenticated', user });
+    } catch (err: any) {
+      res.status(err.response?.status || 500).json({ message: 'Error retrieving user', error: err.message });
+    }
+  });
+}
+
+
+export const authenticateAdmin = async (req: Request, res: Response): Promise<void> => {
+  const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    res.status(403).json({ message: 'No token provided.' });
+    return;
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET as string, async (err: any, decoded: any) => {
+    if (err || !decoded) {
+      res.status(401).json({ message: 'Invalid or expired token.' });
+      return;
+    }
+
+    const { id, role } = decoded as { id: string; role: string };
+
+    if (role !== 'Admin') {
+      res.status(403).json({ message: `Access denied to admin, current role is : ${role}` });
+      return;
+    }
+
+    try {
+      const { data: user } = await axios.get(`${API_URL}/${id}`);
+      res.status(200).json({ message: 'Admin authenticated', user });
+    } catch (err: any) {
+      res.status(err.response?.status || 500).json({ message: 'Error retrieving user', error: err.message });
+    }
+  });
+}
+
+
+export const authenticateToID = async (req: Request, res: Response): Promise<void> => {
+  const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+  const targetID = req.params.id;
+
+  if (!token) {
+    res.status(403).json({ message: 'No token provided.' });
+    return;
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET as string, async (err: any, decoded: any) => {
+    if (err || !decoded) {
+      res.status(401).json({ message: 'Invalid or expired token.' });
+      return;
+    }
+
+    const { id } = decoded as { id: string };
+
+    if (id !== targetID) {
+      res.status(403).json({ message: 'Access denied: user ID mismatch.' });
+      return;
+    }
+
+    try {
+      const { data: user } = await axios.get(`${API_URL}/${id}`);
+      res.status(200).json({ message: 'User corresponds', user });
+    } catch (err: any) {
+      res.status(err.response?.status || 500).json({ message: 'Error retrieving user', error: err.message });
+    }
+  });
+};
+
