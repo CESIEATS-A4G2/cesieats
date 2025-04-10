@@ -32,10 +32,11 @@ export const createItem = async (
 
     res.status(201).json(newItem);
     return;
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Erreur lors de la création de l'item", error });
+  } catch (error: any) {
+    res.status(500).json({
+      message: "Erreur lors de la création de l'item",
+      error: error.message,
+    });
   }
 };
 
@@ -58,10 +59,10 @@ export const getAllItemsFromRestaurant = async (
 
     res.status(200).json(items);
     return;
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       message: "Erreur lors de la récupération des items d'un restaurant",
-      error,
+      error: error.message,
     });
   }
 };
@@ -106,10 +107,10 @@ export const getAllItemsFromMenuFromRestaurant = async (
     });
 
     res.status(200).json(items);
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       message: "Erreur lors de la récupération des items d'un menu",
-      error,
+      error: error.message,
     });
   }
 };
@@ -138,11 +139,11 @@ export const getItemByIdFromRestaurant = async (
 
     res.status(200).json(item);
     return;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Erreur Sequelize:", error);
     res.status(500).json({
       message: "Erreur lors de la récupération de l'item dans un restaurant",
-      error,
+      error: error.message,
     });
   }
 };
@@ -174,11 +175,12 @@ export const deleteItemFromRestaurant = async (
 
     res.status(200).json({ message: "Item supprimé avec succès" });
     return;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Erreur Sequelize:", error);
-    res
-      .status(500)
-      .json({ message: "Erreur lors de la suppression de l'item", error });
+    res.status(500).json({
+      message: "Erreur lors de la suppression de l'item",
+      error: error.message,
+    });
   }
 };
 
@@ -222,13 +224,11 @@ export const deleteItemFromMenuFromRestaurant = async (
 
     res.status(200).json({ message: "Item supprimé du menu avec succès" });
     return;
-  } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Erreur lors de la suppression de l'item du menu",
-        error,
-      });
+  } catch (error: any) {
+    res.status(500).json({
+      message: "Erreur lors de la suppression de l'item du menu",
+      error: error.message,
+    });
   }
 };
 
@@ -261,9 +261,10 @@ export const updateItem = async (
 
     await item.update(updatedFields);
     res.status(200).json(item);
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Erreur lors de la mise à jour de l'item", error });
+  } catch (error: any) {
+    res.status(500).json({
+      message: "Erreur lors de la mise à jour de l'item",
+      error: error.message,
+    });
   }
 };

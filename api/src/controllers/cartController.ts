@@ -30,10 +30,13 @@ export const createCart = async (
 
     res.status(201).json(newCart);
     return;
-  } catch (error) {
+  } catch (error: any) {
     res
       .status(500)
-      .json({ message: "Erreur lors de la création d'un panier", error });
+      .json({
+        message: "Erreur lors de la création d'un panier",
+        error: error.message,
+      });
   }
 };
 
@@ -83,7 +86,7 @@ export const getAllCartContentAccount = async (
     return;
   } catch (error: any) {
     res.status(500).json({
-      message: "Erreur lors de la récupération du paniers de l'utilisateur",
+      message: "Erreur lors de la récupération du panier de l'utilisateur",
       error: error.message,
     });
   }
@@ -110,10 +113,13 @@ export const deleteCart = async (
     createCartForAccountId(account_id);
     res.status(200).json({ message: "Panier supprimé avec succès" });
     return;
-  } catch (error) {
+  } catch (error: any) {
     res
       .status(500)
-      .json({ message: "Erreur lors de la suppression du panier", error });
+      .json({
+        message: "Erreur lors de la suppression du panier",
+        error: error.message,
+      });
   }
 };
 
@@ -161,10 +167,13 @@ export const addItemToCart = async (
 
     res.status(201).json(cart_item);
     return;
-  } catch (error) {
+  } catch (error: any) {
     res
       .status(500)
-      .json({ message: "Erreur lors de l'ajout d'un item au panier", error });
+      .json({
+        message: "Erreur lors de l'ajout d'un item au panier",
+        error: error.message,
+      });
   }
 };
 
@@ -201,10 +210,10 @@ export const removeItemFromCart = async (
 
     res.status(200).json({ message: "Item supprimé du panier avec succès" });
     return;
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       message: "Erreur lors de la suppression d'un item du panier",
-      error,
+      error: error.message,
     });
   }
 };
@@ -249,10 +258,13 @@ export const addMenuToCart = async (
 
     res.status(201).json(cart_menu);
     return;
-  } catch (error) {
+  } catch (error: any) {
     res
       .status(500)
-      .json({ message: "Erreur lors de l'ajout d'un menu au panier", error });
+      .json({
+        message: "Erreur lors de l'ajout d'un menu au panier",
+        error: error.message,
+      });
   }
 };
 
@@ -290,10 +302,10 @@ export const removeMenuFromCart = async (
 
     res.status(200).json({ message: "Menu supprimé du panier avec succès" });
     return;
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       message: "Erreur lors de la suppression d'un menu du panier",
-      error,
+      error: error.message,
     });
   }
 };
@@ -323,11 +335,11 @@ export const updateQuantityItemFromCart = async (
       .status(200)
       .json({ message: "La quantité du produit a été mise à jour" });
     return;
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       message:
         "Erreur lors de la mise à jour de la quantité du produit du panier de l'utilisateur",
-      error,
+      error: error.message,
     });
   }
 };
@@ -355,11 +367,11 @@ export const updateQuantityMenuFromCart = async (
     );
     res.status(200).json({ message: "La quantité du menu a été mise à jour" });
     return;
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       message:
         "Erreur lors de la mise à jour de la quantité du menu du panier de l'utilisateur",
-      error,
+      error: error.message,
     });
   }
 };
