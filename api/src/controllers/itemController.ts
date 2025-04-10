@@ -82,9 +82,9 @@ export const getAllItemsFromMenuFromRestaurant = async (
     }
 
     // Vérifier si le menu existe
-    const menu = await Menu.findByPk(menu_id);
+    const menu = await Menu.findOne({where: {menu_id: menu_id, restaurant_id: restaurant_id}});
     if (!menu) {
-      res.status(404).json({ message: "Menu non trouvé" });
+      res.status(404).json({ message: "Menu non trouvé pour ce restaurant" });
       return;
     }
 

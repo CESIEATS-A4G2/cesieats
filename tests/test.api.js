@@ -21,6 +21,8 @@ const testAPI = async () => {
       const resto = await axios.post(`${APIRoute}/restaurants`, {
         name: `TestResto${rand}`,
         description: "Un restaurant de test",
+        fees: "2.2",
+        prep_time: "11",
         address: "123 rue de test",
         open_hour: "08:00 - 22:00",
       });
@@ -49,13 +51,13 @@ const testAPI = async () => {
       const menu_id = menu.data.menu_id;
 
       console.log(" - [4] Ajout item au menu...");
-      const link = await axios.post(`${APIRoute}/restaurants/${restaurant_id}/menus/${menu_id}/items`, {
+      const link = await axios.post(`${APIRoute}/restaurants/${restaurant_id}/menus/${menu_id}`, {
         item_id: item_id,
       });
       console.log("✅ OK : ", link.data);
 
       console.log(" - [5] Création utilisateur test...");
-      const user = await axios.post(`${ApiRoute}/accounts`, {
+      const user = await axios.post(`${APIRoute}/accounts`, {
         name: `User${rand}`,
         email: `user${rand}@test.com`,
         password: "123456",
@@ -67,28 +69,42 @@ const testAPI = async () => {
       console.log("✅ OK : ", user.data);
 
       console.log(" - [6] Création panier...");
-      await axios.post(`${ApiRoute}/cart/${account_id}`);
+      await axios.post(`${APIRoute}/accounts/${account_id}/cart`);
       console.log("✅ OK : Panier créé");
 
-      console.log(" - [7] Ajout menu au panier...");
-      await axios.post(`${ApiRoute}/cart/${account_id}/menus`, {
-        menu_id,
+      console.log(" - [7] Ajout item au panier...");
+      await axios.post(`${APIRoute}/accounts/${account_id}/cart/items`, {
+        item_id: item_id,
+        quantity: 4,
+      });
+      console.log("✅ OK : item ajouté au panier");
+
+      console.log(" - [8] Mise a jour quantité de l'item du panier...");
+      await axios.put(`${APIRoute}/accounts/${account_id}/cart/items/${item_id}/2`);
+      console.log("✅ OK : quantité item mis a jour dans le panier");
+
+      console.log(" - [9] Ajout menu au panier...");
+      await axios.post(`${APIRoute}/accounts/${account_id}/cart/menus`, {
+        menu_id: menu_id,
         quantity: 2,
       });
-      console.log("✅ OK : menu ajouté");
+      console.log("✅ OK : menu ajouté au panier");
 
-      console.log(" - [8] Création commande...");
-      const order = await axios.post(`${ApiRoute}/orders/${account_id}`);
+      console.log(" - [10] Mise a jour quantité du menu du panier...");
+      await axios.put(`${APIRoute}/accounts/${account_id}/cart/menus/${menu_id}/4`);
+      console.log("✅ OK : quantité menu mis a jour dans le panier");
+      
+      console.log(" - [11] Création commande...");
+      const order = await axios.post(`${APIRoute}/accounts/${account_id}/orders`);
       console.log("✅ OK :", order.data);
   
     // Cleanup (non bloquant, juste pour test local)
-    console.log(" - [9] Nettoyage...");
-    await axios.delete(`${ApiRoute}/restaurants/${restaurant_id}/menus/${menu_id}/items/${item_id}`);
-    await axios.delete(`${ApiRoute}/restaurants/${restaurant_id}/menus/${menu_id}`);
-    await axios.delete(`${ApiRoute}/restaurants/${restaurant_id}/items/${item_id}`);
-    await axios.delete(`${ApiRoute}/restaurants/${restaurant_id}`);
-    await axios.delete(`${ApiRoute}/cart/${account_id}`);
-    await axios.delete(`${ApiRoute}/accounts/${account_id}`);
+    console.log(" - [12] Nettoyage...");
+    await axios.delete(`${APIRoute}/restaurants/${restaurant_id}/menus/${menu_id}/items/${item_id}`);
+    await axios.delete(`${APIRoute}/restaurants/${restaurant_id}/menus/${menu_id}`);
+    await axios.delete(`${APIRoute}/restaurants/${restaurant_id}/items/${item_id}`);
+    await axios.delete(`${APIRoute}/restaurants/${restaurant_id}`);
+    await axios.delete(`${APIRoute}/accounts/${account_id}`);
     console.log("✅ OK : Cleanup terminé");
   
     } catch (err) {

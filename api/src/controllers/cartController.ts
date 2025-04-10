@@ -26,17 +26,15 @@ export const createCart = async (
       return;
     }
 
-    const newCart = createCartForAccountId(account_id);
+    const newCart = await createCartForAccountId(account_id);
 
     res.status(201).json(newCart);
     return;
   } catch (error: any) {
-    res
-      .status(500)
-      .json({
-        message: "Erreur lors de la création d'un panier",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Erreur lors de la création d'un panier",
+      error: error.message,
+    });
   }
 };
 
@@ -114,12 +112,10 @@ export const deleteCart = async (
     res.status(200).json({ message: "Panier supprimé avec succès" });
     return;
   } catch (error: any) {
-    res
-      .status(500)
-      .json({
-        message: "Erreur lors de la suppression du panier",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Erreur lors de la suppression du panier",
+      error: error.message,
+    });
   }
 };
 
@@ -135,11 +131,23 @@ export const addItemToCart = async (
     const { account_id } = req.params;
     const { item_id, quantity } = req.body;
 
-    const cart = await Cart.findOne({
-      where: { account_id: account_id },
-    });
+    const cart = await Cart.findByPk(account_id);
     if (!cart) {
       res.status(404).json({ message: "Le compte n'a pas de panier" });
+      return;
+    }
+
+    const item = await Item.findByPk(item_id);
+    if (!item) {
+      res.status(404).json({ message: "Item non trouvé" });
+      return;
+    }
+
+    if (cart.restaurant_id && cart.restaurant_id !== item.restaurant_id) {
+      res.status(422).json({
+        message:
+          "L'item provient d'un autre restaurant et ne peut pas être mélangé !",
+      });
       return;
     }
 
@@ -158,7 +166,6 @@ export const addItemToCart = async (
     });
 
     if (!cart.restaurant_id) {
-      const item = await Item.findByPk(item_id);
       await Cart.update(
         { restaurant_id: item?.restaurant_id },
         { where: { account_id: account_id } }
@@ -168,12 +175,10 @@ export const addItemToCart = async (
     res.status(201).json(cart_item);
     return;
   } catch (error: any) {
-    res
-      .status(500)
-      .json({
-        message: "Erreur lors de l'ajout d'un item au panier",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Erreur lors de l'ajout d'un item au panier",
+      error: error.message,
+    });
   }
 };
 
@@ -185,9 +190,7 @@ export const removeItemFromCart = async (
     const { account_id } = req.params;
     const { item_id } = req.body;
 
-    const cart = await Cart.findOne({
-      where: { account_id: account_id },
-    });
+    const cart = await Cart.findByPk(account_id);
     if (!cart) {
       res.status(404).json({ message: "Le compte n'a pas de panier" });
       return;
@@ -204,8 +207,12 @@ export const removeItemFromCart = async (
       where: { account_id: account_id },
     });
     if (cart_item.length === 0) {
-      deleteCartByAccountId(account_id);
-      createCartForAccountId(account_id);
+      /*deleteCartByAccountId(account_id);
+      createCartForAccountId(account_id);*/
+      await Cart.update(
+        { restaurant_id: "" },
+        { where: { account_id: account_id } }
+      );
     }
 
     res.status(200).json({ message: "Item supprimé du panier avec succès" });
@@ -226,11 +233,23 @@ export const addMenuToCart = async (
     const { account_id } = req.params;
     const { menu_id, quantity } = req.body;
 
-    const cart = await Cart.findOne({
-      where: { account_id: account_id },
-    });
+    const cart = await Cart.findByPk(account_id);
     if (!cart) {
       res.status(404).json({ message: "Le compte n'a pas de panier" });
+      return;
+    }
+
+    const menu = await Menu.findByPk(menu_id);
+    if (!menu) {
+      res.status(404).json({ message: "Menu non trouvé" });
+      return;
+    }
+
+    if (cart.restaurant_id && cart.restaurant_id !== menu.restaurant_id) {
+      res.status(422).json({
+        message:
+          "Le menu provient d'un autre restaurant et ne peut pas être mélangé !",
+      });
       return;
     }
 
@@ -259,12 +278,10 @@ export const addMenuToCart = async (
     res.status(201).json(cart_menu);
     return;
   } catch (error: any) {
-    res
-      .status(500)
-      .json({
-        message: "Erreur lors de l'ajout d'un menu au panier",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Erreur lors de l'ajout d'un menu au panier",
+      error: error.message,
+    });
   }
 };
 
@@ -276,9 +293,7 @@ export const removeMenuFromCart = async (
     const { account_id } = req.params;
     const { menu_id } = req.body;
 
-    const cart = await Cart.findOne({
-      where: { account_id: account_id },
-    });
+    const cart = await Cart.findByPk(account_id);
     if (!cart) {
       res.status(404).json({ message: "Le compte n'a pas de panier" });
       return;
@@ -296,8 +311,12 @@ export const removeMenuFromCart = async (
       where: { account_id: account_id },
     });
     if (cart_menu.length === 0) {
-      deleteCartByAccountId(account_id);
-      createCartForAccountId(account_id);
+      await Cart.update(
+        { restaurant_id: "" },
+        { where: { account_id: account_id } }
+      );
+      /*deleteCartByAccountId(account_id);
+      createCartForAccountId(account_id);*/
     }
 
     res.status(200).json({ message: "Menu supprimé du panier avec succès" });

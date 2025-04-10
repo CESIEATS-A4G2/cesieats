@@ -52,15 +52,15 @@ export const addItemToMenu = async (
       return;
     }
 
-    const menu = await Menu.findByPk(menu_id);
+    const menu = await Menu.findOne({where: {menu_id: menu_id, restaurant_id: restaurant_id}});
     if (!menu) {
-      res.status(404).json({ message: "Menu non trouvé" });
+      res.status(404).json({ message: "Menu non trouvé pour ce restaurant" });
       return;
     }
 
-    const item = await Item.findByPk(item_id);
+    const item = await Item.findOne({where: {item_id: item_id, restaurant_id: restaurant_id}});
     if (!item) {
-      res.status(404).json({ message: "Item non trouvé" });
+      res.status(404).json({ message: "Item non trouvé pour ce restaurant" });
       return;
     }
 
@@ -72,7 +72,7 @@ export const addItemToMenu = async (
       return;
     }
 
-    const menu_item = await Menu_Item.create({ menu_id, item_id });
+    await Menu_Item.create({ menu_id, item_id });
     res.status(200).json({ message: "Item ajouté au menu avec succès" });
     return;
   } catch (error: any) {
@@ -98,15 +98,15 @@ export const removeItemFromMenu = async (
       return;
     }
 
-    const menu = await Menu.findByPk(menu_id);
+    const menu = await Menu.findOne({where: {menu_id: menu_id, restaurant_id: restaurant_id}});
     if (!menu) {
-      res.status(404).json({ message: "Menu non trouvé" });
+      res.status(404).json({ message: "Menu non trouvé pour ce restaurant" });
       return;
     }
 
-    const item = await Item.findByPk(item_id);
+    const item = await Item.findOne({where: {item_id: item_id, restaurant_id: restaurant_id}});
     if (!item) {
-      res.status(404).json({ message: "Item non trouvé" });
+      res.status(404).json({ message: "Item non trouvé pour ce restaurant" });
       return;
     }
 
@@ -144,9 +144,6 @@ export const getAllMenusFromRestaurant = async (
       res.status(404).json({ message: "Restaurant non trouvé" });
       return;
     }
-    /*const menus = await Menu.findAll({
-      where: { restaurant_id: restaurant_id },
-    });*/
 
     const menus = (await Menu.findAll({
       where: { restaurant_id: restaurant_id },

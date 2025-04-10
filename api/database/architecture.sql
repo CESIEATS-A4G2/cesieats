@@ -25,8 +25,8 @@ CREATE TABLE Restaurants (
 );
 
 CREATE TABLE Account_Restaurant (
-    account_id VARCHAR(12),
-    restaurant_id VARCHAR(12),
+    account_id VARCHAR(12) NOT NULL,
+    restaurant_id VARCHAR(12) NOT NULL,
     PRIMARY KEY (account_id, restaurant_id),
     FOREIGN KEY (account_id) REFERENCES Accounts(account_id) ON DELETE CASCADE,
     FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
@@ -34,7 +34,7 @@ CREATE TABLE Account_Restaurant (
 
 CREATE TABLE Menus (
     menu_id VARCHAR(12) PRIMARY KEY,
-    restaurant_id VARCHAR(12),
+    restaurant_id VARCHAR(12) NOT NULL,
     name VARCHAR(150) NOT NULL,
     description VARCHAR(255),
     price DECIMAL(10,2) NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE Menus (
 
 CREATE TABLE Items (
     item_id VARCHAR(12) PRIMARY KEY,
-    restaurant_id VARCHAR(12),
+    restaurant_id VARCHAR(12) NOT NULL,
     options_label VARCHAR(255),
     options JSON,
     name VARCHAR(150) NOT NULL,
@@ -55,8 +55,8 @@ CREATE TABLE Items (
 );
 
 CREATE TABLE Menu_Item (
-    menu_id VARCHAR(12),
-    item_id VARCHAR(12),
+    menu_id VARCHAR(12) NOT NULL,
+    item_id VARCHAR(12) NOT NULL,
     PRIMARY KEY (menu_id, item_id),
     FOREIGN KEY (menu_id) REFERENCES Menus(menu_id) ON DELETE CASCADE,
     FOREIGN KEY (item_id) REFERENCES Items(item_id) ON DELETE CASCADE
@@ -70,8 +70,8 @@ CREATE TABLE Carts (
 );
 
 CREATE TABLE Cart_Item (
-    account_id VARCHAR(12),
-    item_id VARCHAR(12),
+    account_id VARCHAR(12) NOT NULL,
+    item_id VARCHAR(12) NOT NULL,
     quantity INT NOT NULL,
     PRIMARY KEY (account_id, item_id),
     FOREIGN KEY (account_id) REFERENCES Carts(account_id) ON DELETE CASCADE,
@@ -79,8 +79,8 @@ CREATE TABLE Cart_Item (
 );
 
 CREATE TABLE Cart_Menu (
-    account_id VARCHAR(12),
-    menu_id VARCHAR(12),
+    account_id VARCHAR(12) NOT NULL,
+    menu_id VARCHAR(12) NOT NULL,
     quantity INT NOT NULL,
     PRIMARY KEY (account_id, menu_id),
     FOREIGN KEY (account_id) REFERENCES Carts(account_id) ON DELETE CASCADE,
@@ -88,8 +88,8 @@ CREATE TABLE Cart_Menu (
 );
 
 CREATE TABLE Reviews (
-    account_id VARCHAR(12),
-    restaurant_id VARCHAR(12),
+    account_id VARCHAR(12) NOT NULL,
+    restaurant_id VARCHAR(12) NOT NULL,
     rating INT CHECK (rating BETWEEN 1 AND 5), 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -102,43 +102,5 @@ CREATE TABLE Logs (
     event_description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-DELIMITER $$
-
--- Auto-generate formatted IDs
-CREATE TRIGGER before_insert_account
-BEFORE INSERT ON Accounts
-FOR EACH ROW
-BEGIN
-    SET NEW.account_id = CONCAT('ACC', LPAD((SELECT COALESCE(MAX(SUBSTRING(account_id, 4)), 0) + 1 FROM Accounts), 6, '0'));
-END$$
-
-CREATE TRIGGER before_insert_restaurant
-BEFORE INSERT ON Restaurants
-FOR EACH ROW
-BEGIN
-    SET NEW.restaurant_id = CONCAT('RES', LPAD((SELECT COALESCE(MAX(SUBSTRING(restaurant_id, 4)), 0) + 1 FROM Restaurants), 6, '0'));
-END$$
-
-CREATE TRIGGER before_insert_menu
-BEFORE INSERT ON Menus
-FOR EACH ROW
-BEGIN
-    SET NEW.menu_id = CONCAT('MEN', LPAD((SELECT COALESCE(MAX(SUBSTRING(menu_id, 4)), 0) + 1 FROM Menus), 6, '0'));
-END$$
-
-CREATE TRIGGER before_insert_items
-BEFORE INSERT ON Items
-FOR EACH ROW
-BEGIN
-    SET NEW.item_id = CONCAT('ITM', LPAD((SELECT COALESCE(MAX(SUBSTRING(item_id, 4)), 0) + 1 FROM Items), 6, '0'));
-END$$
-
-CREATE TRIGGER before_insert_logs
-BEFORE INSERT ON Logs
-FOR EACH ROW
-BEGIN
-    SET NEW.log_id = CONCAT('REV', LPAD((SELECT COALESCE(MAX(SUBSTRING(log_id, 4)), 0) + 1 FROM Logs), 6, '0'));
-END$$
 
 DELIMITER $$

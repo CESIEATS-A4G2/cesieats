@@ -41,8 +41,7 @@ Account.init(
     account_id: {
       type: DataTypes.STRING,
       primaryKey: true,
-      allowNull: false,
-      defaultValue: () => UUIDV4(),
+      allowNull: true,
     },
     name: {
       type: DataTypes.STRING,
@@ -91,5 +90,25 @@ Account.init(
   },
   { sequelize, modelName: "Account", timestamps: false }
 );
+
+const generateCustomAccountId = async (): Promise<string> => {
+  const lastAccount = await Account.findOne({
+    order: [["account_id", "DESC"]],
+  });
+
+  let nextIdNumber = 1;
+
+  if (lastAccount && lastAccount.account_id) {
+    const lastId = parseInt(lastAccount.account_id.slice(3), 10);
+    nextIdNumber = lastId + 1;
+  }
+
+  const paddedNumber = String(nextIdNumber).padStart(6, "0");
+  return `ACC${paddedNumber}`;
+};
+
+Account.beforeCreate(async (account) => {
+  account.account_id = await generateCustomAccountId();
+});
 
 export { Account };
