@@ -22,7 +22,31 @@ function GestionCompteRestaurant({ userType = "User" }) {  // Ajout du paramètr
   const [image, setImage] = useState();  
 
 
-  const navigate = useNavigate(); 
+    const navigate = useNavigate();
+    useEffect(() => {
+        const checkRoleAndRedirect = async () => {
+            try {
+                const res = await axios.get("http://localhost:8080/authenticate", { withCredentials: true });
+                const role = res.data.user.role;
+
+                console.log(role);
+                switch (role) {
+                    case "DeliveryMan":
+                        navigate("/liste-commandes-livreur");
+                        break;
+                    case "Restaurateur":
+                        break;
+                    case "Admin":
+                        break;
+                    default:
+                        navigate("/home");
+                }
+            } catch (error) {
+                console.error("Erreur d'authentification :", error);
+            }
+        };
+        checkRoleAndRedirect();
+    }, [navigate]);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);

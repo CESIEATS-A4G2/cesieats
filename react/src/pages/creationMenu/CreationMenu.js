@@ -14,6 +14,30 @@ import axios from "axios";
 function CreationMenu() {
   const location = useLocation();
   const navigate = useNavigate();
+  useEffect(() => {
+      const checkRoleAndRedirect = async () => {
+          try {
+              const res = await axios.get("http://localhost:8080/authenticate", { withCredentials: true });
+              const role = res.data.user.role;
+
+              console.log(role);
+              switch (role) {
+                  case "DeliveryMan":
+                      navigate("/liste-commandes-livreur");
+                      break;
+                  case "Restaurateur":
+                      break;
+                  case "Admin":
+                      break;
+                  default:
+                      navigate("/home");
+              }
+          } catch (error) {
+              console.error("Erreur d'authentification :", error);
+          }
+      };
+      checkRoleAndRedirect();
+  }, [navigate]);
   const restaurantId = location.state?.restaurantId || "RES000001";
   const isNew = location.state?.id === "new";
 

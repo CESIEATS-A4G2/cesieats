@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./GestionUtilisateurAdmin.css";
 
 import Header from "../../components/header/Admin/HeaderAdmin";
@@ -9,6 +10,44 @@ import api from "../../api";
 import { useEffect, useState } from "react";
 
 function GestionUtilisateurAdmin() {
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    const checkRoleAndRedirect = async () => {
+      try {
+        const response = await fetch("/authenticate", {
+          method: "GET",
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          throw new Error("Non authentifié");
+        }
+
+        const data = await response.json();
+        const role = data.role;
+
+        switch (role) {
+          case "Admin":
+            break;
+          case "DeliveryMan":
+            navigate("/liste-commandes-livreur");
+            break;
+          case "Restaurateur":
+            navigate("/commandes-restaurateur");
+            break;
+          default:
+            navigate("/home");
+            break;
+        }
+      } catch (error) {
+        console.error("Erreur d'authentification :", error);
+      }
+    };
+
+    checkRoleAndRedirect();
+  }, [navigate]);
+
   const [accounts, setAccounts] = useState([]);
   useEffect(() => {
     api.getAllUsers().then(res => {setAccounts(res.data);
@@ -24,6 +63,7 @@ function GestionUtilisateurAdmin() {
     console.log(`Supprimer l'utilisateur avec l'id ${id}`);
   };
 
+  
  
   return (
     <div className="gestionutilisateur-container">

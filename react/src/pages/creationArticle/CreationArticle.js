@@ -13,6 +13,30 @@ function CreationArticle() {
     const [price, setPrice] = useState(false);
     const [image, setImage] = useState(false);
     const navigate = useNavigate();
+    useEffect(() => {
+        const checkRoleAndRedirect = async () => {
+            try {
+                const res = await axios.get("http://localhost:8080/authenticate", { withCredentials: true });
+                const role = res.data.user.role;
+
+                console.log(role);
+                switch (role) {
+                    case "DeliveryMan":
+                        navigate("/liste-commandes-livreur");
+                        break;
+                    case "Restaurateur":
+                        break;
+                    case "Admin":
+                        break;
+                    default:
+                        navigate("/home");
+                }
+            } catch (error) {
+                console.error("Erreur d'authentification :", error);
+            }
+        };
+        checkRoleAndRedirect();
+    }, [navigate]);
     const isNew = articleData.name === "new";
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);

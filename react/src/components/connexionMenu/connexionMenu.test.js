@@ -21,6 +21,14 @@ describe('ConnexionMenu', () => {
   });
 
   test('soumission du formulaire renvoie automatiquement à "/home"', () => {
+
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ success: true }),
+      })
+    );
+
     render(<BrowserRouter><ConnexionMenu /></BrowserRouter>);
     fireEvent.change(screen.getByPlaceholderText(/Email/i), {
       target: { value: 'test@email.com' },
@@ -28,8 +36,23 @@ describe('ConnexionMenu', () => {
     fireEvent.change(screen.getByPlaceholderText(/Mot de passe/i), {
       target: { value: 'motdepasse' },
     });
-    fireEvent.click(screen.getByText(/Se connecter/i));
-    expect(mockNavigate).toHaveBeenCalledWith('/home');
+    const form = screen.getByText(/Se connecter/i).closest('form');
+
+    fireEvent.submit(form, {
+      target: {
+        email: { value: 'test@email.com' },
+        password: { value: 'motdepasse' }
+      },
+      preventDefault: () => {},
+    });
+    
+    expect(global.fetch).toHaveBeenCalledWith('/login', expect.objectContaining({
+      method: 'POST',
+      body: JSON.stringify({
+        email: 'test@email.com',
+        password: 'motdepasse',
+      }),
+    }));
   });
 
   test('le lien inscription existe', () => {

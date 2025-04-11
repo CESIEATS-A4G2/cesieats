@@ -4,9 +4,37 @@ import Header from "../../components/header/Header"
 import CommandToDeliver from "../../components/commandToDeliver/CommandToDeliver";
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
+import axios from "axios";
 
 function ListeCommandesLivreur() {
     const navigate = useNavigate();
+
+    useEffect(() => {
+      const checkRoleAndRedirect = async () => {
+        try {
+          const res = await axios.get("http://localhost:8080/authenticate", { withCredentials: true });
+          const role = res.data.user.role;
+  
+          console.log(role);
+          switch (role) {
+            case "DeliveryMan":
+              break;
+            case "Restaurateur":
+              navigate("/commandes-restaurateur");
+              break;
+            case "Admin":
+              break;
+            default:
+              navigate("/home");
+          }
+        } catch (error) {
+          console.error("Erreur d'authentification :", error);
+        }
+      };
+  
+      checkRoleAndRedirect();
+    }, [navigate]);
+    
     const [commands, setCommands] = useState([]);
     
     // 🔥 Récupération des commandes via l'API
