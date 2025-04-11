@@ -33,7 +33,12 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
 
-    const { data: accounts } = await axios.get(`${API_URL}`);
+    const [allAccountsRes, adminAccountsRes] = await Promise.all([
+      axios.get(`${API_URL}`),
+      axios.get(`${API_URL}/roles/Admin`)
+    ]);
+    const accounts = [...allAccountsRes.data, ...adminAccountsRes.data];
+
     const user = accounts.find((acc: any) => acc.email === email);
 
     if (!user || !(await bcrypt.compare(password, user.password))) {

@@ -111,7 +111,7 @@ INSERT INTO Accounts (account_id, name, email, password, phone, address, role) V
 ('ACC000002', 'Jane Smith', 'jane.smith@example.com', 'hashedpassword2', '0987654321', '456 Oak St', 'User'),
 ('ACC000003', 'Mike Johnson', 'mike.johnson@example.com', 'hashedpassword3', '1122334455', '789 Pine St', 'DeliveryMan'),
 ('ACC000004', 'Restaurant Owner', 'owner@example.com', 'hashedpassword4', '2233445566', '321 Birch St', 'Restaurateur'),
-('ACC000005', 'Mr Admin', 'admin@example.com', 'admin', '', '', 'Admin');
+('ACC000005', 'Mr Admin', 'admin@example.com', '$2b$10$Jf3vFvyvkS51xvPfiD/T6.jhZgSZ.R/ZrNdBd.WfkZBJfZKeXosbK', '', '', 'Admin');
 
 -- Insertion des restaurants
 INSERT INTO Restaurants (restaurant_id, name, description, address,fees,prep_time,image, open_hour) VALUES
