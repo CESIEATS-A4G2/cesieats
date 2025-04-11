@@ -14,18 +14,8 @@ function GestionUtilisateurAdmin() {
   const navigate = useNavigate();
   useEffect(() => {
     const checkRoleAndRedirect = async () => {
-      try {
-        const response = await fetch("/authenticate", {
-          method: "GET",
-          credentials: "include",
-        });
-
-        if (!response.ok) {
-          throw new Error("Non authentifié");
-        }
-
-        const data = await response.json();
-        const role = data.role;
+        const res = await axios.get("http://localhost:8080/authenticate", { withCredentials: true });
+        const role = res.data.user.role;
 
         switch (role) {
           case "Admin":
