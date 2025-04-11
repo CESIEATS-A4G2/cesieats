@@ -5,6 +5,7 @@ import Footer from "../../components/footer/SiteFooter";
 import { useNavigate, useLocation } from "react-router-dom";
 import mcdoImage from "../../resources/images/mcdo.png";
 import api from "../../api";
+import axios from "axios";
 
 // Fonction pour formater la date
 function formatDate(dateString) {

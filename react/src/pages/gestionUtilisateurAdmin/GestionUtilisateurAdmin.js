@@ -8,27 +8,28 @@ import GestionUtilisateur from "../../components/gestionUtilisateur/GestionUtili
 import noProfilPicture from "../../resources/images/noProfilPicture.png"
 import api from "../../api";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 function GestionUtilisateurAdmin() {
 
   const navigate = useNavigate();
   useEffect(() => {
     const checkRoleAndRedirect = async () => {
+      try {
         const res = await axios.get("http://localhost:8080/authenticate", { withCredentials: true });
         const role = res.data.user.role;
 
+        console.log(role);
         switch (role) {
-          case "Admin":
-            break;
           case "DeliveryMan":
-            navigate("/liste-commandes-livreur");
             break;
           case "Restaurateur":
             navigate("/commandes-restaurateur");
             break;
+          case "Admin":
+            break;
           default:
             navigate("/home");
-            break;
         }
       } catch (error) {
         console.error("Erreur d'authentification :", error);
